@@ -32,7 +32,7 @@ const Navbar = () => {
       <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
         <a href="#" className="flex items-center gap-3">
           <img src={logoVM} alt="VM" className="w-8 h-8 object-contain" />
-          <span className="font-display text-sm font-semibold text-primary-foreground tracking-wide">
+          <span className="font-display text-base font-semibold text-primary-foreground tracking-wide">
             Dr. Vinícius Melazzo
           </span>
         </a>
@@ -43,7 +43,7 @@ const Navbar = () => {
             <a
               key={l.href}
               href={l.href}
-              className="font-body text-sm text-primary-foreground/70 hover:text-gold transition-colors"
+              className="font-body text-xs tracking-[0.1em] uppercase text-primary-foreground/60 hover:text-gold transition-colors"
             >
               {l.label}
             </a>
@@ -64,7 +64,7 @@ const Navbar = () => {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="block font-body text-sm text-primary-foreground/70 hover:text-gold transition-colors"
+              className="block font-body text-xs tracking-[0.1em] uppercase text-primary-foreground/60 hover:text-gold transition-colors"
             >
               {l.label}
             </a>

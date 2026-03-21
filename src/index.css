@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,77 +6,79 @@
 
 @layer base {
   :root {
-    --background: 40 30% 96%;
-    --foreground: 195 40% 15%;
+    --background: 38 25% 92%;
+    --foreground: 215 45% 14%;
 
-    --card: 40 25% 94%;
-    --card-foreground: 195 40% 15%;
+    --card: 38 22% 89%;
+    --card-foreground: 215 45% 14%;
 
-    --popover: 40 30% 96%;
-    --popover-foreground: 195 40% 15%;
+    --popover: 38 25% 92%;
+    --popover-foreground: 215 45% 14%;
 
-    --primary: 195 55% 22%;
-    --primary-foreground: 40 30% 96%;
+    --primary: 215 65% 18%;
+    --primary-foreground: 38 25% 92%;
 
-    --secondary: 40 20% 90%;
-    --secondary-foreground: 195 40% 15%;
+    --secondary: 38 18% 86%;
+    --secondary-foreground: 215 45% 14%;
 
-    --muted: 40 15% 92%;
-    --muted-foreground: 195 15% 45%;
+    --muted: 38 14% 88%;
+    --muted-foreground: 215 20% 42%;
 
-    --accent: 30 55% 48%;
-    --accent-foreground: 40 30% 96%;
+    --accent: 36 62% 42%;
+    --accent-foreground: 38 25% 95%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 40 20% 85%;
-    --input: 40 20% 85%;
-    --ring: 195 55% 22%;
+    --border: 38 18% 80%;
+    --input: 38 18% 80%;
+    --ring: 215 65% 18%;
 
-    --radius: 0.5rem;
+    --radius: 0.25rem;
 
-    --sidebar-background: 195 55% 22%;
-    --sidebar-foreground: 40 30% 96%;
-    --sidebar-primary: 30 55% 48%;
-    --sidebar-primary-foreground: 40 30% 96%;
-    --sidebar-accent: 195 45% 28%;
-    --sidebar-accent-foreground: 40 30% 96%;
-    --sidebar-border: 195 40% 30%;
-    --sidebar-ring: 30 55% 48%;
+    --sidebar-background: 215 65% 18%;
+    --sidebar-foreground: 38 25% 92%;
+    --sidebar-primary: 36 62% 42%;
+    --sidebar-primary-foreground: 38 25% 92%;
+    --sidebar-accent: 215 50% 25%;
+    --sidebar-accent-foreground: 38 25% 92%;
+    --sidebar-border: 215 45% 26%;
+    --sidebar-ring: 36 62% 42%;
 
     /* Custom tokens */
-    --gold: 30 55% 48%;
-    --gold-light: 35 50% 65%;
-    --teal-deep: 195 55% 18%;
-    --teal-medium: 195 45% 28%;
-    --cream: 40 30% 96%;
-    --cream-dark: 40 20% 90%;
+    --gold: 36 62% 42%;
+    --gold-light: 38 55% 58%;
+    --navy: 215 65% 18%;
+    --navy-medium: 215 50% 25%;
+    --navy-light: 215 40% 35%;
+    --linen: 38 25% 92%;
+    --linen-dark: 38 18% 86%;
+    --linen-warm: 35 30% 88%;
 
-    --font-display: 'Playfair Display', serif;
-    --font-body: 'Source Sans 3', sans-serif;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'Inter', sans-serif;
   }
 
   .dark {
-    --background: 195 55% 10%;
-    --foreground: 40 30% 96%;
-    --card: 195 50% 14%;
-    --card-foreground: 40 30% 96%;
-    --popover: 195 50% 14%;
-    --popover-foreground: 40 30% 96%;
-    --primary: 30 55% 48%;
-    --primary-foreground: 195 55% 10%;
-    --secondary: 195 40% 20%;
-    --secondary-foreground: 40 30% 96%;
-    --muted: 195 35% 18%;
-    --muted-foreground: 40 15% 65%;
-    --accent: 30 55% 48%;
-    --accent-foreground: 195 55% 10%;
+    --background: 215 65% 8%;
+    --foreground: 38 25% 92%;
+    --card: 215 55% 12%;
+    --card-foreground: 38 25% 92%;
+    --popover: 215 55% 12%;
+    --popover-foreground: 38 25% 92%;
+    --primary: 36 62% 42%;
+    --primary-foreground: 215 65% 8%;
+    --secondary: 215 40% 18%;
+    --secondary-foreground: 38 25% 92%;
+    --muted: 215 35% 16%;
+    --muted-foreground: 38 15% 60%;
+    --accent: 36 62% 42%;
+    --accent-foreground: 215 65% 8%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 195 30% 22%;
-    --input: 195 30% 22%;
-    --ring: 30 55% 48%;
+    --border: 215 30% 20%;
+    --input: 215 30% 20%;
+    --ring: 36 62% 42%;
   }
 }
 
@@ -95,6 +97,21 @@
   }
 }
 
+/* Linen paper texture */
+.bg-linen-texture {
+  background-color: hsl(var(--background));
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23b0a08a' fill-opacity='0.08' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='%23a09080' fill-opacity='0.03'%3E%3Cpath d='M0 0h1v1H0zM2 0h1v1H2zM4 0h1v1H4zM6 0h1v1H6zM8 0h1v1H8zM10 0h1v1h-1zM12 0h1v1h-1zM14 0h1v1h-1zM16 0h1v1h-1zM18 0h1v1h-1zM20 0h1v1h-1zM22 0h1v1h-1zM24 0h1v1h-1zM26 0h1v1h-1zM28 0h1v1h-1zM30 0h1v1h-1zM32 0h1v1h-1zM34 0h1v1h-1zM36 0h1v1h-1zM38 0h1v1h-1z'%3E%3C/path%3E%3Cpath d='M1 1h1v1H1zM3 1h1v1H3zM5 1h1v1H5zM7 1h1v1H7zM9 1h1v1H9zM11 1h1v1h-1zM13 1h1v1h-1zM15 1h1v1h-1zM17 1h1v1h-1zM19 1h1v1h-1zM21 1h1v1h-1zM23 1h1v1h-1zM25 1h1v1h-1zM27 1h1v1h-1zM29 1h1v1h-1zM31 1h1v1h-1zM33 1h1v1h-1zM35 1h1v1h-1zM37 1h1v1h-1zM39 1h1v1h-1z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+}
+
+.bg-linen-texture-dark {
+  background-color: hsl(var(--linen-dark));
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23b0a08a' fill-opacity='0.06' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='%23a09080' fill-opacity='0.025'%3E%3Cpath d='M0 0h1v1H0zM2 0h1v1H2zM4 0h1v1H4zM6 0h1v1H6zM8 0h1v1H8zM10 0h1v1h-1zM12 0h1v1h-1zM14 0h1v1h-1zM16 0h1v1h-1zM18 0h1v1h-1zM20 0h1v1h-1zM22 0h1v1h-1zM24 0h1v1h-1zM26 0h1v1h-1zM28 0h1v1h-1zM30 0h1v1h-1zM32 0h1v1h-1zM34 0h1v1h-1zM36 0h1v1h-1zM38 0h1v1h-1z'%3E%3C/path%3E%3Cpath d='M1 1h1v1H1zM3 1h1v1H3zM5 1h1v1H5zM7 1h1v1H7zM9 1h1v1H9zM11 1h1v1h-1zM13 1h1v1h-1zM15 1h1v1h-1zM17 1h1v1h-1zM19 1h1v1h-1zM21 1h1v1h-1zM23 1h1v1h-1zM25 1h1v1h-1zM27 1h1v1h-1zM29 1h1v1h-1zM31 1h1v1h-1zM33 1h1v1h-1zM35 1h1v1h-1zM37 1h1v1h-1zM39 1h1v1h-1z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+}
+
 @layer utilities {
   .text-gradient-gold {
     background: linear-gradient(135deg, hsl(var(--gold)) 0%, hsl(var(--gold-light)) 100%);
@@ -103,8 +120,8 @@
     background-clip: text;
   }
 
-  .bg-gradient-teal {
-    background: linear-gradient(135deg, hsl(var(--teal-deep)) 0%, hsl(var(--primary)) 50%, hsl(var(--teal-medium)) 100%);
+  .bg-gradient-navy {
+    background: linear-gradient(160deg, hsl(215 68% 12%) 0%, hsl(var(--navy)) 40%, hsl(var(--navy-medium)) 100%);
   }
 
   .bg-gradient-gold {
@@ -117,5 +134,20 @@
 
   .text-gold {
     color: hsl(var(--gold));
+  }
+
+  /* Classic ornamental divider */
+  .ornament-line {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .ornament-line::before,
+  .ornament-line::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--gold) / 0.4), transparent);
   }
 }

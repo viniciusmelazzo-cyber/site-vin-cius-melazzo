@@ -12,9 +12,15 @@ const services = [
 
 const ServicesSection = () => {
   return (
-    <section id="atuacao" className="py-24 lg:py-32 bg-gradient-teal relative overflow-hidden">
-      {/* Decorative */}
-      <div className="absolute top-20 right-20 w-64 h-64 bg-gold/5 rounded-full blur-3xl" />
+    <section id="atuacao" className="py-24 lg:py-32 bg-gradient-navy relative overflow-hidden">
+      {/* Linen overlay subtle */}
+      <div className="absolute inset-0 opacity-[0.02]" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E")`
+      }} />
+
+      {/* Corner accents */}
+      <div className="absolute top-8 left-8 w-16 h-16 border-t border-l border-gold/15" />
+      <div className="absolute bottom-8 right-8 w-16 h-16 border-b border-r border-gold/15" />
 
       <div className="container relative z-10 mx-auto px-6 lg:px-12">
         <div className="max-w-3xl mx-auto text-center mb-16">
@@ -22,7 +28,7 @@ const ServicesSection = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-gold font-body text-sm tracking-[0.3em] uppercase font-medium"
+            className="text-gold font-body text-xs tracking-[0.35em] uppercase font-semibold"
           >
             Áreas de Atuação
           </motion.span>
@@ -32,9 +38,9 @@ const ServicesSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mt-4 mb-6"
+            className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mt-4 mb-6 tracking-tight"
           >
-            Soluções financeiras sob medida
+            Soluções financeiras <span className="italic">sob medida</span>
           </motion.h2>
 
           <motion.p
@@ -42,7 +48,7 @@ const ServicesSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="font-body text-lg text-primary-foreground/70 leading-relaxed"
+            className="font-body text-base text-primary-foreground/60 leading-relaxed font-light"
           >
             Como COO da Life Crédito, estruturo operações que vão além do crédito tradicional. 
             Cada solução é desenhada com análise jurídica rigorosa e inteligência de dados.
@@ -57,11 +63,13 @@ const ServicesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.08 * i }}
-              className="group p-8 rounded-sm bg-primary-foreground/5 border border-primary-foreground/10 backdrop-blur-sm hover:bg-primary-foreground/10 transition-all duration-300"
+              className="group p-8 bg-primary-foreground/[0.04] border border-primary-foreground/10 hover:bg-primary-foreground/[0.08] hover:border-gold/20 transition-all duration-300"
             >
-              <service.icon className="w-8 h-8 text-gold mb-5" />
+              <div className="w-10 h-10 flex items-center justify-center border border-gold/30 mb-5">
+                <service.icon className="w-5 h-5 text-gold" />
+              </div>
               <h3 className="font-display text-xl font-semibold text-primary-foreground mb-3">{service.title}</h3>
-              <p className="font-body text-sm text-primary-foreground/65 leading-relaxed">{service.desc}</p>
+              <p className="font-body text-sm text-primary-foreground/55 leading-relaxed font-light">{service.desc}</p>
             </motion.div>
           ))}
         </div>
