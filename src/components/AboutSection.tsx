@@ -32,7 +32,8 @@ const AboutSection = () => {
             transition={{ delay: 0.1 }}
             className="font-display text-4xl md:text-5xl font-bold text-foreground mt-4 mb-6 tracking-tight"
           >
-            Mais que um consultor.{" "}
+            Mais que um consultor.
+            <br />
             <span className="text-gradient-gold italic">Um parceiro estratégico.</span>
           </motion.h2>
 
