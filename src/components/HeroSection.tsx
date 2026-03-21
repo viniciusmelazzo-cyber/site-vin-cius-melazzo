@@ -42,9 +42,7 @@ const HeroSection = () => {
             </div>
 
             <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 tracking-tight">
-              Dr. Vinícius
-              <br />
-              <span className="text-gradient-gold italic">Melazzo</span>
+              Dr. Vinícius <span className="font-impact text-gradient-gold tracking-[0.05em] text-6xl md:text-7xl lg:text-8xl not-italic">MELAZZO</span>
             </h1>
 
             <p className="font-body text-base md:text-lg leading-relaxed opacity-80 mb-4 max-w-lg font-light">
