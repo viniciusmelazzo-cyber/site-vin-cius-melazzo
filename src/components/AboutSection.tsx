@@ -10,14 +10,17 @@ const values = [
 
 const AboutSection = () => {
   return (
-    <section id="sobre" className="py-24 lg:py-32 bg-background">
+    <section id="sobre" className="py-24 lg:py-32 bg-linen-texture relative">
+      {/* Ornamental top border */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+
       <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <motion.span
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-accent font-body text-sm tracking-[0.3em] uppercase font-medium"
+            className="text-accent font-body text-xs tracking-[0.35em] uppercase font-semibold"
           >
             Quem sou
           </motion.span>
@@ -27,18 +30,28 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-display text-3xl md:text-4xl font-semibold text-foreground mt-4 mb-6"
+            className="font-display text-4xl md:text-5xl font-bold text-foreground mt-4 mb-6 tracking-tight"
           >
             Mais que um consultor.{" "}
-            <span className="text-gradient-gold">Um parceiro estratégico.</span>
+            <span className="text-gradient-gold italic">Um parceiro estratégico.</span>
           </motion.h2>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="ornament-line text-accent/40 text-lg mb-6"
+          >
+            ◆
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="font-body text-lg text-muted-foreground leading-relaxed"
+            className="font-body text-base text-muted-foreground leading-relaxed font-light"
           >
             Advogado de formação, com 28 anos, uno expertise jurídica ao profundo conhecimento 
             do mercado financeiro. Minha missão é ser o melhor braço financeiro do seu negócio — 
@@ -54,13 +67,13 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 * i }}
-              className="group bg-card p-8 rounded-sm border border-border hover:border-accent/40 transition-all duration-300"
+              className="group bg-card p-8 border border-border hover:border-accent/40 transition-all duration-300"
             >
-              <div className="w-12 h-12 flex items-center justify-center bg-gradient-gold rounded-sm mb-5">
-                <item.icon className="w-5 h-5 text-accent-foreground" />
+              <div className="w-12 h-12 flex items-center justify-center bg-primary mb-5">
+                <item.icon className="w-5 h-5 text-primary-foreground" />
               </div>
-              <h3 className="font-display text-lg font-semibold text-foreground mb-3">{item.title}</h3>
-              <p className="font-body text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+              <h3 className="font-display text-xl font-semibold text-foreground mb-3">{item.title}</h3>
+              <p className="font-body text-sm text-muted-foreground leading-relaxed font-light">{item.desc}</p>
             </motion.div>
           ))}
         </div>
