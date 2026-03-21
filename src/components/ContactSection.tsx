@@ -17,15 +17,15 @@ const ContactSection = () => {
             className="w-16 h-16 object-contain mx-auto mb-8 opacity-50"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 0.5, scale: 1 }}
-            viewport={{ once: true }}
-          />
+            viewport={{ once: true }} />
+          
 
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mb-6 tracking-tight"
-          >
+            className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mb-6 tracking-tight">
+            
             Vamos conversar sobre <span className="italic">o seu negócio</span>
           </motion.h2>
 
@@ -34,8 +34,8 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-body text-base text-primary-foreground/60 leading-relaxed mb-12 font-light"
-          >
+            className="font-body text-base text-primary-foreground/60 leading-relaxed mb-12 font-light">
+            
             Se você busca mais que acesso a crédito — busca inteligência, confiança e soluções 
             que realmente fazem sentido — entre em contato.
           </motion.p>
@@ -45,8 +45,8 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12"
-          >
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
+            
             <div className="flex items-center gap-3 text-primary-foreground/70">
               <MapPin className="w-4 h-4 text-gold" />
               <span className="font-body text-sm font-light">Uberaba & Uberlândia — MG</span>
@@ -66,8 +66,8 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="inline-flex items-center justify-center px-12 py-4 bg-gradient-gold text-accent-foreground font-body font-semibold text-xs tracking-[0.2em] uppercase transition-all hover:opacity-90 hover:shadow-xl hover:shadow-accent/20"
-          >
+            className="inline-flex items-center justify-center px-12 py-4 bg-gradient-gold text-accent-foreground font-body font-semibold text-xs tracking-[0.2em] uppercase transition-all hover:opacity-90 hover:shadow-xl hover:shadow-accent/20">
+            
             Agendar uma conversa
           </motion.a>
         </div>
@@ -79,13 +79,13 @@ const ContactSection = () => {
           <span className="font-body text-xs text-primary-foreground/35 font-light">
             © 2025 Dr. Vinícius Melazzo — OAB/SP 488.319
           </span>
-          <span className="font-body text-xs text-primary-foreground/35 font-light">
-            COO — Life Crédito · Hub Multibancos de Soluções Financeiras
+          <span className="font-body text-xs text-primary-foreground/35 font-light">Hub de Soluções Financeiras
+
           </span>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default ContactSection;
