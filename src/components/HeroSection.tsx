@@ -24,16 +24,16 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-primary-foreground order-2 lg:order-1"
-          >
+            className="text-primary-foreground order-2 lg:order-1">
+            
             <motion.img
               src={logoVM}
               alt="VM Logo"
               className="w-20 h-20 mb-8 object-contain"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-            />
+              transition={{ delay: 0.2, duration: 0.6 }} />
+            
 
             <div className="mb-3">
               <span className="text-gold font-body text-xs tracking-[0.35em] uppercase font-semibold">
@@ -51,20 +51,20 @@ const HeroSection = () => {
 
             <div className="flex items-center gap-3 mb-10 opacity-50">
               <div className="w-10 h-px bg-gold" />
-              <span className="font-body text-xs tracking-[0.15em] uppercase">OAB/SP 488.319 · COO Life Crédito</span>
+              <span className="font-body text-xs tracking-[0.15em] uppercase">OAB/SP 488.319 </span>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a
                 href="#atuacao"
-                className="inline-flex items-center justify-center px-10 py-4 bg-gradient-gold text-accent-foreground font-body font-semibold text-xs tracking-[0.2em] uppercase transition-all hover:opacity-90 hover:shadow-xl hover:shadow-accent/20"
-              >
+                className="inline-flex items-center justify-center px-10 py-4 bg-gradient-gold text-accent-foreground font-body font-semibold text-xs tracking-[0.2em] uppercase transition-all hover:opacity-90 hover:shadow-xl hover:shadow-accent/20">
+                
                 Conheça meu trabalho
               </a>
               <a
                 href="#contato"
-                className="inline-flex items-center justify-center px-10 py-4 border border-gold/30 text-primary-foreground font-body font-medium text-xs tracking-[0.2em] uppercase transition-all hover:border-gold hover:bg-gold/10"
-              >
+                className="inline-flex items-center justify-center px-10 py-4 border border-gold/30 text-primary-foreground font-body font-medium text-xs tracking-[0.2em] uppercase transition-all hover:border-gold hover:bg-gold/10">
+                
                 Fale comigo
               </a>
             </div>
@@ -75,8 +75,8 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-            className="order-1 lg:order-2 flex justify-center lg:justify-end"
-          >
+            className="order-1 lg:order-2 flex justify-center lg:justify-end">
+            
             <div className="relative">
               {/* Classic double frame */}
               <div className="absolute -inset-4 border border-gold/15" />
@@ -91,14 +91,14 @@ const HeroSection = () => {
               <img
                 src={viniciusPhoto}
                 alt="Dr. Vinícius Melazzo"
-                className="relative w-80 lg:w-96 h-[28rem] lg:h-[32rem] object-cover object-top shadow-2xl"
-              />
+                className="relative w-80 lg:w-96 h-[28rem] lg:h-[32rem] object-cover object-top shadow-2xl" />
+              
             </div>
           </motion.div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default HeroSection;
