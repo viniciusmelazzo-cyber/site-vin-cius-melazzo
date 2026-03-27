@@ -6,79 +6,90 @@
 
 @layer base {
   :root {
-    --background: 38 25% 92%;
-    --foreground: 215 45% 14%;
+    /* Paleta Melazzo Consultoria */
+    /* Azul Marinho Profundo #0A192F */
+    --background: 60 56% 91%;
+    --foreground: 216 65% 11%;
 
-    --card: 38 22% 89%;
-    --card-foreground: 215 45% 14%;
+    --card: 60 30% 88%;
+    --card-foreground: 216 65% 11%;
 
-    --popover: 38 25% 92%;
-    --popover-foreground: 215 45% 14%;
+    --popover: 60 56% 91%;
+    --popover-foreground: 216 65% 11%;
 
-    --primary: 215 65% 18%;
-    --primary-foreground: 38 25% 92%;
+    /* Navy as primary */
+    --primary: 216 65% 11%;
+    --primary-foreground: 60 56% 91%;
 
-    --secondary: 38 18% 86%;
-    --secondary-foreground: 215 45% 14%;
+    --secondary: 60 20% 85%;
+    --secondary-foreground: 216 65% 11%;
 
-    --muted: 38 14% 88%;
-    --muted-foreground: 215 20% 42%;
+    --muted: 60 15% 87%;
+    --muted-foreground: 204 19% 36%;
 
-    --accent: 36 62% 42%;
-    --accent-foreground: 38 25% 95%;
+    /* Dourado Rico #C8A25C */
+    --accent: 39 50% 57%;
+    --accent-foreground: 216 65% 11%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 38 18% 80%;
-    --input: 38 18% 80%;
-    --ring: 215 65% 18%;
+    --border: 60 18% 80%;
+    --input: 60 18% 80%;
+    --ring: 216 65% 11%;
 
     --radius: 0.25rem;
 
-    --sidebar-background: 215 65% 18%;
-    --sidebar-foreground: 38 25% 92%;
-    --sidebar-primary: 36 62% 42%;
-    --sidebar-primary-foreground: 38 25% 92%;
-    --sidebar-accent: 215 50% 25%;
-    --sidebar-accent-foreground: 38 25% 92%;
-    --sidebar-border: 215 45% 26%;
-    --sidebar-ring: 36 62% 42%;
+    --sidebar-background: 216 65% 11%;
+    --sidebar-foreground: 60 56% 91%;
+    --sidebar-primary: 39 50% 57%;
+    --sidebar-primary-foreground: 60 56% 91%;
+    --sidebar-accent: 204 19% 26%;
+    --sidebar-accent-foreground: 60 56% 91%;
+    --sidebar-border: 216 45% 20%;
+    --sidebar-ring: 39 50% 57%;
 
-    /* Custom tokens */
-    --gold: 36 62% 42%;
-    --gold-light: 38 55% 58%;
-    --navy: 215 65% 18%;
-    --navy-medium: 215 50% 25%;
-    --navy-light: 215 40% 35%;
-    --linen: 38 25% 92%;
-    --linen-dark: 38 18% 86%;
-    --linen-warm: 35 30% 88%;
+    /* Custom brand tokens */
+    /* #C8A25C - Dourado Rico */
+    --gold: 39 50% 57%;
+    --gold-light: 39 55% 68%;
+    /* #0A192F - Azul Marinho Profundo */
+    --navy: 216 65% 11%;
+    --navy-medium: 204 19% 26%;
+    --navy-light: 204 19% 36%;
+    /* #F5F5DC - Bege Claro (Off-White) */
+    --linen: 60 56% 91%;
+    --linen-dark: 60 30% 88%;
+    --linen-warm: 50 35% 89%;
+    /* #36454F - Cinza Grafite */
+    --graphite: 204 19% 26%;
+    /* #004B49 - Verde Agro (Acento) */
+    --agro: 178 100% 15%;
 
     --font-display: 'Cormorant Garamond', serif;
     --font-body: 'Inter', sans-serif;
   }
 
   .dark {
-    --background: 215 65% 8%;
-    --foreground: 38 25% 92%;
-    --card: 215 55% 12%;
-    --card-foreground: 38 25% 92%;
-    --popover: 215 55% 12%;
-    --popover-foreground: 38 25% 92%;
-    --primary: 36 62% 42%;
-    --primary-foreground: 215 65% 8%;
-    --secondary: 215 40% 18%;
-    --secondary-foreground: 38 25% 92%;
-    --muted: 215 35% 16%;
-    --muted-foreground: 38 15% 60%;
-    --accent: 36 62% 42%;
-    --accent-foreground: 215 65% 8%;
+    --background: 216 65% 6%;
+    --foreground: 60 56% 91%;
+    --card: 216 55% 10%;
+    --card-foreground: 60 56% 91%;
+    --popover: 216 55% 10%;
+    --popover-foreground: 60 56% 91%;
+    --primary: 39 50% 57%;
+    --primary-foreground: 216 65% 6%;
+    --secondary: 204 19% 18%;
+    --secondary-foreground: 60 56% 91%;
+    --muted: 204 15% 16%;
+    --muted-foreground: 60 15% 60%;
+    --accent: 39 50% 57%;
+    --accent-foreground: 216 65% 6%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 215 30% 20%;
-    --input: 215 30% 20%;
-    --ring: 36 62% 42%;
+    --border: 204 20% 18%;
+    --input: 204 20% 18%;
+    --ring: 39 50% 57%;
   }
 }
 
@@ -97,7 +108,7 @@
   }
 }
 
-/* Linen paper texture */
+/* Linen paper texture - Bege Claro #F5F5DC */
 .bg-linen-texture {
   background-color: hsl(var(--background));
   background-image: 
@@ -121,7 +132,7 @@
   }
 
   .bg-gradient-navy {
-    background: linear-gradient(160deg, hsl(215 68% 12%) 0%, hsl(var(--navy)) 40%, hsl(var(--navy-medium)) 100%);
+    background: linear-gradient(160deg, hsl(216 68% 7%) 0%, hsl(var(--navy)) 40%, hsl(var(--navy-medium)) 100%);
   }
 
   .bg-gradient-gold {
@@ -134,6 +145,14 @@
 
   .text-gold {
     color: hsl(var(--gold));
+  }
+
+  .text-agro {
+    color: hsl(var(--agro));
+  }
+
+  .border-agro {
+    border-color: hsl(var(--agro));
   }
 
   /* Classic ornamental divider */

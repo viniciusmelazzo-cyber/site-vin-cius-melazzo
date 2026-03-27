@@ -66,6 +66,12 @@ export default {
           dark: "hsl(var(--linen-dark))",
           warm: "hsl(var(--linen-warm))",
         },
+        graphite: {
+          DEFAULT: "hsl(var(--graphite))",
+        },
+        agro: {
+          DEFAULT: "hsl(var(--agro))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
