@@ -57,7 +57,7 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <a
                 href="#atuacao"
-                className="inline-flex items-center justify-center px-10 py-4 bg-gradient-gold text-accent-foreground font-body font-semibold text-xs tracking-[0.2em] uppercase transition-all hover:opacity-90 hover:shadow-xl hover:shadow-accent/20">
+                className="inline-flex items-center justify-center px-10 py-4 bg-gradient-gold text-primary font-body font-semibold text-xs tracking-[0.2em] uppercase transition-all hover:opacity-90 hover:shadow-xl hover:shadow-accent/20">
                 
                 Conheça meu trabalho
               </a>
