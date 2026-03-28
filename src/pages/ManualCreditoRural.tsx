@@ -125,12 +125,6 @@ const ManualCreditoRural = () => {
 
   return (
     <>
-      {/* SEO Meta */}
-      <title>Manual de Crédito Rural 2026 | Melazzo Consultoria</title>
-      <meta name="description" content="Baixe grátis o Manual Completo de Crédito Rural 2026. Guia estratégico para produtores rurais sobre financiamento, PRONAF, PRONAMP e agronegócio." />
-      <meta property="og:title" content="Manual de Crédito Rural 2026 | Melazzo Consultoria" />
-      <meta property="og:description" content="Guia estratégico gratuito para produtores rurais. Domine o crédito rural com a Teia de Informações." />
-      <meta property="og:type" content="website" />
 
       <div className="min-h-screen bg-background">
         {/* Navbar mini */}
