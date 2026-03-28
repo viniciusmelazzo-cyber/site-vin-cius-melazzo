@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,66 +8,66 @@
   :root {
     /* Paleta Melazzo Consultoria */
     /* Azul Marinho Profundo #0A192F */
-    --background: 60 56% 91%;
-    --foreground: 216 65% 11%;
+    --background: 60 55.6% 91.2%;
+    --foreground: 215.7 64.9% 11.2%;
 
     --card: 60 30% 88%;
-    --card-foreground: 216 65% 11%;
+    --card-foreground: 215.7 64.9% 11.2%;
 
-    --popover: 60 56% 91%;
-    --popover-foreground: 216 65% 11%;
+    --popover: 60 55.6% 91.2%;
+    --popover-foreground: 215.7 64.9% 11.2%;
 
     /* Navy as primary */
-    --primary: 216 65% 11%;
-    --primary-foreground: 60 56% 91%;
+    --primary: 215.7 64.9% 11.2%;
+    --primary-foreground: 60 55.6% 91.2%;
 
     --secondary: 60 20% 85%;
-    --secondary-foreground: 216 65% 11%;
+    --secondary-foreground: 215.7 64.9% 11.2%;
 
     --muted: 60 15% 87%;
-    --muted-foreground: 204 19% 36%;
+    --muted-foreground: 204 18.8% 36%;
 
     /* Dourado Rico #C8A25C */
-    --accent: 39 50% 57%;
-    --accent-foreground: 216 65% 11%;
+    --accent: 38.9 49.5% 57.3%;
+    --accent-foreground: 215.7 64.9% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 60 18% 80%;
     --input: 60 18% 80%;
-    --ring: 216 65% 11%;
+    --ring: 215.7 64.9% 11.2%;
 
     --radius: 0.25rem;
 
-    --sidebar-background: 216 65% 11%;
-    --sidebar-foreground: 60 56% 91%;
-    --sidebar-primary: 39 50% 57%;
-    --sidebar-primary-foreground: 60 56% 91%;
-    --sidebar-accent: 204 19% 26%;
-    --sidebar-accent-foreground: 60 56% 91%;
-    --sidebar-border: 216 45% 20%;
-    --sidebar-ring: 39 50% 57%;
+    --sidebar-background: 215.7 64.9% 11.2%;
+    --sidebar-foreground: 60 55.6% 91.2%;
+    --sidebar-primary: 38.9 49.5% 57.3%;
+    --sidebar-primary-foreground: 60 55.6% 91.2%;
+    --sidebar-accent: 204 18.8% 26.1%;
+    --sidebar-accent-foreground: 60 55.6% 91.2%;
+    --sidebar-border: 215.7 45% 20%;
+    --sidebar-ring: 38.9 49.5% 57.3%;
 
     /* Custom brand tokens */
     /* #C8A25C - Dourado Rico */
-    --gold: 39 50% 57%;
+    --gold: 38.9 49.5% 57.3%;
     --gold-light: 39 55% 68%;
     /* #0A192F - Azul Marinho Profundo */
-    --navy: 216 65% 11%;
-    --navy-medium: 204 19% 26%;
-    --navy-light: 204 19% 36%;
+    --navy: 215.7 64.9% 11.2%;
+    --navy-medium: 204 18.8% 26.1%;
+    --navy-light: 204 18.8% 36%;
     /* #F5F5DC - Bege Claro (Off-White) */
-    --linen: 60 56% 91%;
+    --linen: 60 55.6% 91.2%;
     --linen-dark: 60 30% 88%;
     --linen-warm: 50 35% 89%;
     /* #36454F - Cinza Grafite */
-    --graphite: 204 19% 26%;
+    --graphite: 204 18.8% 26.1%;
     /* #004B49 - Verde Agro (Acento) */
-    --agro: 178 100% 15%;
+    --agro: 178.4 100% 14.7%;
 
-    --font-display: 'Cormorant Garamond', serif;
-    --font-body: 'Inter', sans-serif;
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
   }
 
   .dark {
