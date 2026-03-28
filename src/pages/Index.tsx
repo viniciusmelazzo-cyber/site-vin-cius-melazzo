@@ -12,6 +12,7 @@ import ContactSection from "@/components/ContactSection";
 const Index = () => {
   return (
     <div className="min-h-screen">
+      <a href="#inicio" className="skip-to-content">Pular para o conteúdo</a>
       <Navbar />
       <HeroSection />
       <AboutSection />
