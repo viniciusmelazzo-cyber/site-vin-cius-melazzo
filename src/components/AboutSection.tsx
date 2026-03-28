@@ -66,6 +66,7 @@ const AboutSection = () => {
               <img
                 src={viniciusPhoto}
                 alt="Vinícius Melazzo — Consultor Estratégico"
+                loading="lazy"
                 className="relative w-full max-w-md h-[26rem] lg:h-[30rem] object-cover object-top shadow-xl"
               />
             </div>
