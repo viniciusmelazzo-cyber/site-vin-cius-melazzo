@@ -56,6 +56,18 @@ const ManualCreditoRural = () => {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
+  useEffect(() => {
+    document.title = "Manual de Crédito Rural 2026 | Melazzo Consultoria";
+    const setMeta = (attr: string, key: string, content: string) => {
+      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
+      if (!el) { el = document.createElement("meta"); el.setAttribute(attr, key); document.head.appendChild(el); }
+      el.content = content;
+    };
+    setMeta("name", "description", "Baixe grátis o Manual Completo de Crédito Rural 2026. Guia estratégico para produtores rurais sobre financiamento, PRONAF, PRONAMP e agronegócio.");
+    setMeta("property", "og:title", "Manual de Crédito Rural 2026 | Melazzo Consultoria");
+    setMeta("property", "og:description", "Guia estratégico gratuito para produtores rurais. Domine o crédito rural com a Teia de Informações.");
+    setMeta("property", "og:type", "website");
+  }, []);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     setForm((prev) => ({
