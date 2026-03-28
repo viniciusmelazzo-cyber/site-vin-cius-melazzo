@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import viniciusPhoto from "@/assets/vinicius-photo.jpg";
-import logoVM from "@/assets/logo-vm.png";
+import logoVM from "@/assets/logo-vm.webp";
 
 const HeroSection = () => {
   return (

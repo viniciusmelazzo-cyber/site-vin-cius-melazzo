@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import logoVM from "@/assets/logo-vm.png";
+import logoVM from "@/assets/logo-vm.webp";
 
 const links = [
   { href: "#inicio", label: "Início" },
