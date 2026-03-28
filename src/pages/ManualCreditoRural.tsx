@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-lite";
+import { useEffect } from "react";
 import {
   CheckCircle2, Loader2, AlertCircle, BookOpen, Shield, Landmark,
   FileText, Leaf, Lightbulb, ChevronRight, ArrowDown,
