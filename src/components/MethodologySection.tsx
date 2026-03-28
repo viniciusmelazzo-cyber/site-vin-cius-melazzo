@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { FileSearch, Database, BarChart3, BookOpen, KeyRound, ShieldCheck, Target, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
+import { FileSearch, Database, BarChart3, BookOpen, KeyRound, ShieldCheck, Target, TrendingUp, ArrowRight } from "lucide-react";
 
 const steps = [
   {
@@ -140,6 +141,30 @@ const MethodologySection = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Lead Magnet CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto mt-16 text-center p-8 md:p-10 bg-primary border border-gold/15"
+        >
+          <h3 className="font-display text-2xl md:text-3xl font-bold text-primary-foreground mb-3">
+            Quer ver a Teia de Informações{" "}
+            <span className="italic text-gold">aplicada ao crédito rural?</span>
+          </h3>
+          <p className="font-body text-sm text-primary-foreground/50 font-light mb-6 max-w-lg mx-auto">
+            Baixe gratuitamente o Manual Completo de Crédito Rural 2026 e descubra como
+            estruturar operações com estratégia e segurança.
+          </p>
+          <Link
+            to="/manual-credito-rural-2026"
+            className="inline-flex items-center gap-2 px-10 py-4 bg-gradient-gold text-primary font-body font-semibold text-xs tracking-[0.2em] uppercase hover:opacity-90 transition-all hover:shadow-xl hover:shadow-accent/20"
+          >
+            Baixar Manual Gratuito
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

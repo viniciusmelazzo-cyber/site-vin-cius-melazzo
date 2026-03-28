@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowUpRight, Download } from "lucide-react";
 
 const posts = [
   {
@@ -71,7 +72,37 @@ const InsightsSection = () => {
           </motion.p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          {/* Lead Magnet highlight card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-primary border border-gold/20 flex flex-col md:row-span-1"
+          >
+            <div className="px-6 pt-6 pb-3 flex items-center justify-between">
+              <span className="inline-block px-2.5 py-1 font-body text-[10px] tracking-[0.15em] uppercase font-semibold bg-gold/20 text-gold">
+                E-book gratuito
+              </span>
+              <Download className="w-4 h-4 text-gold/50" />
+            </div>
+            <div className="px-6 pb-6 flex-1 flex flex-col">
+              <h3 className="font-display text-lg font-semibold text-primary-foreground mb-3 leading-snug">
+                Manual Completo de Crédito Rural 2026
+              </h3>
+              <p className="font-body text-sm text-primary-foreground/50 leading-relaxed font-light mb-4 flex-1">
+                Guia estratégico com tudo que o produtor rural precisa saber sobre financiamento e crédito.
+              </p>
+              <Link
+                to="/manual-credito-rural-2026"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-gold text-primary font-body font-semibold text-[10px] tracking-[0.2em] uppercase hover:opacity-90 transition-opacity w-fit"
+              >
+                Baixar grátis
+                <ArrowUpRight className="w-3 h-3" />
+              </Link>
+            </div>
+          </motion.div>
+
           {posts.map((post, i) => (
             <motion.a
               key={post.title}
@@ -79,7 +110,7 @@ const InsightsSection = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.1 * i }}
+              transition={{ delay: 0.1 * (i + 1) }}
               className="group bg-card border border-border hover:border-accent/30 transition-all duration-300 flex flex-col"
             >
               {/* Top bar */}

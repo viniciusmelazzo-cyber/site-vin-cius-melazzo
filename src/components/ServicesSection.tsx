@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Briefcase, TrendingUp, Scale, Landmark, Leaf } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Briefcase, TrendingUp, Scale, Landmark, Leaf, Download } from "lucide-react";
 
 const services = [
   {
@@ -124,6 +125,24 @@ const ServiceCard = ({ service, delay }: ServiceCardProps) => (
         </li>
       ))}
     </ul>
+
+    {service.title === "Soluções para o Agronegócio" && (
+      <Link
+        to="/manual-credito-rural-2026"
+        className="mt-6 flex items-center gap-3 px-4 py-3 bg-gold/10 border border-gold/20 hover:border-gold/40 transition-colors group/cta"
+      >
+        <Download className="w-4 h-4 text-gold flex-shrink-0" />
+        <div className="flex-1 min-w-0">
+          <span className="block font-body text-xs text-gold font-semibold tracking-wide uppercase">
+            Baixe grátis
+          </span>
+          <span className="block font-body text-[11px] text-primary-foreground/50 font-light truncate">
+            Manual Completo de Crédito Rural 2026
+          </span>
+        </div>
+        <span className="text-gold/50 group-hover/cta:translate-x-0.5 transition-transform">→</span>
+      </Link>
+    )}
   </motion.div>
 );
 
