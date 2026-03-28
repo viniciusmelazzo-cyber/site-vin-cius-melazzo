@@ -14,7 +14,89 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      lead_download_logs: {
+        Row: {
+          created_at: string
+          file_path: string
+          id: string
+          lead_id: string
+        }
+        Insert: {
+          created_at?: string
+          file_path: string
+          id?: string
+          lead_id: string
+        }
+        Update: {
+          created_at?: string
+          file_path?: string
+          id?: string
+          lead_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_download_logs_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leads: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          ip_hash: string | null
+          nome: string
+          page_path: string | null
+          propriedade: string | null
+          segmento: string | null
+          telefone: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+          wants_checklist: boolean
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          ip_hash?: string | null
+          nome: string
+          page_path?: string | null
+          propriedade?: string | null
+          segmento?: string | null
+          telefone: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          wants_checklist?: boolean
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          ip_hash?: string | null
+          nome?: string
+          page_path?: string | null
+          propriedade?: string | null
+          segmento?: string | null
+          telefone?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          wants_checklist?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
