@@ -437,7 +437,7 @@ const ManualCreditoRural = () => {
                     />
                     <span className="font-body text-xs text-primary-foreground/40 group-hover:text-primary-foreground/60 transition-colors leading-relaxed">
                       Li e concordo com a{" "}
-                      <a href="/politica-de-privacidade" className="underline text-gold/70 hover:text-gold">
+                      <a href="/privacidade" className="underline text-gold/70 hover:text-gold">
                         Política de Privacidade
                       </a>
                       . Seus dados estão seguros e não serão compartilhados.
