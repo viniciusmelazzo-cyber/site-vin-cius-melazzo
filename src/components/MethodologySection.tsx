@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 
 const steps = [
 { num: "I", title: "Análise Documental", desc: "Verificação cruzada meticulosa de cada detalhe. Nada passa despercebido." },
-{ num: "II", title: "Teia de Informações", desc: "Conecto dados de múltiplas fontes para criar uma narrativa financeira coerente e irrefutável." },
-{ num: "III", title: "Inteligência de Dados", desc: "Capturo e processo informações em diferentes cenários para decisões seguras e planejadas." },
+{ num: "II", title: "Teia de Informações", desc: "Conecto dados de múltiplas fontes para criar uma narrativa estratégica coerente e irrefutável." },
+{ num: "III", title: "Inteligência de Dados", desc: "Processo informações em diferentes cenários para decisões seguras, planejadas e de alta performance." },
 { num: "IV", title: "Solução Estratégica", desc: "Estruturo a operação ideal — com segurança jurídica, condições otimizadas e visão de longo prazo." }];
 
 
@@ -58,7 +58,7 @@ const MethodologySection = () => {
               <div className="font-display text-4xl font-bold text-gold">+R$</div>
               <div>
                 <div className="font-display text-2xl font-semibold text-primary-foreground">500 milhões</div>
-                <div className="font-body text-sm text-primary-foreground/60 font-light">em crédito intermediado </div>
+                <div className="font-body text-sm text-primary-foreground/60 font-light">em operações estruturadas</div>
               </div>
             </motion.div>
           </div>

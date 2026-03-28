@@ -26,7 +26,7 @@ const ContactSection = () => {
             viewport={{ once: true }}
             className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mb-6 tracking-tight">
             
-            Vamos conversar sobre <span className="italic">o seu negócio</span>
+            Vamos conversar sobre <span className="italic">a sua estratégia</span>
           </motion.h2>
 
           <motion.p
@@ -36,8 +36,8 @@ const ContactSection = () => {
             transition={{ delay: 0.1 }}
             className="font-body text-base text-primary-foreground/60 leading-relaxed mb-12 font-light">
             
-            Se você busca mais que acesso a crédito — busca inteligência, confiança e soluções 
-            que realmente fazem sentido — entre em contato.
+            Se você busca mais que soluções financeiras — busca estratégia, performance e 
+            decisões que realmente fazem sentido — entre em contato.
           </motion.p>
 
           <motion.div
@@ -77,10 +77,9 @@ const ContactSection = () => {
       <div className="container mx-auto px-6 lg:px-12 mt-24">
         <div className="border-t border-primary-foreground/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <span className="font-body text-xs text-primary-foreground/35 font-light">
-            © 2025 Dr. Vinícius Melazzo — OAB/SP 488.319
+            © 2025 Melazzo Consultoria
           </span>
-          <span className="font-body text-xs text-primary-foreground/35 font-light">Hub de Soluções Financeiras
-
+          <span className="font-body text-xs text-primary-foreground/35 font-light">Estratégia & Performance Empresarial
           </span>
         </div>
       </div>

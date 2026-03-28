@@ -37,21 +37,21 @@ const HeroSection = () => {
 
             <div className="mb-3">
               <span className="text-gold font-body text-xs tracking-[0.35em] uppercase font-semibold">
-                Consultor Jurídico-Financeiro
+                Estratégia & Performance Empresarial
               </span>
             </div>
 
             <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 tracking-tight">
-              Dr. Vinícius <span className="font-impact text-gradient-gold tracking-[0.05em] text-6xl md:text-7xl lg:text-8xl not-italic">MELAZZO</span>
+              Vinícius <span className="font-impact text-gradient-gold tracking-[0.05em] text-6xl md:text-7xl lg:text-8xl not-italic">MELAZZO</span>
             </h1>
 
             <p className="font-body text-base md:text-lg leading-relaxed opacity-80 mb-4 max-w-lg font-light">
-              Arquiteto de Inteligência Financeira. Transformo desafios financeiros em oportunidades através de análise jurídica, dados e soluções customizadas.
+              Integro estratégia, inteligência de dados e segurança jurídica para transformar a performance do seu negócio. Cada decisão, conectada pela Teia de Informações.
             </p>
 
             <div className="flex items-center gap-3 mb-10 opacity-50">
               <div className="w-10 h-px bg-gold" />
-              <span className="font-body text-xs tracking-[0.15em] uppercase">OAB/SP 488.319 </span>
+              <span className="font-body text-xs tracking-[0.15em] uppercase">Melazzo Consultoria</span>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -90,7 +90,7 @@ const HeroSection = () => {
               
               <img
                 src={viniciusPhoto}
-                alt="Dr. Vinícius Melazzo"
+                alt="Vinícius Melazzo"
                 className="relative w-80 lg:w-96 h-[28rem] lg:h-[32rem] object-cover object-top shadow-2xl" />
               
             </div>

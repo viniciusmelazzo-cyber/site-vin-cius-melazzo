@@ -33,7 +33,7 @@ const Navbar = () => {
         <a href="#" className="flex items-center gap-3">
           <img src={logoVM} alt="VM" className="w-8 h-8 object-contain" />
           <span className="font-display text-base font-semibold text-primary-foreground tracking-wide">
-            Dr. Vinícius Melazzo
+            Melazzo Consultoria
           </span>
         </a>
 
