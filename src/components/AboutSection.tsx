@@ -54,9 +54,9 @@ const AboutSection = () => {
             transition={{ delay: 0.2 }}
             className="font-body text-base text-muted-foreground leading-relaxed font-light"
           >
-            Advogado de formação, com 28 anos, uno expertise jurídica ao profundo conhecimento 
-            do mercado financeiro. Minha missão é ser o melhor braço financeiro do seu negócio — 
-            criando crescimento sustentável, protegendo patrimônio e transformando dados em decisões inteligentes.
+            Advogado e estrategista financeiro, com 28 anos, integro expertise jurídica ao profundo conhecimento 
+            do mercado. Minha missão é ser o braço estratégico do seu negócio — 
+            conectando dados, análise e performance para gerar crescimento sustentável e proteger patrimônio.
           </motion.p>
         </div>
 

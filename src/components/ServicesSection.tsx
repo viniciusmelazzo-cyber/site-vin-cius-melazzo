@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import { Landmark, Building2, Home, TrendingUp, ShieldCheck, BarChart3 } from "lucide-react";
 
 const services = [
-  { icon: Landmark, title: "Crédito Rural", desc: "PRONAF, PRONAMP, custeio e investimento. Estruturação completa para produtores rurais." },
-  { icon: Building2, title: "Crédito Empresarial", desc: "Capital de giro, antecipação de recebíveis e linhas garantidas para sua empresa crescer." },
-  { icon: Home, title: "Home Equity", desc: "Use seu imóvel como garantia para obter crédito com as melhores condições do mercado." },
-  { icon: TrendingUp, title: "Aquisição Imobiliária", desc: "Financiamento estruturado para aquisição de imóveis com segurança jurídica." },
-  { icon: ShieldCheck, title: "Blindagem Patrimonial", desc: "Proteção do seu patrimônio com estratégias jurídicas e financeiras sólidas." },
-  { icon: BarChart3, title: "Gestão Financeira", desc: "Centro de inteligência com dashboards, projeções e diagnóstico financeiro completo." },
+  { icon: Landmark, title: "Crédito Rural & Agro", desc: "Estruturação de PRONAF, PRONAMP, custeio e investimento com análise estratégica e segurança jurídica." },
+  { icon: Building2, title: "Crédito Empresarial", desc: "Capital de giro, antecipação de recebíveis e linhas garantidas com inteligência de dados para sua empresa." },
+  { icon: Home, title: "Home Equity", desc: "Operações com imóvel em garantia, estruturadas para extrair as melhores condições do mercado." },
+  { icon: TrendingUp, title: "Aquisição Imobiliária", desc: "Financiamento estratégico para aquisição de imóveis com planejamento e blindagem patrimonial." },
+  { icon: ShieldCheck, title: "Blindagem Patrimonial", desc: "Proteção inteligente do seu patrimônio com estratégias jurídicas e financeiras integradas." },
+  { icon: BarChart3, title: "Performance & Gestão", desc: "Diagnóstico financeiro completo, dashboards e projeções para decisões baseadas em dados reais." },
 ];
 
 const ServicesSection = () => {
@@ -40,7 +40,7 @@ const ServicesSection = () => {
             transition={{ delay: 0.1 }}
             className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mt-4 mb-6 tracking-tight"
           >
-            Soluções financeiras <span className="italic">sob medida</span>
+            Soluções estratégicas <span className="italic">sob medida</span>
           </motion.h2>
 
           <motion.p
@@ -50,8 +50,8 @@ const ServicesSection = () => {
             transition={{ delay: 0.2 }}
             className="font-body text-base text-primary-foreground/60 leading-relaxed font-light"
           >
-            Como COO da Life Crédito, estruturo operações que vão além do crédito tradicional. 
-            Cada solução é desenhada com análise jurídica rigorosa e inteligência de dados.
+            Na Melazzo Consultoria, cada operação é desenhada com análise jurídica rigorosa, 
+            inteligência de dados e visão estratégica — conectadas pela nossa Teia de Informações.
           </motion.p>
         </div>
 
