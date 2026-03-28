@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { FileSearch, Database, BarChart3, BookOpen, KeyRound, ShieldCheck, Target, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
+import { FileSearch, Database, BarChart3, BookOpen, KeyRound, ShieldCheck, Target, TrendingUp, ArrowRight } from "lucide-react";
 
 const steps = [
   {
