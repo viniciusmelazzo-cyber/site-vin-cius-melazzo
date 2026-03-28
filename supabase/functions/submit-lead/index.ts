@@ -154,7 +154,7 @@ Deno.serve(async (req) => {
 
     // Send email via Resend
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
-    const fromEmail = Deno.env.get("FROM_EMAIL") || "noreply@melazzo.com.br";
+    const fromEmail = Deno.env.get("FROM_EMAIL") || "vinicius@melazzo.co";
 
     if (resendApiKey && downloadUrl) {
       try {

@@ -385,7 +385,7 @@ const ManualCreditoRural = () => {
                         id="lp-telefone" name="telefone" type="tel" required
                         value={form.telefone} onChange={handleChange}
                         className="w-full bg-primary-foreground/5 border border-primary-foreground/10 text-primary-foreground font-body text-sm px-4 py-3 focus:outline-none focus:border-gold/50 transition-colors placeholder:text-primary-foreground/25"
-                        placeholder="(34) 99999-9999"
+                        placeholder="(34) 9 9228-2778"
                       />
                     </div>
                   </div>

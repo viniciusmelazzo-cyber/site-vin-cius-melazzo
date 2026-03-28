@@ -176,10 +176,10 @@ const Privacidade = () => {
             </p>
             <p className="mt-3">
               <a
-                href="mailto:privacidade@melazzo.com.br"
+                href="mailto:vinicius@melazzo.co"
                 className="text-accent hover:underline font-medium"
               >
-                privacidade@melazzo.com.br
+                vinicius@melazzo.co
               </a>
             </p>
             <p className="mt-3 text-muted-foreground text-xs">
