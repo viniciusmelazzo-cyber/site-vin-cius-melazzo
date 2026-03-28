@@ -28,44 +28,48 @@ const HeroSection = () => {
             
             <motion.img
               src={logoVM}
-              alt="VM Logo"
-              className="w-20 h-20 mb-8 object-contain"
+              alt=""
+              aria-hidden="true"
+              className="w-16 h-16 mb-6 object-contain"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }} />
-            
 
-            <div className="mb-3">
+            <div className="mb-4">
               <span className="text-gold font-body text-xs tracking-[0.35em] uppercase font-semibold">
                 Estratégia & Performance Empresarial
               </span>
             </div>
 
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 tracking-tight">
-              Vinícius <span className="font-impact text-gradient-gold tracking-[0.05em] text-6xl md:text-7xl lg:text-8xl not-italic">MELAZZO</span>
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-2 tracking-tight">
+              <span className="font-impact text-gradient-gold tracking-[0.05em] text-5xl md:text-6xl lg:text-7xl">MELAZZO</span>
+              <br />
+              <span className="text-3xl md:text-4xl lg:text-5xl">Consultoria</span>
             </h1>
 
-            <p className="font-body text-base md:text-lg leading-relaxed opacity-80 mb-4 max-w-lg font-light">
-              Integro estratégia, inteligência de dados e segurança jurídica para transformar a performance do seu negócio. Cada decisão, conectada pela Teia de Informações.
-            </p>
-
-            <div className="flex items-center gap-3 mb-10 opacity-50">
+            <div className="flex items-center gap-3 my-5 opacity-60">
               <div className="w-10 h-px bg-gold" />
-              <span className="font-body text-xs tracking-[0.15em] uppercase">Melazzo Consultoria</span>
+              <span className="font-body text-[11px] tracking-[0.2em] uppercase text-gold font-medium">
+                Sua Teia de Informações para o Crescimento Sustentável
+              </span>
+              <div className="w-10 h-px bg-gold" />
             </div>
+
+            <p className="font-body text-base md:text-lg leading-relaxed opacity-75 mb-10 max-w-lg font-light">
+              Transformamos dados complexos em decisões claras e resultados financeiros 
+              sólidos para empresários e produtores rurais.
+            </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="#servicos"
-                className="inline-flex items-center justify-center px-10 py-4 bg-gradient-gold text-primary font-body font-semibold text-xs tracking-[0.2em] uppercase transition-all hover:opacity-90 hover:shadow-xl hover:shadow-accent/20">
-                
-                Conheça meu trabalho
+                href="#contato"
+                className="inline-flex items-center justify-center px-8 py-4 bg-gradient-gold text-primary font-body font-semibold text-xs tracking-[0.2em] uppercase transition-all hover:opacity-90 hover:shadow-xl hover:shadow-accent/20">
+                Agende sua Análise Estratégica Gratuita
               </a>
               <a
-                href="#contato"
-                className="inline-flex items-center justify-center px-10 py-4 border border-gold/30 text-primary-foreground font-body font-medium text-xs tracking-[0.2em] uppercase transition-all hover:border-gold hover:bg-gold/10">
-                
-                Fale comigo
+                href="#metodologia"
+                className="inline-flex items-center justify-center px-8 py-4 border border-gold/30 text-primary-foreground font-body font-medium text-xs tracking-[0.2em] uppercase transition-all hover:border-gold hover:bg-gold/10">
+                Conheça a metodologia
               </a>
             </div>
           </motion.div>
