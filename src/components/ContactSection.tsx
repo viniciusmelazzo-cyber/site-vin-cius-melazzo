@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { MapPin, Phone } from "lucide-react";
-import logoVM from "@/assets/logo-vm.png";
+import logoVM from "@/assets/logo-vm.webp";
 
 const ContactSection = () => {
   return (
