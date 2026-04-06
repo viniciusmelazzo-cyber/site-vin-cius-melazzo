@@ -231,17 +231,25 @@ export type Database = {
       }
       onboarding_data: {
         Row: {
+          activity_type: string | null
           assets_investments: string | null
+          assets_liabilities_data: Json | null
           assets_other: string | null
           assets_realestate: string | null
           assets_vehicles: string | null
           created_at: string
+          expenses_data: Json | null
           financial_reserves: string | null
           fixed_costs_detail: string | null
           fixed_costs_total: string | null
           goals: string | null
+          housing_data: Json | null
           id: string
+          income_data: Json | null
           monthly_revenue: string | null
+          onboarding_step: number | null
+          personal_data: Json | null
+          profile_module_data: Json | null
           revenue_sources: string | null
           total_debt: string | null
           updated_at: string
@@ -250,17 +258,25 @@ export type Database = {
           variable_costs_total: string | null
         }
         Insert: {
+          activity_type?: string | null
           assets_investments?: string | null
+          assets_liabilities_data?: Json | null
           assets_other?: string | null
           assets_realestate?: string | null
           assets_vehicles?: string | null
           created_at?: string
+          expenses_data?: Json | null
           financial_reserves?: string | null
           fixed_costs_detail?: string | null
           fixed_costs_total?: string | null
           goals?: string | null
+          housing_data?: Json | null
           id?: string
+          income_data?: Json | null
           monthly_revenue?: string | null
+          onboarding_step?: number | null
+          personal_data?: Json | null
+          profile_module_data?: Json | null
           revenue_sources?: string | null
           total_debt?: string | null
           updated_at?: string
@@ -269,17 +285,25 @@ export type Database = {
           variable_costs_total?: string | null
         }
         Update: {
+          activity_type?: string | null
           assets_investments?: string | null
+          assets_liabilities_data?: Json | null
           assets_other?: string | null
           assets_realestate?: string | null
           assets_vehicles?: string | null
           created_at?: string
+          expenses_data?: Json | null
           financial_reserves?: string | null
           fixed_costs_detail?: string | null
           fixed_costs_total?: string | null
           goals?: string | null
+          housing_data?: Json | null
           id?: string
+          income_data?: Json | null
           monthly_revenue?: string | null
+          onboarding_step?: number | null
+          personal_data?: Json | null
+          profile_module_data?: Json | null
           revenue_sources?: string | null
           total_debt?: string | null
           updated_at?: string
