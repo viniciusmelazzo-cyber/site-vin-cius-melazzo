@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, UserCircle } from "lucide-react";
 import logoVM from "@/assets/logo-vm.webp";
 
 const links = [
@@ -64,10 +64,19 @@ const Navbar = () => {
             </a>
           ))}
 
+          {/* Área do Cliente */}
+          <a
+            href="/cliente/login"
+            className="ml-1 inline-flex items-center justify-center gap-1.5 px-4 py-2 border border-gold/40 text-gold font-body font-medium text-[11px] tracking-[0.1em] uppercase transition-all hover:bg-gold/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+          >
+            <UserCircle className="w-3.5 h-3.5" />
+            Área do Cliente
+          </a>
+
           {/* CTA */}
           <a
             href="#contato"
-            className="ml-2 inline-flex items-center justify-center px-5 py-2 bg-gradient-gold text-primary font-body font-semibold text-[11px] tracking-[0.15em] uppercase transition-all hover:opacity-90 hover:shadow-lg hover:shadow-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+            className="ml-1 inline-flex items-center justify-center px-5 py-2 bg-gradient-gold text-primary font-body font-semibold text-[11px] tracking-[0.15em] uppercase transition-all hover:opacity-90 hover:shadow-lg hover:shadow-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
           >
             Agende sua Análise Gratuita
           </a>
@@ -111,12 +120,23 @@ const Navbar = () => {
                 </motion.a>
               ))}
 
+              {/* Área do Cliente - Mobile */}
+              <a
+                href="/cliente/login"
+                onClick={handleLinkClick}
+                role="menuitem"
+                className="block mt-4 text-center px-6 py-3 border border-gold/40 text-gold font-body font-medium text-xs tracking-[0.15em] uppercase transition-all hover:bg-gold/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              >
+                <UserCircle className="w-4 h-4 inline mr-2" />
+                Área do Cliente
+              </a>
+
               {/* Mobile CTA */}
               <a
                 href="#contato"
                 onClick={handleLinkClick}
                 role="menuitem"
-                className="block mt-4 text-center px-6 py-3 bg-gradient-gold text-primary font-body font-semibold text-xs tracking-[0.15em] uppercase transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                className="block mt-2 text-center px-6 py-3 bg-gradient-gold text-primary font-body font-semibold text-xs tracking-[0.15em] uppercase transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
               >
                 Agende sua Análise Estratégica Gratuita
               </a>
