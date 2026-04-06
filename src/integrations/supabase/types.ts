@@ -14,6 +14,105 @@ export type Database = {
   }
   public: {
     Tables: {
+      client_debts: {
+        Row: {
+          created_at: string
+          debt_type: string
+          id: string
+          monthly_payment: number
+          next_due_date: string | null
+          original_value: number
+          paid_installments: number
+          payment_method: string | null
+          total_installments: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          debt_type?: string
+          id?: string
+          monthly_payment?: number
+          next_due_date?: string | null
+          original_value?: number
+          paid_installments?: number
+          payment_method?: string | null
+          total_installments?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          debt_type?: string
+          id?: string
+          monthly_payment?: number
+          next_due_date?: string | null
+          original_value?: number
+          paid_installments?: number
+          payment_method?: string | null
+          total_installments?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      client_documents: {
+        Row: {
+          created_at: string
+          doc_name: string
+          file_path: string
+          id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          doc_name: string
+          file_path: string
+          id?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          doc_name?: string
+          file_path?: string
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      financial_entries: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          date: string
+          description: string
+          id: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          category?: string
+          created_at?: string
+          date?: string
+          description?: string
+          id?: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          date?: string
+          description?: string
+          id?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       lead_download_logs: {
         Row: {
           created_at: string
@@ -97,15 +196,138 @@ export type Database = {
         }
         Relationships: []
       }
+      onboarding_data: {
+        Row: {
+          assets_investments: string | null
+          assets_other: string | null
+          assets_realestate: string | null
+          assets_vehicles: string | null
+          created_at: string
+          financial_reserves: string | null
+          fixed_costs_detail: string | null
+          fixed_costs_total: string | null
+          goals: string | null
+          id: string
+          monthly_revenue: string | null
+          revenue_sources: string | null
+          total_debt: string | null
+          updated_at: string
+          user_id: string
+          variable_costs_detail: string | null
+          variable_costs_total: string | null
+        }
+        Insert: {
+          assets_investments?: string | null
+          assets_other?: string | null
+          assets_realestate?: string | null
+          assets_vehicles?: string | null
+          created_at?: string
+          financial_reserves?: string | null
+          fixed_costs_detail?: string | null
+          fixed_costs_total?: string | null
+          goals?: string | null
+          id?: string
+          monthly_revenue?: string | null
+          revenue_sources?: string | null
+          total_debt?: string | null
+          updated_at?: string
+          user_id: string
+          variable_costs_detail?: string | null
+          variable_costs_total?: string | null
+        }
+        Update: {
+          assets_investments?: string | null
+          assets_other?: string | null
+          assets_realestate?: string | null
+          assets_vehicles?: string | null
+          created_at?: string
+          financial_reserves?: string | null
+          fixed_costs_detail?: string | null
+          fixed_costs_total?: string | null
+          goals?: string | null
+          id?: string
+          monthly_revenue?: string | null
+          revenue_sources?: string | null
+          total_debt?: string | null
+          updated_at?: string
+          user_id?: string
+          variable_costs_detail?: string | null
+          variable_costs_total?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          cnpj: string | null
+          company_name: string | null
+          cpf: string | null
+          created_at: string
+          full_name: string
+          id: string
+          onboarding_completed: boolean
+          phone: string | null
+          sector: string | null
+          updated_at: string
+        }
+        Insert: {
+          cnpj?: string | null
+          company_name?: string | null
+          cpf?: string | null
+          created_at?: string
+          full_name?: string
+          id: string
+          onboarding_completed?: boolean
+          phone?: string | null
+          sector?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cnpj?: string | null
+          company_name?: string | null
+          cpf?: string | null
+          created_at?: string
+          full_name?: string
+          id?: string
+          onboarding_completed?: boolean
+          phone?: string | null
+          sector?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "client"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -232,6 +454,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "client"],
+    },
   },
 } as const
