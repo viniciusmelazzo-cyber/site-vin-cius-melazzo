@@ -142,7 +142,7 @@ const ClientDashboard = () => {
         )}
 
         {/* DRE */}
-        <DREReport entries={entries} />
+        <DREReport entries={entries} selectedMonth={selectedMonth} showMonthNav={false} />
 
         {monthEntries.length === 0 && (
           <Card className="border-border shadow-sm">

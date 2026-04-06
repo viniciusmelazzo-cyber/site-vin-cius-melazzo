@@ -16,6 +16,7 @@ interface DREReportProps {
   entries: Entry[];
   onboardingExpenses?: any;
   showMonthNav?: boolean;
+  selectedMonth?: string;
 }
 
 const RECEITA_CATEGORIES = ["Salário", "Freelance", "Investimentos", "Aluguel"];
@@ -24,11 +25,12 @@ const DESPESA_VARIAVEL_CATEGORIES = ["Alimentação", "Lazer", "Vestuário"];
 
 const fmt = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-const DREReport = ({ entries, showMonthNav = true }: DREReportProps) => {
-  const [selectedMonth, setSelectedMonth] = useState(() => {
+const DREReport = ({ entries, showMonthNav = true, selectedMonth: externalMonth }: DREReportProps) => {
+  const [internalMonth, setInternalMonth] = useState(() => {
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
   });
+  const selectedMonth = externalMonth || internalMonth;
 
   const availableMonths = useMemo(() => {
     const months = new Set<string>();
@@ -46,7 +48,7 @@ const DREReport = ({ entries, showMonthNav = true }: DREReportProps) => {
     const idx = availableMonths.indexOf(selectedMonth);
     const next = idx - dir; // reversed because sorted desc
     if (next >= 0 && next < availableMonths.length) {
-      setSelectedMonth(availableMonths[next]);
+      setInternalMonth(availableMonths[next]);
     }
   };
 
