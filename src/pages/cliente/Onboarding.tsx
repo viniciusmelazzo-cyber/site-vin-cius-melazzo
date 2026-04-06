@@ -94,8 +94,9 @@ const Onboarding = () => {
         updated_at: new Date().toISOString(),
       } as any, { onConflict: "user_id" });
 
+      await refreshProfile();
       toast({ title: "Onboarding concluído!" });
-      navigate("/cliente/dashboard");
+      navigate("/cliente/dashboard", { replace: true });
     } catch (err: any) {
       toast({ title: "Erro ao salvar", description: err.message, variant: "destructive" });
     } finally {
