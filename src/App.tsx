@@ -12,6 +12,9 @@ import NotFound from "./pages/NotFound.tsx";
 import Login from "./pages/cliente/Login.tsx";
 import Onboarding from "./pages/cliente/Onboarding.tsx";
 import ClientDashboard from "./pages/cliente/ClientDashboard.tsx";
+import Lancamentos from "./pages/cliente/Lancamentos.tsx";
+import Documentos from "./pages/cliente/Documentos.tsx";
+import Configuracoes from "./pages/cliente/Configuracoes.tsx";
 import AdminDashboard from "./pages/cliente/AdminDashboard.tsx";
 import AdminClientDetail from "./pages/cliente/AdminClientDetail.tsx";
 
