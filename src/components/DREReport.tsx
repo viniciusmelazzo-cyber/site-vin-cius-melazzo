@@ -48,7 +48,7 @@ const DREReport = ({ entries, showMonthNav = true, selectedMonth: externalMonth 
     const idx = availableMonths.indexOf(selectedMonth);
     const next = idx - dir; // reversed because sorted desc
     if (next >= 0 && next < availableMonths.length) {
-      setSelectedMonth(availableMonths[next]);
+      setInternalMonth(availableMonths[next]);
     }
   };
 
