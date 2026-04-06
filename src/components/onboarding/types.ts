@@ -1,3 +1,14 @@
+export interface CartaoOnboarding {
+  id: string;
+  banco: string;
+  bandeira: string;
+  limite: string;
+  fatura_media: string;
+  paga_integral: string;
+  dia_vencimento: string;
+  parcelamentos_ativos: string;
+}
+
 export interface OnboardingData {
   // Step 1 - Personal
   personal_data: {
