@@ -16,6 +16,7 @@ interface DREReportProps {
   entries: Entry[];
   onboardingExpenses?: any;
   showMonthNav?: boolean;
+  selectedMonth?: string;
 }
 
 const RECEITA_CATEGORIES = ["Salário", "Freelance", "Investimentos", "Aluguel"];
