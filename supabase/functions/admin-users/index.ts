@@ -19,7 +19,7 @@ Deno.serve(async (req) => {
 
     // Verify caller is admin (except for seed action with a special key)
     const authHeader = req.headers.get("Authorization");
-    if (action !== "seed") {
+    if (action !== "seed" && action !== "reset_password") {
       if (!authHeader) throw new Error("Não autenticado");
       const token = authHeader.replace("Bearer ", "");
       const { data: { user: caller } } = await supabase.auth.getUser(token);
