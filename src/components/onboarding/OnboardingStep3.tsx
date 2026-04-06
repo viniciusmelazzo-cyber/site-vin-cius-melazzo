@@ -49,7 +49,9 @@ const OnboardingStep3 = ({ data, onChange }: Props) => {
           </div>
         )}
 
-        <F label="Valor Estimado do Imóvel (mercado)" value={d.valor_imovel} onChange={(v) => update("valor_imovel", v)} placeholder="R$ 0,00" />
+        {!isAlugada && (
+          <F label="Valor Estimado do Imóvel (mercado)" value={d.valor_imovel} onChange={(v) => update("valor_imovel", v)} placeholder="R$ 0,00" />
+        )}
 
         <div className="border-t border-border pt-4">
           <h3 className="font-display text-base font-semibold mb-3">Custos Fixos da Moradia (mensal)</h3>
