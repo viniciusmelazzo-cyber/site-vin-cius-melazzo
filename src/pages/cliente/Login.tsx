@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,42 +11,59 @@ import logoVM from "@/assets/logo-vm.webp";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true);
+  const [searchParams] = useSearchParams();
+  const inviteToken = searchParams.get("invite");
+
+  // If invite token present, show registration form
+  const [mode, setMode] = useState<"login" | "register">(inviteToken ? "register" : "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleAuth = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
     try {
-      if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        navigate("/cliente/dashboard");
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { full_name: fullName },
-            emailRedirectTo: window.location.origin,
-          },
-        });
-        if (error) throw error;
-        toast({
-          title: "Cadastro realizado!",
-          description: "Verifique seu e-mail para confirmar a conta.",
-        });
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+
+      // Check role to redirect appropriately
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", user.id);
+        const isAdmin = roles?.some((r: any) => r.role === "admin");
+        navigate(isAdmin ? "/cliente/admin" : "/cliente/dashboard");
       }
     } catch (error: any) {
-      toast({
-        title: "Erro",
-        description: error.message,
-        variant: "destructive",
+      toast({ title: "Erro", description: error.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegisterWithInvite = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inviteToken) return;
+    setLoading(true);
+    try {
+      const res = await supabase.functions.invoke("admin-users", {
+        body: {
+          action: "register_with_invite",
+          invite_token: inviteToken,
+          password,
+          full_name: fullName,
+        },
       });
+
+      if (res.error || res.data?.error) {
+        throw new Error(res.data?.error || res.error?.message || "Erro ao registrar");
+      }
+
+      toast({ title: "Conta criada com sucesso!", description: "Faça login para continuar." });
+      setMode("login");
+    } catch (error: any) {
+      toast({ title: "Erro", description: error.message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -111,17 +128,52 @@ const Login = () => {
               </div>
             </div>
             <h2 className="text-2xl font-display font-semibold text-foreground">
-              {isLogin ? "Bem-vindo de volta" : "Crie sua conta"}
+              {mode === "login" ? "Bem-vindo de volta" : "Crie sua conta"}
             </h2>
             <p className="text-muted-foreground font-body text-sm">
-              {isLogin
+              {mode === "login"
                 ? "Acesse sua plataforma de gestão financeira"
-                : "Comece sua jornada de transformação financeira"}
+                : "Você recebeu um convite para a plataforma"}
             </p>
           </CardHeader>
           <CardContent className="pt-4">
-            <form onSubmit={handleAuth} className="space-y-4">
-              {!isLogin && (
+            {mode === "login" ? (
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="font-body text-sm font-medium">E-mail</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="seu@email.com"
+                    required
+                    className="font-body"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="font-body text-sm font-medium">Senha</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    required
+                    minLength={6}
+                    className="font-body"
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full font-body bg-gradient-gold text-primary hover:opacity-90"
+                  disabled={loading}
+                >
+                  {loading ? "Carregando..." : "Entrar"}
+                </Button>
+              </form>
+            ) : (
+              <form onSubmit={handleRegisterWithInvite} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="fullName" className="font-body text-sm font-medium">Nome Completo</Label>
                   <Input
@@ -129,52 +181,38 @@ const Login = () => {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Seu nome completo"
-                    required={!isLogin}
+                    required
                     className="font-body"
                   />
                 </div>
-              )}
-              <div className="space-y-2">
-                <Label htmlFor="email" className="font-body text-sm font-medium">E-mail</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="seu@email.com"
-                  required
-                  className="font-body"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password" className="font-body text-sm font-medium">Senha</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  minLength={6}
-                  className="font-body"
-                />
-              </div>
-              <Button
-                type="submit"
-                className="w-full font-body bg-gradient-gold text-primary hover:opacity-90"
-                disabled={loading}
-              >
-                {loading ? "Carregando..." : isLogin ? "Entrar" : "Cadastrar"}
-              </Button>
-            </form>
-            <div className="mt-6 text-center">
-              <button
-                onClick={() => setIsLogin(!isLogin)}
-                className="text-sm text-muted-foreground hover:text-accent font-body transition-colors"
-              >
-                {isLogin ? "Não tem uma conta? Cadastre-se" : "Já tem uma conta? Faça login"}
-              </button>
-            </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="font-body text-sm font-medium">Crie uma Senha</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    required
+                    minLength={6}
+                    className="font-body"
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full font-body bg-gradient-gold text-primary hover:opacity-90"
+                  disabled={loading}
+                >
+                  {loading ? "Criando conta..." : "Criar Conta e Acessar"}
+                </Button>
+              </form>
+            )}
+
+            {!inviteToken && (
+              <p className="mt-6 text-center text-xs text-muted-foreground font-body">
+                Acesso apenas por convite do consultor.
+              </p>
+            )}
           </CardContent>
         </Card>
       </div>

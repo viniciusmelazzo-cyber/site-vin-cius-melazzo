@@ -80,6 +80,39 @@ export type Database = {
         }
         Relationships: []
       }
+      client_invites: {
+        Row: {
+          accepted_by: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string | null
+          status: string
+          token: string
+        }
+        Insert: {
+          accepted_by?: string | null
+          created_at?: string
+          email: string
+          expires_at?: string
+          id?: string
+          invited_by?: string | null
+          status?: string
+          token?: string
+        }
+        Update: {
+          accepted_by?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string | null
+          status?: string
+          token?: string
+        }
+        Relationships: []
+      }
       financial_entries: {
         Row: {
           amount: number
