@@ -137,6 +137,21 @@ Deno.serve(async (req) => {
       });
     }
 
+    if (action === "reset_password") {
+      // Find user by email and update password
+      const { data: { users }, error: listErr } = await supabase.auth.admin.listUsers();
+      if (listErr) throw listErr;
+      const target = users.find((u: any) => u.email === email);
+      if (!target) throw new Error("Usuário não encontrado");
+
+      const { error: updateErr } = await supabase.auth.admin.updateUserById(target.id, { password });
+      if (updateErr) throw updateErr;
+
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     return new Response(JSON.stringify({ error: "Ação inválida" }), {
       status: 400,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
