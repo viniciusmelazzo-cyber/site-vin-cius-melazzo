@@ -25,11 +25,12 @@ const DESPESA_VARIAVEL_CATEGORIES = ["Alimentação", "Lazer", "Vestuário"];
 
 const fmt = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-const DREReport = ({ entries, showMonthNav = true }: DREReportProps) => {
-  const [selectedMonth, setSelectedMonth] = useState(() => {
+const DREReport = ({ entries, showMonthNav = true, selectedMonth: externalMonth }: DREReportProps) => {
+  const [internalMonth, setInternalMonth] = useState(() => {
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
   });
+  const selectedMonth = externalMonth || internalMonth;
 
   const availableMonths = useMemo(() => {
     const months = new Set<string>();
