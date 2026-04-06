@@ -22,9 +22,9 @@ const clientLinks = [
 
 const adminLinks = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/cliente/admin" },
-  { label: "Clientes", icon: Users, href: "/cliente/admin/clientes" },
-  { label: "Relatórios", icon: FileText, href: "/cliente/admin/relatorios" },
-  { label: "Configurações", icon: Settings, href: "/cliente/admin/configuracoes" },
+  { label: "Clientes", icon: Users, href: "/cliente/admin", tab: "clientes" },
+  { label: "Convites", icon: FileText, href: "/cliente/admin", tab: "convites" },
+  { label: "Configurações", icon: Settings, href: "/cliente/admin", tab: "configuracoes" },
 ];
 
 const ClientLayout = ({ children, role = "client" }: ClientLayoutProps) => {
@@ -67,10 +67,11 @@ const ClientLayout = ({ children, role = "client" }: ClientLayoutProps) => {
 
         <nav className="flex-1 px-3 space-y-1 mt-4">
           {links.map((link) => {
-            const isActive = location.pathname === link.href;
+            const isActive = location.pathname === link.href ||
+              (link.href !== "/cliente/admin" && location.pathname.startsWith(link.href));
             return (
               <button
-                key={link.href}
+                key={link.label}
                 onClick={() => { navigate(link.href); setSidebarOpen(false); }}
                 className={cn(
                   "w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-body transition-colors",
