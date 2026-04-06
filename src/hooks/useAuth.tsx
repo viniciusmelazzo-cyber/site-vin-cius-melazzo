@@ -49,30 +49,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
+  const fetchProfile = async (uid: string) => {
+    const [rolesRes, profileRes] = await Promise.all([
+      supabase.from("user_roles").select("role").eq("user_id", uid),
+      supabase.from("profiles").select("full_name, onboarding_completed").eq("id", uid).single(),
+    ]);
+    setIsAdmin(rolesRes.data?.some((r: any) => r.role === "admin") ?? false);
+    setProfile(profileRes.data ?? null);
+    setLoading(false);
+  };
+
   // Fetch role and profile when user changes
   useEffect(() => {
     if (!user) return;
-
-    const fetchData = async () => {
-      const [rolesRes, profileRes] = await Promise.all([
-        supabase.from("user_roles").select("role").eq("user_id", user.id),
-        supabase.from("profiles").select("full_name, onboarding_completed").eq("id", user.id).single(),
-      ]);
-
-      setIsAdmin(rolesRes.data?.some((r: any) => r.role === "admin") ?? false);
-      setProfile(profileRes.data ?? null);
-      setLoading(false);
-    };
-
-    fetchData();
+    fetchProfile(user.id);
   }, [user]);
+
+  const refreshProfile = async () => {
+    if (user) await fetchProfile(user.id);
+  };
 
   const signOut = async () => {
     await supabase.auth.signOut();
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, isAdmin, profile, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, isAdmin, profile, signOut, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   );
