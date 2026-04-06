@@ -23,7 +23,7 @@ const TOTAL_STEPS = 8; // 0=welcome, 1-6=steps, 7=summary
 
 const Onboarding = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, refreshProfile } = useAuth();
   const [step, setStep] = useState(0);
   const [saving, setSaving] = useState(false);
   const [data, setData] = useState<OnboardingData>(defaultOnboardingData);
