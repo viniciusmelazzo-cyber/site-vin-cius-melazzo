@@ -211,6 +211,17 @@ const Lancamentos = () => {
           </Dialog>
         </div>
 
+        {/* Month Navigation */}
+        <div className="flex items-center justify-center gap-4">
+          <Button variant="ghost" size="icon" onClick={() => navigateMonth(-1)} disabled={availableMonths.indexOf(selectedMonth) === availableMonths.length - 1}>
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+          <h2 className="text-lg font-display font-bold capitalize min-w-[200px] text-center">{monthLabel}</h2>
+          <Button variant="ghost" size="icon" onClick={() => navigateMonth(1)} disabled={availableMonths.indexOf(selectedMonth) === 0}>
+            <ChevronRight className="h-5 w-5" />
+          </Button>
+        </div>
+
         <Card className="border-border shadow-sm">
           <CardContent className="p-0">
             <Table>
@@ -225,7 +236,7 @@ const Lancamentos = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {entries.map((entry) => (
+                {filteredEntries.map((entry) => (
                   <TableRow key={entry.id}>
                     <TableCell className="font-body text-sm">{new Date(entry.date).toLocaleDateString("pt-BR")}</TableCell>
                     <TableCell>
@@ -250,10 +261,10 @@ const Lancamentos = () => {
                     </TableCell>
                   </TableRow>
                 ))}
-                {entries.length === 0 && (
+                {filteredEntries.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={6} className="text-center py-12 text-muted-foreground font-body text-sm">
-                      Nenhum lançamento encontrado. Clique em "Novo Lançamento" para começar.
+                      Nenhum lançamento neste mês. Clique em "Novo Lançamento" para começar.
                     </TableCell>
                   </TableRow>
                 )}
