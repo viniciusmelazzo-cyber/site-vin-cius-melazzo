@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import ClientLayout from "@/components/ClientLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, Pencil, Trash2 } from "lucide-react";
+import { PlusCircle, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const categorias = [
@@ -37,6 +37,10 @@ const Lancamentos = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  });
 
   const fetchEntries = async () => {
     if (!user) return;
@@ -49,6 +53,35 @@ const Lancamentos = () => {
   };
 
   useEffect(() => { fetchEntries(); }, [user]);
+
+  const availableMonths = useMemo(() => {
+    const months = new Set<string>();
+    entries.forEach((e) => {
+      const d = new Date(e.date);
+      months.add(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
+    });
+    const now = new Date();
+    months.add(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`);
+    return Array.from(months).sort().reverse();
+  }, [entries]);
+
+  const filteredEntries = useMemo(() => {
+    return entries.filter((e) => {
+      const d = new Date(e.date);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}` === selectedMonth;
+    });
+  }, [entries, selectedMonth]);
+
+  const monthLabel = useMemo(() => {
+    const [y, m] = selectedMonth.split("-");
+    return new Date(Number(y), Number(m) - 1).toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+  }, [selectedMonth]);
+
+  const navigateMonth = (dir: number) => {
+    const idx = availableMonths.indexOf(selectedMonth);
+    const next = idx - dir;
+    if (next >= 0 && next < availableMonths.length) setSelectedMonth(availableMonths[next]);
+  };
 
   const handleSave = async () => {
     if (!user || !form.amount || !form.description) {
@@ -178,6 +211,17 @@ const Lancamentos = () => {
           </Dialog>
         </div>
 
+        {/* Month Navigation */}
+        <div className="flex items-center justify-center gap-4">
+          <Button variant="ghost" size="icon" onClick={() => navigateMonth(-1)} disabled={availableMonths.indexOf(selectedMonth) === availableMonths.length - 1}>
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+          <h2 className="text-lg font-display font-bold capitalize min-w-[200px] text-center">{monthLabel}</h2>
+          <Button variant="ghost" size="icon" onClick={() => navigateMonth(1)} disabled={availableMonths.indexOf(selectedMonth) === 0}>
+            <ChevronRight className="h-5 w-5" />
+          </Button>
+        </div>
+
         <Card className="border-border shadow-sm">
           <CardContent className="p-0">
             <Table>
@@ -192,7 +236,7 @@ const Lancamentos = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {entries.map((entry) => (
+                {filteredEntries.map((entry) => (
                   <TableRow key={entry.id}>
                     <TableCell className="font-body text-sm">{new Date(entry.date).toLocaleDateString("pt-BR")}</TableCell>
                     <TableCell>
@@ -217,10 +261,10 @@ const Lancamentos = () => {
                     </TableCell>
                   </TableRow>
                 ))}
-                {entries.length === 0 && (
+                {filteredEntries.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={6} className="text-center py-12 text-muted-foreground font-body text-sm">
-                      Nenhum lançamento encontrado. Clique em "Novo Lançamento" para começar.
+                      Nenhum lançamento neste mês. Clique em "Novo Lançamento" para começar.
                     </TableCell>
                   </TableRow>
                 )}

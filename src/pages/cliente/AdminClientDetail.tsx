@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  ArrowLeft, User, DollarSign, Home, ShoppingCart, Briefcase, PiggyBank, CreditCard, FileText,
+  ArrowLeft, User, DollarSign, Home, ShoppingCart, Briefcase, PiggyBank, CreditCard, FileText, BarChart3,
 } from "lucide-react";
+import DREReport from "@/components/DREReport";
 
 const AdminClientDetail = () => {
   const { clientId } = useParams<{ clientId: string }>();
@@ -129,6 +130,7 @@ const AdminClientDetail = () => {
               <TabsTrigger value="despesas" className="text-xs font-body gap-1"><ShoppingCart className="h-3 w-3" /> Despesas</TabsTrigger>
               <TabsTrigger value="patrimonio" className="text-xs font-body gap-1"><PiggyBank className="h-3 w-3" /> Patrimônio</TabsTrigger>
               <TabsTrigger value="perfil" className="text-xs font-body gap-1"><Briefcase className="h-3 w-3" /> Perfil Prof.</TabsTrigger>
+              <TabsTrigger value="dre" className="text-xs font-body gap-1"><BarChart3 className="h-3 w-3" /> DRE</TabsTrigger>
               <TabsTrigger value="docs" className="text-xs font-body gap-1"><FileText className="h-3 w-3" /> Documentos</TabsTrigger>
             </TabsList>
 
@@ -304,6 +306,11 @@ const AdminClientDetail = () => {
                   ])} />
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            {/* DRE */}
+            <TabsContent value="dre" className="mt-4">
+              <DREReport entries={entries} />
             </TabsContent>
 
             {/* Documentos */}
