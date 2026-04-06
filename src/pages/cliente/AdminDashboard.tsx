@@ -22,6 +22,7 @@ import { toast } from "@/hooks/use-toast";
 
 const AdminDashboard = () => {
   const { user, session } = useAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("clientes");
   const [search, setSearch] = useState("");
   const [clients, setClients] = useState<any[]>([]);
