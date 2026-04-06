@@ -89,16 +89,8 @@ const AdminDashboard = () => {
     (c.company_name || "").toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleSelectClient = async (client: any) => {
-    setSelectedClient(client);
-    const [onboardingRes, entriesRes, docsRes] = await Promise.all([
-      supabase.from("onboarding_data").select("*").eq("user_id", client.id).single(),
-      supabase.from("financial_entries").select("*").eq("user_id", client.id).order("date", { ascending: false }).limit(50),
-      supabase.from("client_documents").select("*").eq("user_id", client.id),
-    ]);
-    setClientOnboarding(onboardingRes.data);
-    setClientEntries(entriesRes.data || []);
-    setClientDocs(docsRes.data || []);
+  const handleSelectClient = (client: any) => {
+    navigate(`/cliente/admin/cliente/${client.id}`);
   };
 
   const fmt = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });

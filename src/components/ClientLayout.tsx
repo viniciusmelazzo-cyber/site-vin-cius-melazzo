@@ -22,9 +22,9 @@ const clientLinks = [
 
 const adminLinks = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/cliente/admin" },
-  { label: "Clientes", icon: Users, href: "/cliente/admin/clientes" },
-  { label: "Relatórios", icon: FileText, href: "/cliente/admin/relatorios" },
-  { label: "Configurações", icon: Settings, href: "/cliente/admin/configuracoes" },
+  { label: "Clientes", icon: Users, href: "/cliente/admin", tab: "clientes" },
+  { label: "Convites", icon: FileText, href: "/cliente/admin", tab: "convites" },
+  { label: "Configurações", icon: Settings, href: "/cliente/admin", tab: "configuracoes" },
 ];
 
 const ClientLayout = ({ children, role = "client" }: ClientLayoutProps) => {
