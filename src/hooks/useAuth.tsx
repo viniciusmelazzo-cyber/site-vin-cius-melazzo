@@ -9,6 +9,7 @@ interface AuthContextType {
   isAdmin: boolean;
   profile: { full_name: string; onboarding_completed: boolean } | null;
   signOut: () => Promise<void>;
+  refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
