@@ -119,7 +119,7 @@ const ClientLayout = ({ children, role = "client" }: ClientLayoutProps) => {
           <div className="flex-1" />
           <div className="flex items-center gap-3">
             <span className="text-sm font-body text-muted-foreground hidden sm:block">
-              {profile?.full_name || ""}
+              {profile?.full_name || ""} <span className="text-xs">({role === "admin" ? "Consultor" : "Cliente"})</span>
             </span>
             <div className="h-8 w-8 rounded-full bg-gradient-gold flex items-center justify-center">
               <span className="text-primary text-xs font-bold font-body">{initials}</span>
