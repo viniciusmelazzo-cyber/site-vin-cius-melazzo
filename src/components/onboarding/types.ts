@@ -1,3 +1,14 @@
+export interface CartaoOnboarding {
+  id: string;
+  banco: string;
+  bandeira: string;
+  limite: string;
+  fatura_media: string;
+  paga_integral: string;
+  dia_vencimento: string;
+  parcelamentos_ativos: string;
+}
+
 export interface OnboardingData {
   // Step 1 - Personal
   personal_data: {
@@ -7,6 +18,9 @@ export interface OnboardingData {
     estado_civil?: string;
     regime_bens?: string;
     conjuge_nome?: string;
+    tem_filhos?: string;
+    qtd_filhos?: string;
+    filhos_detalhes?: string; // idades, nomes
     dependentes?: string;
     cidade?: string;
     estado_uf?: string;
@@ -86,8 +100,7 @@ export interface OnboardingData {
     vestuario?: string;
     lazer?: string;
     viagens?: string;
-    qtd_cartoes?: string;
-    cartoes_detalhes?: string;
+    cartoes?: CartaoOnboarding[];
     pensao_alimenticia?: string;
     ajuda_familiares?: string;
     animais_estimacao?: string;

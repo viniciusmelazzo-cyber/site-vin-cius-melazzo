@@ -73,7 +73,23 @@ const OnboardingStep1 = ({ data, onChange }: Props) => {
               <Field label="Nome do Cônjuge" value={p.conjuge_nome} onChange={(v) => update("conjuge_nome", v)} placeholder="Nome completo" />
             </>
           )}
-          <Field label="Quantidade de Dependentes" value={p.dependentes} onChange={(v) => update("dependentes", v)} placeholder="0" />
+          <div className="space-y-2">
+            <Label className="font-body text-sm">Possui filhos?</Label>
+            <Select value={p.tem_filhos || ""} onValueChange={(v) => update("tem_filhos", v)}>
+              <SelectTrigger className="font-body"><SelectValue placeholder="Selecione" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Sim">Sim</SelectItem>
+                <SelectItem value="Não">Não</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          {p.tem_filhos === "Sim" && (
+            <>
+              <Field label="Quantos filhos?" value={p.qtd_filhos} onChange={(v) => update("qtd_filhos", v)} placeholder="Ex: 2" />
+              <Field label="Detalhes (nomes e idades)" value={p.filhos_detalhes} onChange={(v) => update("filhos_detalhes", v)} placeholder="Ex: João (5 anos), Maria (12 anos)" />
+            </>
+          )}
+          <Field label="Quantidade de Dependentes (total)" value={p.dependentes} onChange={(v) => update("dependentes", v)} placeholder="0" />
           <Field label="Cidade" value={p.cidade} onChange={(v) => update("cidade", v)} placeholder="Onde reside" />
           <div className="space-y-2">
             <Label className="font-body text-sm">Estado (UF)</Label>
