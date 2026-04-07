@@ -57,7 +57,7 @@ Deno.serve(async (req) => {
           .eq("status", "pending");
       }
 
-      return new Response(JSON.stringify({ success: true, user_id: userData.user?.id }), {
+      return new Response(JSON.stringify({ success: true, user_id: userData.user?.id, email: invite.email }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }

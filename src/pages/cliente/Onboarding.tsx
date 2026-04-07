@@ -94,6 +94,14 @@ const Onboarding = () => {
         updated_at: new Date().toISOString(),
       } as any, { onConflict: "user_id" });
 
+      // Notify admin
+      await supabase.from("notifications").insert({
+        user_id: user.id,
+        type: "onboarding_complete",
+        title: "Novo cliente completou o onboarding",
+        message: `${data.personal_data.full_name || "Cliente"} finalizou o cadastro.`,
+      } as any);
+
       await refreshProfile();
       toast({ title: "Onboarding concluído!" });
       navigate("/cliente/dashboard", { replace: true });
