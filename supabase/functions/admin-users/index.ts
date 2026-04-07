@@ -19,7 +19,7 @@ Deno.serve(async (req) => {
 
     // Verify caller is admin (except for seed action with a special key)
     const authHeader = req.headers.get("Authorization");
-    if (action !== "seed") {
+    if (action !== "seed" && action !== "register_with_invite") {
       if (!authHeader) throw new Error("Não autenticado");
       const token = authHeader.replace("Bearer ", "");
       const { data: { user: caller } } = await supabase.auth.getUser(token);
@@ -57,7 +57,7 @@ Deno.serve(async (req) => {
           .eq("status", "pending");
       }
 
-      return new Response(JSON.stringify({ success: true, user_id: userData.user?.id, email: invite.email }), {
+      return new Response(JSON.stringify({ success: true, user_id: userData.user?.id, email }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
