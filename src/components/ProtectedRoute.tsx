@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
 interface ProtectedRouteProps {
@@ -7,7 +7,8 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps) => {
-  const { user, loading, isAdmin } = useAuth();
+  const { user, loading, isAdmin, profile } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -22,6 +23,16 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
 
   if (!user) return <Navigate to="/cliente/login" replace />;
   if (requireAdmin && !isAdmin) return <Navigate to="/cliente/dashboard" replace />;
+
+  // Redirect to onboarding if not completed (unless already on onboarding page)
+  if (
+    !isAdmin &&
+    profile &&
+    !profile.onboarding_completed &&
+    location.pathname !== "/cliente/onboarding"
+  ) {
+    return <Navigate to="/cliente/onboarding" replace />;
+  }
 
   return <>{children}</>;
 };

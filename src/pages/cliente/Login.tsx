@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,15 +12,26 @@ import logoVM from "@/assets/logo-vm.webp";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { profile, isAdmin } = useAuth();
   const [searchParams] = useSearchParams();
   const inviteToken = searchParams.get("invite");
 
-  // If invite token present, show registration form
   const [mode, setMode] = useState<"login" | "register">(inviteToken ? "register" : "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const redirectAfterAuth = (roles: any[] | null, onboardingDone?: boolean) => {
+    const admin = roles?.some((r: any) => r.role === "admin");
+    if (admin) {
+      navigate("/cliente/admin", { replace: true });
+    } else if (onboardingDone) {
+      navigate("/cliente/dashboard", { replace: true });
+    } else {
+      navigate("/cliente/onboarding", { replace: true });
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,12 +40,13 @@ const Login = () => {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
 
-      // Check role to redirect appropriately
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", user.id);
-        const isAdmin = roles?.some((r: any) => r.role === "admin");
-        navigate(isAdmin ? "/cliente/admin" : "/cliente/dashboard");
+        const [rolesRes, profileRes] = await Promise.all([
+          supabase.from("user_roles").select("role").eq("user_id", user.id),
+          supabase.from("profiles").select("onboarding_completed").eq("id", user.id).single(),
+        ]);
+        redirectAfterAuth(rolesRes.data, profileRes.data?.onboarding_completed ?? false);
       }
     } catch (error: any) {
       toast({ title: "Erro", description: error.message, variant: "destructive" });
@@ -47,12 +60,14 @@ const Login = () => {
     if (!inviteToken) return;
     setLoading(true);
     try {
+      // 1. Create account via edge function
       const res = await supabase.functions.invoke("admin-users", {
         body: {
           action: "register_with_invite",
           invite_token: inviteToken,
           password,
           full_name: fullName,
+          email,
         },
       });
 
@@ -60,8 +75,17 @@ const Login = () => {
         throw new Error(res.data?.error || res.error?.message || "Erro ao registrar");
       }
 
-      toast({ title: "Conta criada com sucesso!", description: "Faça login para continuar." });
-      setMode("login");
+      // 2. Auto-login with the email from the invite
+      const loginEmail = res.data?.email || email;
+      const { error: loginError } = await supabase.auth.signInWithPassword({
+        email: loginEmail,
+        password,
+      });
+
+      if (loginError) throw loginError;
+
+      toast({ title: "Conta criada com sucesso!", description: "Vamos iniciar seu cadastro." });
+      navigate("/cliente/onboarding", { replace: true });
     } catch (error: any) {
       toast({ title: "Erro", description: error.message, variant: "destructive" });
     } finally {
@@ -175,6 +199,18 @@ const Login = () => {
             ) : (
               <form onSubmit={handleRegisterWithInvite} className="space-y-4">
                 <div className="space-y-2">
+                  <Label htmlFor="email" className="font-body text-sm font-medium">E-mail</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="seu@email.com"
+                    required
+                    className="font-body"
+                  />
+                </div>
+                <div className="space-y-2">
                   <Label htmlFor="fullName" className="font-body text-sm font-medium">Nome Completo</Label>
                   <Input
                     id="fullName"
@@ -186,9 +222,9 @@ const Login = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="font-body text-sm font-medium">Crie uma Senha</Label>
+                  <Label htmlFor="regPassword" className="font-body text-sm font-medium">Crie uma Senha</Label>
                   <Input
-                    id="password"
+                    id="regPassword"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -203,7 +239,7 @@ const Login = () => {
                   className="w-full font-body bg-gradient-gold text-primary hover:opacity-90"
                   disabled={loading}
                 >
-                  {loading ? "Criando conta..." : "Criar Conta e Acessar"}
+                  {loading ? "Criando conta..." : "Criar Conta"}
                 </Button>
               </form>
             )}
