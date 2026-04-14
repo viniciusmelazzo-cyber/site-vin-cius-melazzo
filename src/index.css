@@ -66,6 +66,14 @@
     /* #004B49 - Verde Agro (Acento) */
     --agro: 178.4 100% 14.7%;
 
+    /* Financial feedback tokens */
+    /* #2E8B57 - Verde Esmeralda */
+    --finance-positive: 146 50.4% 36.3%;
+    /* #800000 - Vermelho Bordô */
+    --finance-negative: 0 100% 25.1%;
+    /* #CC5500 - Laranja Queimado */
+    --finance-warning: 25 100% 40%;
+
     --font-display: 'Playfair Display', serif;
     --font-body: 'Montserrat', sans-serif;
   }
