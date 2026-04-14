@@ -163,7 +163,16 @@ const ClientDashboard = () => {
         )}
 
         {/* DRE */}
-        <DREReport entries={entries} selectedMonth={selectedMonth} showMonthNav={false} />
+        <DREReport
+          entries={entries}
+          selectedMonth={selectedMonth}
+          showMonthNav={false}
+          liquidezTotal={onboardingFinance.liquidezTotal}
+          passivosTotal={onboardingFinance.passivosTotal}
+          ativosTotal={onboardingFinance.ativosTotal}
+          rendaLiquida={onboardingFinance.rendaLiquida}
+          parcelasDividas={onboardingFinance.parcelasDividas}
+        />
 
         {monthEntries.length === 0 && (
           <Card className="border-border shadow-sm">
