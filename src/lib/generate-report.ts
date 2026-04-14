@@ -2,6 +2,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { calculateHealthScore, getScoreLabel } from "@/lib/health-score";
 import { calcPatrimonio, getRendaLiquida, getParcelasDividas, type PatrimonioBreakdown } from "@/lib/onboarding-finance";
+import { LOGO_BASE64 } from "@/lib/logo-base64";
 
 const fmt = (v: number) =>
   v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -25,9 +26,12 @@ export function generateFinancialReport(data: ReportData) {
   const contentW = pageW - margin * 2;
   let y = 0;
 
-  const gold = [180, 155, 90] as const;
-  const dark = [26, 26, 26] as const;
-  const gray = [120, 120, 120] as const;
+  // Brand colors — Melazzo palette
+  const navy = [10, 25, 47] as const;      // #0A192F
+  const gold = [200, 162, 92] as const;     // #C8A25C
+  const graphite = [54, 69, 79] as const;   // #36454F
+  const linen = [245, 245, 220] as const;   // #F5F5DC
+  const agro = [0, 75, 73] as const;        // #004B49
   const green = [46, 125, 50] as const;
   const red = [198, 40, 40] as const;
 
