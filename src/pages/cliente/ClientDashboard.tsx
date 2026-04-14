@@ -42,6 +42,8 @@ const ClientDashboard = () => {
       supabase.from("client_debts").select("*").eq("user_id", user.id),
     ]).then(([entriesRes, onbRes, debtsRes]) => {
       setEntries(entriesRes.data || []);
+      setOnboardingData(onbRes.data);
+      setDebtsData(debtsRes.data || []);
       if (onbRes.data) {
         const p = calcPatrimonio(onbRes.data, debtsRes.data || []);
         setOnboardingFinance({
