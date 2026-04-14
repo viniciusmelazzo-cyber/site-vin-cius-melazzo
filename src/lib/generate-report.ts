@@ -392,14 +392,27 @@ export function generateFinancialReport(data: ReportData) {
 
   // ========== FOOTER on all pages ==========
   const totalPages = doc.getNumberOfPages();
-  for (let i = 1; i <= totalPages; i++) {
+  for (let i = 2; i <= totalPages; i++) {
     doc.setPage(i);
+    // Top header bar
+    doc.setFillColor(...navy);
+    doc.rect(0, 0, pageW, 12, "F");
+    doc.setFillColor(...gold);
+    doc.rect(0, 12, pageW, 0.5, "F");
+    doc.setFontSize(7);
+    doc.setTextColor(...gold);
+    doc.setFont("helvetica", "bold");
+    doc.text("MELAZZO CONSULTORIA", margin, 7.5);
+    doc.setTextColor(180, 180, 180);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Relatório Financeiro — ${data.clientName}`, pageW - margin, 7.5, { align: "right" });
+    // Bottom footer
     doc.setFontSize(7);
     doc.setTextColor(150, 150, 150);
     doc.text(`Página ${i} de ${totalPages}`, pageW / 2, 290, { align: "center" });
   }
 
   // Save
-  const fileName = `relatorio-financeiro-${data.month}.pdf`;
+  const fileName = `relatorio-melazzo-${data.month}.pdf`;
   doc.save(fileName);
 }
