@@ -70,36 +70,61 @@ export function generateFinancialReport(data: ReportData) {
   doc.setFillColor(...navy);
   doc.rect(0, 0, pageW, 297, "F");
 
+  // Gold accent lines
   doc.setFillColor(...gold);
-  doc.rect(margin, 40, contentW, 1.5, "F");
+  doc.rect(margin, 35, contentW, 1, "F");
+  doc.rect(margin, 37, contentW * 0.4, 0.5, "F");
 
-  doc.setFontSize(28);
+  // Logo
+  try {
+    doc.addImage(LOGO_BASE64, "PNG", pageW / 2 - 20, 50, 40, 40);
+  } catch { /* logo optional */ }
+
+  // Company name
+  doc.setFontSize(10);
+  doc.setTextColor(...gold);
+  doc.setFont("helvetica", "bold");
+  doc.text("MELAZZO CONSULTORIA", pageW / 2, 98, { align: "center" });
+  doc.setFontSize(7);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(180, 180, 180);
+  doc.text("Estratégia  •  Performance  •  Jurídico  •  Crédito", pageW / 2, 104, { align: "center" });
+
+  // Gold separator
+  doc.setFillColor(...gold);
+  doc.rect(pageW / 2 - 25, 110, 50, 0.5, "F");
+
+  // Report title
+  doc.setFontSize(26);
   doc.setTextColor(255, 255, 255);
   doc.setFont("helvetica", "bold");
-  doc.text("Relatório Financeiro", margin, 60);
+  doc.text("Relatório Financeiro", pageW / 2, 130, { align: "center" });
 
   doc.setFontSize(14);
   doc.setTextColor(...gold);
-  doc.text("Consolidado", margin, 70);
+  doc.text("Consolidado", pageW / 2, 140, { align: "center" });
 
+  // Client info
   doc.setFontSize(12);
-  doc.setTextColor(200, 200, 200);
+  doc.setTextColor(220, 220, 220);
   doc.setFont("helvetica", "normal");
-  doc.text(data.clientName, margin, 90);
+  doc.text(data.clientName, pageW / 2, 160, { align: "center" });
 
   const [y2, m2] = data.month.split("-");
   const monthName = new Date(Number(y2), Number(m2) - 1).toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
-  doc.text(monthName.charAt(0).toUpperCase() + monthName.slice(1), margin, 98);
+  doc.setTextColor(180, 180, 180);
+  doc.text(monthName.charAt(0).toUpperCase() + monthName.slice(1), pageW / 2, 168, { align: "center" });
 
   doc.setFontSize(9);
-  doc.setTextColor(150, 150, 150);
-  doc.text(`Gerado em ${new Date().toLocaleDateString("pt-BR")}`, margin, 110);
+  doc.setTextColor(130, 130, 130);
+  doc.text(`Gerado em ${new Date().toLocaleDateString("pt-BR")}`, pageW / 2, 180, { align: "center" });
 
+  // Footer
   doc.setFillColor(...gold);
-  doc.rect(margin, 270, contentW, 1, "F");
-  doc.setFontSize(8);
+  doc.rect(margin, 265, contentW, 0.5, "F");
+  doc.setFontSize(7);
   doc.setTextColor(100, 100, 100);
-  doc.text("Documento confidencial — uso exclusivo do cliente e consultor", pageW / 2, 280, { align: "center" });
+  doc.text("Documento confidencial — uso exclusivo do cliente e consultor", pageW / 2, 275, { align: "center" });
 
   // ========== PAGE 2: DRE ==========
   doc.addPage();
