@@ -10,6 +10,8 @@ import ManualCreditoRural from "./pages/ManualCreditoRural.tsx";
 import Privacidade from "./pages/Privacidade.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Login from "./pages/cliente/Login.tsx";
+import ForgotPassword from "./pages/cliente/ForgotPassword.tsx";
+import ResetPassword from "./pages/cliente/ResetPassword.tsx";
 import Onboarding from "./pages/cliente/Onboarding.tsx";
 import ClientDashboard from "./pages/cliente/ClientDashboard.tsx";
 import Lancamentos from "./pages/cliente/Lancamentos.tsx";
@@ -32,6 +34,8 @@ const App = () => (
             <Route path="/manual-credito-rural-2026" element={<ManualCreditoRural />} />
             <Route path="/privacidade" element={<Privacidade />} />
             <Route path="/cliente/login" element={<Login />} />
+            <Route path="/cliente/forgot-password" element={<ForgotPassword />} />
+            <Route path="/cliente/reset-password" element={<ResetPassword />} />
             <Route path="/cliente/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
             <Route path="/cliente/dashboard" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />
             <Route path="/cliente/lancamentos" element={<ProtectedRoute><Lancamentos /></ProtectedRoute>} />
