@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -16,9 +16,12 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Users, Search, Eye, X, DollarSign, FileText, AlertTriangle, Mail, Copy, Plus,
+  Users, Search, Eye, X, DollarSign, FileText, AlertTriangle, Mail, Copy, Plus, Activity,
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { calculateHealthScore, getScoreColor, getScoreLabel, type HealthScoreBreakdown } from "@/lib/health-score";
+import { calcPatrimonio, getRendaLiquida } from "@/lib/onboarding-finance";
+import HealthScoreBadge from "@/components/dashboard/HealthScoreBadge";
 
 const AdminDashboard = () => {
   const { user, session } = useAuth();
