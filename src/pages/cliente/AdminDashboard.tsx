@@ -248,33 +248,42 @@ const AdminDashboard = () => {
                     <TableHeader>
                       <TableRow>
                         <TableHead className="font-body text-xs">Nome</TableHead>
-                        <TableHead className="font-body text-xs">Empresa</TableHead>
                         <TableHead className="font-body text-xs">Setor</TableHead>
+                        <TableHead className="font-body text-xs">Score</TableHead>
                         <TableHead className="font-body text-xs">Status</TableHead>
                         <TableHead className="font-body text-xs w-12"></TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filtered.map((client) => (
-                        <TableRow key={client.id} className="cursor-pointer hover:bg-secondary/50">
-                          <TableCell className="font-body text-sm font-medium">{client.full_name || "—"}</TableCell>
-                          <TableCell className="font-body text-sm">{client.company_name || "—"}</TableCell>
-                          <TableCell className="font-body text-sm capitalize">{client.sector || "—"}</TableCell>
-                          <TableCell>
-                            <Badge
-                              variant={client.onboarding_completed ? "default" : "secondary"}
-                              className="font-body text-[10px]"
-                            >
-                              {client.onboarding_completed ? "Completo" : "Pendente"}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <Button variant="ghost" size="icon" onClick={() => handleSelectClient(client)}>
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                      {filtered.map((client) => {
+                        const score = clientScores[client.id];
+                        return (
+                          <TableRow key={client.id} className="cursor-pointer hover:bg-secondary/50" onClick={() => handleSelectClient(client)}>
+                            <TableCell className="font-body text-sm font-medium">{client.full_name || "—"}</TableCell>
+                            <TableCell className="font-body text-sm capitalize">{client.sector || "—"}</TableCell>
+                            <TableCell>
+                              {score ? (
+                                <HealthScoreBadge score={score} size="sm" />
+                              ) : (
+                                <span className="text-xs text-muted-foreground font-body">—</span>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              <Badge
+                                variant={client.onboarding_completed ? "default" : "secondary"}
+                                className="font-body text-[10px]"
+                              >
+                                {client.onboarding_completed ? "Completo" : "Pendente"}
+                              </Badge>
+                            </TableCell>
+                            <TableCell>
+                              <Button variant="ghost" size="icon" onClick={() => handleSelectClient(client)}>
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                       {filtered.length === 0 && (
                         <TableRow>
                           <TableCell colSpan={5} className="text-center py-8 text-muted-foreground font-body text-sm">
