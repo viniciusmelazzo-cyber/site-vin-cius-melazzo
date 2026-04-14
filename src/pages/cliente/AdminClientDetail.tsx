@@ -7,9 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  ArrowLeft, User, DollarSign, Home, ShoppingCart, Briefcase, PiggyBank, CreditCard, FileText, BarChart3,
+  ArrowLeft, User, DollarSign, Home, ShoppingCart, Briefcase, PiggyBank, CreditCard, FileText, BarChart3, Activity,
 } from "lucide-react";
 import DREReport from "@/components/DREReport";
+import HealthScoreBadge from "@/components/dashboard/HealthScoreBadge";
+import { calculateHealthScore, type HealthScoreBreakdown } from "@/lib/health-score";
+import { calcPatrimonio, getRendaLiquida, getParcelasDividas } from "@/lib/onboarding-finance";
 
 const AdminClientDetail = () => {
   const { clientId } = useParams<{ clientId: string }>();
@@ -18,24 +21,58 @@ const AdminClientDetail = () => {
   const [onboarding, setOnboarding] = useState<any>(null);
   const [entries, setEntries] = useState<any[]>([]);
   const [docs, setDocs] = useState<any[]>([]);
+  const [debts, setDebts] = useState<any[]>([]);
+  const [healthScore, setHealthScore] = useState<HealthScoreBreakdown | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!clientId) return;
-    const fetch = async () => {
-      const [profileRes, onbRes, entriesRes, docsRes] = await Promise.all([
+    const fetchData = async () => {
+      const [profileRes, onbRes, entriesRes, docsRes, debtsRes] = await Promise.all([
         supabase.from("profiles").select("*").eq("id", clientId).single(),
         supabase.from("onboarding_data").select("*").eq("user_id", clientId).single(),
         supabase.from("financial_entries").select("*").eq("user_id", clientId).order("date", { ascending: false }),
         supabase.from("client_documents").select("*").eq("user_id", clientId),
+        supabase.from("client_debts").select("*").eq("user_id", clientId),
       ]);
       setClient(profileRes.data);
       setOnboarding(onbRes.data);
       setEntries(entriesRes.data || []);
       setDocs(docsRes.data || []);
+      setDebts(debtsRes.data || []);
+
+      // Calculate health score
+      if (onbRes.data) {
+        const patrimonio = calcPatrimonio(onbRes.data, debtsRes.data || []);
+        const rendaLiquida = getRendaLiquida(onbRes.data);
+        const allEntries = entriesRes.data || [];
+        const now = new Date();
+        const curMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+        const monthEntries = allEntries.filter((e: any) => {
+          const d = new Date(e.date);
+          return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}` === curMonth;
+        });
+        const totalReceitas = monthEntries.filter((e: any) => e.type === "receita").reduce((s: number, e: any) => s + Number(e.amount), 0);
+        const totalDespesas = monthEntries.filter((e: any) => e.type === "despesa").reduce((s: number, e: any) => s + Number(e.amount), 0);
+        const DESP_FIXA_CATS = ["Moradia", "Transporte", "Saúde", "Educação", "Cartão de Crédito"];
+        const despFixas = monthEntries
+          .filter((e: any) => e.type === "despesa" && DESP_FIXA_CATS.includes(e.category))
+          .reduce((s: number, e: any) => s + Number(e.amount), 0);
+
+        setHealthScore(calculateHealthScore({
+          despesasFixas: despFixas,
+          rendaLiquida,
+          resultadoLiquido: totalReceitas - totalDespesas,
+          totalReceitas,
+          liquidezAlta: patrimonio.liquidez_alta,
+          passivosTotal: patrimonio.passivos.total,
+          ativosTotal: patrimonio.liquidez.total + patrimonio.imobilizado.total,
+        }));
+      }
+
       setLoading(false);
     };
-    fetch();
+    fetchData();
   }, [clientId]);
 
   const fmt = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -88,6 +125,7 @@ const AdminClientDetail = () => {
               {client.sector || "—"} • {client.company_name || "—"} • CPF: {client.cpf || "—"}
             </p>
           </div>
+          {healthScore && <HealthScoreBadge score={healthScore} size="md" />}
           <Badge variant={client.onboarding_completed ? "default" : "secondary"} className="font-body">
             {client.onboarding_completed ? "Onboarding Completo" : "Onboarding Pendente"}
           </Badge>
@@ -122,8 +160,9 @@ const AdminClientDetail = () => {
             </CardContent>
           </Card>
         ) : (
-          <Tabs defaultValue="pessoal" className="w-full">
+          <Tabs defaultValue="score" className="w-full">
             <TabsList className="flex flex-wrap h-auto gap-1">
+              <TabsTrigger value="score" className="text-xs font-body gap-1"><Activity className="h-3 w-3" /> Health Score</TabsTrigger>
               <TabsTrigger value="pessoal" className="text-xs font-body gap-1"><User className="h-3 w-3" /> Pessoal</TabsTrigger>
               <TabsTrigger value="renda" className="text-xs font-body gap-1"><DollarSign className="h-3 w-3" /> Renda</TabsTrigger>
               <TabsTrigger value="moradia" className="text-xs font-body gap-1"><Home className="h-3 w-3" /> Moradia</TabsTrigger>
@@ -133,6 +172,21 @@ const AdminClientDetail = () => {
               <TabsTrigger value="dre" className="text-xs font-body gap-1"><BarChart3 className="h-3 w-3" /> DRE</TabsTrigger>
               <TabsTrigger value="docs" className="text-xs font-body gap-1"><FileText className="h-3 w-3" /> Documentos</TabsTrigger>
             </TabsList>
+
+            {/* Health Score */}
+            <TabsContent value="score" className="mt-4">
+              {healthScore ? (
+                <HealthScoreBadge score={healthScore} showBreakdown />
+              ) : (
+                <Card className="border-border">
+                  <CardContent className="p-8 text-center">
+                    <p className="text-muted-foreground font-body text-sm">
+                      Dados insuficientes para calcular o Health Score. O cliente precisa concluir o onboarding e registrar lançamentos.
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </TabsContent>
 
             {/* Pessoal */}
             <TabsContent value="pessoal" className="mt-4">
@@ -310,7 +364,14 @@ const AdminClientDetail = () => {
 
             {/* DRE */}
             <TabsContent value="dre" className="mt-4">
-              <DREReport entries={entries} />
+              <DREReport
+                entries={entries}
+                liquidezTotal={onboarding ? calcPatrimonio(onboarding, debts).liquidez_alta : 0}
+                passivosTotal={onboarding ? calcPatrimonio(onboarding, debts).passivos.total : 0}
+                ativosTotal={onboarding ? calcPatrimonio(onboarding, debts).liquidez.total + calcPatrimonio(onboarding, debts).imobilizado.total : 0}
+                rendaLiquida={onboarding ? getRendaLiquida(onboarding) : 0}
+                parcelasDividas={getParcelasDividas(debts)}
+              />
             </TabsContent>
 
             {/* Documentos */}

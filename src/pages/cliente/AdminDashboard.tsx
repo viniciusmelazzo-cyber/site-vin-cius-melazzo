@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -16,9 +16,12 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Users, Search, Eye, X, DollarSign, FileText, AlertTriangle, Mail, Copy, Plus,
+  Users, Search, Eye, X, DollarSign, FileText, AlertTriangle, Mail, Copy, Plus, Activity,
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { calculateHealthScore, getScoreColor, getScoreLabel, type HealthScoreBreakdown } from "@/lib/health-score";
+import { calcPatrimonio, getRendaLiquida } from "@/lib/onboarding-finance";
+import HealthScoreBadge from "@/components/dashboard/HealthScoreBadge";
 
 const AdminDashboard = () => {
   const { user, session } = useAuth();
@@ -26,6 +29,7 @@ const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("clientes");
   const [search, setSearch] = useState("");
   const [clients, setClients] = useState<any[]>([]);
+  const [clientScores, setClientScores] = useState<Record<string, HealthScoreBreakdown>>({});
   const [selectedClient, setSelectedClient] = useState<any | null>(null);
   const [clientOnboarding, setClientOnboarding] = useState<any | null>(null);
   const [clientEntries, setClientEntries] = useState<any[]>([]);
@@ -43,8 +47,50 @@ const AdminDashboard = () => {
   }, []);
 
   const fetchClients = async () => {
-    const { data } = await supabase.from("profiles").select("*").order("created_at", { ascending: false });
-    setClients(data || []);
+    const [{ data: profiles }, { data: allOnboarding }, { data: allEntries }, { data: allDebts }] = await Promise.all([
+      supabase.from("profiles").select("*").order("created_at", { ascending: false }),
+      supabase.from("onboarding_data").select("*"),
+      supabase.from("financial_entries").select("*"),
+      supabase.from("client_debts").select("*"),
+    ]);
+    setClients(profiles || []);
+
+    // Calculate health scores for each client
+    const scores: Record<string, HealthScoreBreakdown> = {};
+    (profiles || []).forEach((client) => {
+      const onb = (allOnboarding || []).find((o: any) => o.user_id === client.id);
+      if (!onb) return;
+      const clientEntries = (allEntries || []).filter((e: any) => e.user_id === client.id);
+      const clientDebts = (allDebts || []).filter((d: any) => d.user_id === client.id);
+      const patrimonio = calcPatrimonio(onb, clientDebts);
+      const rendaLiquida = getRendaLiquida(onb);
+
+      // Current month entries
+      const now = new Date();
+      const curMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+      const monthEntries = clientEntries.filter((e: any) => {
+        const d = new Date(e.date);
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}` === curMonth;
+      });
+
+      const totalReceitas = monthEntries.filter((e: any) => e.type === "receita").reduce((s: number, e: any) => s + Number(e.amount), 0);
+      const totalDespesas = monthEntries.filter((e: any) => e.type === "despesa").reduce((s: number, e: any) => s + Number(e.amount), 0);
+      const DESP_FIXA_CATS = ["Moradia", "Transporte", "Saúde", "Educação", "Cartão de Crédito"];
+      const despFixas = monthEntries
+        .filter((e: any) => e.type === "despesa" && DESP_FIXA_CATS.includes(e.category))
+        .reduce((s: number, e: any) => s + Number(e.amount), 0);
+
+      scores[client.id] = calculateHealthScore({
+        despesasFixas: despFixas,
+        rendaLiquida,
+        resultadoLiquido: totalReceitas - totalDespesas,
+        totalReceitas,
+        liquidezAlta: patrimonio.liquidez_alta,
+        passivosTotal: patrimonio.passivos.total,
+        ativosTotal: patrimonio.liquidez.total + patrimonio.imobilizado.total,
+      });
+    });
+    setClientScores(scores);
   };
 
   const fetchInvites = async () => {
@@ -100,6 +146,10 @@ const AdminDashboard = () => {
   const totalClients = clients.length;
   const completedOnboarding = clients.filter((c) => c.onboarding_completed).length;
   const pendingInvites = invites.filter((i: any) => i.status === "pending").length;
+  const clientsAtRisk = Object.values(clientScores).filter((s) => s.total < 50).length;
+  const avgScore = Object.values(clientScores).length > 0
+    ? Math.round(Object.values(clientScores).reduce((s, sc) => s + sc.total, 0) / Object.values(clientScores).length)
+    : 0;
 
   const clientReceitas = clientEntries.filter((e) => e.type === "receita").reduce((s, e) => s + Number(e.amount), 0);
   const clientDespesas = clientEntries.filter((e) => e.type === "despesa").reduce((s, e) => s + Number(e.amount), 0);
@@ -149,10 +199,11 @@ const AdminDashboard = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { label: "Clientes Ativos", value: String(totalClients), icon: Users },
-            { label: "Onboarding Completo", value: String(completedOnboarding), icon: DollarSign },
+            { label: "Score Médio", value: avgScore > 0 ? String(avgScore) : "—", icon: Activity },
+            { label: "Em Risco (< 50)", value: String(clientsAtRisk), icon: AlertTriangle },
             { label: "Convites Pendentes", value: String(pendingInvites), icon: Mail },
           ].map((s) => (
             <Card key={s.label} className="border-border shadow-sm">
@@ -197,33 +248,42 @@ const AdminDashboard = () => {
                     <TableHeader>
                       <TableRow>
                         <TableHead className="font-body text-xs">Nome</TableHead>
-                        <TableHead className="font-body text-xs">Empresa</TableHead>
                         <TableHead className="font-body text-xs">Setor</TableHead>
+                        <TableHead className="font-body text-xs">Score</TableHead>
                         <TableHead className="font-body text-xs">Status</TableHead>
                         <TableHead className="font-body text-xs w-12"></TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filtered.map((client) => (
-                        <TableRow key={client.id} className="cursor-pointer hover:bg-secondary/50">
-                          <TableCell className="font-body text-sm font-medium">{client.full_name || "—"}</TableCell>
-                          <TableCell className="font-body text-sm">{client.company_name || "—"}</TableCell>
-                          <TableCell className="font-body text-sm capitalize">{client.sector || "—"}</TableCell>
-                          <TableCell>
-                            <Badge
-                              variant={client.onboarding_completed ? "default" : "secondary"}
-                              className="font-body text-[10px]"
-                            >
-                              {client.onboarding_completed ? "Completo" : "Pendente"}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <Button variant="ghost" size="icon" onClick={() => handleSelectClient(client)}>
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                      {filtered.map((client) => {
+                        const score = clientScores[client.id];
+                        return (
+                          <TableRow key={client.id} className="cursor-pointer hover:bg-secondary/50" onClick={() => handleSelectClient(client)}>
+                            <TableCell className="font-body text-sm font-medium">{client.full_name || "—"}</TableCell>
+                            <TableCell className="font-body text-sm capitalize">{client.sector || "—"}</TableCell>
+                            <TableCell>
+                              {score ? (
+                                <HealthScoreBadge score={score} size="sm" />
+                              ) : (
+                                <span className="text-xs text-muted-foreground font-body">—</span>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              <Badge
+                                variant={client.onboarding_completed ? "default" : "secondary"}
+                                className="font-body text-[10px]"
+                              >
+                                {client.onboarding_completed ? "Completo" : "Pendente"}
+                              </Badge>
+                            </TableCell>
+                            <TableCell>
+                              <Button variant="ghost" size="icon" onClick={() => handleSelectClient(client)}>
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                       {filtered.length === 0 && (
                         <TableRow>
                           <TableCell colSpan={5} className="text-center py-8 text-muted-foreground font-body text-sm">
