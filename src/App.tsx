@@ -10,6 +10,8 @@ import ManualCreditoRural from "./pages/ManualCreditoRural.tsx";
 import Privacidade from "./pages/Privacidade.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Login from "./pages/cliente/Login.tsx";
+import ForgotPassword from "./pages/cliente/ForgotPassword.tsx";
+import ResetPassword from "./pages/cliente/ResetPassword.tsx";
 import Onboarding from "./pages/cliente/Onboarding.tsx";
 import ClientDashboard from "./pages/cliente/ClientDashboard.tsx";
 import Lancamentos from "./pages/cliente/Lancamentos.tsx";
