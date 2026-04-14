@@ -364,7 +364,14 @@ const AdminClientDetail = () => {
 
             {/* DRE */}
             <TabsContent value="dre" className="mt-4">
-              <DREReport entries={entries} />
+              <DREReport
+                entries={entries}
+                liquidezTotal={onboarding ? calcPatrimonio(onboarding, debts).liquidez_alta : 0}
+                passivosTotal={onboarding ? calcPatrimonio(onboarding, debts).passivos.total : 0}
+                ativosTotal={onboarding ? calcPatrimonio(onboarding, debts).liquidez.total + calcPatrimonio(onboarding, debts).imobilizado.total : 0}
+                rendaLiquida={onboarding ? getRendaLiquida(onboarding) : 0}
+                parcelasDividas={getParcelasDividas(debts)}
+              />
             </TabsContent>
 
             {/* Documentos */}
