@@ -26,6 +26,8 @@ const AdminClientDetail = () => {
   const [docs, setDocs] = useState<any[]>([]);
   const [debts, setDebts] = useState<any[]>([]);
   const [healthScore, setHealthScore] = useState<HealthScoreBreakdown | null>(null);
+  const [budgets, setBudgets] = useState<any[]>([]);
+  const [snapshots, setSnapshots] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
