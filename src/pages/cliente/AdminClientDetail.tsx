@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  ArrowLeft, User, DollarSign, Home, ShoppingCart, Briefcase, PiggyBank, CreditCard, FileText, BarChart3, Activity, MessageSquare, LineChart,
+  ArrowLeft, User, DollarSign, Home, ShoppingCart, Briefcase, PiggyBank, CreditCard, FileText, BarChart3, Activity, MessageSquare, LineChart, FileDown,
 } from "lucide-react";
 import DREReport from "@/components/DREReport";
 import HealthScoreBadge from "@/components/dashboard/HealthScoreBadge";
@@ -15,6 +15,7 @@ import ConsultantNotes from "@/components/dashboard/ConsultantNotes";
 import EvolutionTimeline from "@/components/dashboard/EvolutionTimeline";
 import { calculateHealthScore, type HealthScoreBreakdown } from "@/lib/health-score";
 import { calcPatrimonio, getRendaLiquida, getParcelasDividas } from "@/lib/onboarding-finance";
+import { generateFinancialReport } from "@/lib/generate-report";
 
 const AdminClientDetail = () => {
   const { clientId } = useParams<{ clientId: string }>();
