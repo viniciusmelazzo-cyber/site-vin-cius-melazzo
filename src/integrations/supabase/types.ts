@@ -259,6 +259,9 @@ export type Database = {
           date: string
           description: string
           id: string
+          installment_current: number | null
+          installment_group_id: string | null
+          installment_total: number | null
           type: string
           user_id: string
         }
@@ -269,6 +272,9 @@ export type Database = {
           date?: string
           description?: string
           id?: string
+          installment_current?: number | null
+          installment_group_id?: string | null
+          installment_total?: number | null
           type: string
           user_id: string
         }
@@ -279,6 +285,9 @@ export type Database = {
           date?: string
           description?: string
           id?: string
+          installment_current?: number | null
+          installment_group_id?: string | null
+          installment_total?: number | null
           type?: string
           user_id?: string
         }
