@@ -20,14 +20,26 @@ Deno.serve(async (req) => {
     // Verify caller is admin (except for seed action with a special key)
     const authHeader = req.headers.get("Authorization");
     if (action !== "seed" && action !== "register_with_invite") {
-      if (!authHeader) throw new Error("Não autenticado");
+      if (!authHeader) {
+        return new Response(JSON.stringify({ error: "Não autenticado" }), {
+          status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
       const token = authHeader.replace("Bearer ", "");
-      const { data: { user: caller } } = await supabase.auth.getUser(token);
-      if (!caller) throw new Error("Usuário inválido");
+      const { data: { user: caller }, error: authError } = await supabase.auth.getUser(token);
+      if (authError || !caller) {
+        return new Response(JSON.stringify({ error: "Sessão expirada. Faça login novamente." }), {
+          status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
       
       const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", caller.id);
       const isAdmin = roles?.some((r: any) => r.role === "admin");
-      if (!isAdmin) throw new Error("Acesso negado: apenas administradores");
+      if (!isAdmin) {
+        return new Response(JSON.stringify({ error: "Acesso negado: apenas administradores" }), {
+          status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
     }
 
     if (action === "seed" || action === "create_user") {
