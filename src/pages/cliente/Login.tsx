@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -13,7 +13,7 @@ import logoVM from "@/assets/logo-vm.webp";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { profile, isAdmin } = useAuth();
+  const { user, loading: authLoading, profile: authProfile, isAdmin } = useAuth();
   const [searchParams] = useSearchParams();
   const inviteToken = searchParams.get("invite");
 
@@ -24,6 +24,21 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  // After Google OAuth redirect, detect authenticated user and redirect to dashboard
+  useEffect(() => {
+    if (authLoading) return;
+    if (!user) return;
+    // User is authenticated (e.g. after OAuth callback) — redirect
+    const doRedirect = async () => {
+      const [rolesRes, profileRes] = await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", user.id),
+        supabase.from("profiles").select("onboarding_completed").eq("id", user.id).single(),
+      ]);
+      redirectAfterAuth(rolesRes.data, profileRes.data?.onboarding_completed ?? false);
+    };
+    doRedirect();
+  }, [user, authLoading]);
 
   const redirectAfterAuth = (roles: any[] | null, onboardingDone?: boolean) => {
     const admin = roles?.some((r: any) => r.role === "admin");
@@ -40,7 +55,7 @@ const Login = () => {
     setGoogleLoading(true);
     try {
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: window.location.origin + "/cliente/login",
       });
 
       if (result.error) {
