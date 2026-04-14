@@ -5,12 +5,13 @@ import { useAuth } from "@/hooks/useAuth";
 import ClientLayout from "@/components/ClientLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { DollarSign, TrendingUp, TrendingDown, PlusCircle, Upload, ChevronLeft, ChevronRight } from "lucide-react";
+import { DollarSign, TrendingUp, TrendingDown, PlusCircle, Upload, ChevronLeft, ChevronRight, FileDown } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import DREReport from "@/components/DREReport";
 import TemporalVision from "@/components/dashboard/TemporalVision";
 import EvolutionTimeline from "@/components/dashboard/EvolutionTimeline";
 import { calcPatrimonio, getRendaLiquida, getParcelasDividas } from "@/lib/onboarding-finance";
+import { generateFinancialReport } from "@/lib/generate-report";
 
 const ClientDashboard = () => {
   const { user, profile } = useAuth();
