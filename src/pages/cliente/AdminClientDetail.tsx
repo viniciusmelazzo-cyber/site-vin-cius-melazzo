@@ -160,7 +160,7 @@ const AdminClientDetail = () => {
             </CardContent>
           </Card>
         ) : (
-          <Tabs defaultValue="pessoal" className="w-full">
+          <Tabs defaultValue="score" className="w-full">
             <TabsList className="flex flex-wrap h-auto gap-1">
               <TabsTrigger value="score" className="text-xs font-body gap-1"><Activity className="h-3 w-3" /> Health Score</TabsTrigger>
               <TabsTrigger value="pessoal" className="text-xs font-body gap-1"><User className="h-3 w-3" /> Pessoal</TabsTrigger>
