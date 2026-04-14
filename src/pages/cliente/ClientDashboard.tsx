@@ -9,11 +9,16 @@ import { DollarSign, TrendingUp, TrendingDown, PlusCircle, Upload, ChevronLeft, 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import DREReport from "@/components/DREReport";
 import TemporalVision from "@/components/dashboard/TemporalVision";
+import { calcPatrimonio, getRendaLiquida, getParcelasDividas } from "@/lib/onboarding-finance";
 
 const ClientDashboard = () => {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
   const [entries, setEntries] = useState<any[]>([]);
+  const [onboardingFinance, setOnboardingFinance] = useState<{
+    liquidezTotal: number; passivosTotal: number; ativosTotal: number;
+    rendaLiquida: number; parcelasDividas: number;
+  }>({ liquidezTotal: 0, passivosTotal: 0, ativosTotal: 0, rendaLiquida: 0, parcelasDividas: 0 });
   const [selectedMonth, setSelectedMonth] = useState(() => {
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
@@ -27,12 +32,24 @@ const ClientDashboard = () => {
 
   useEffect(() => {
     if (!user) return;
-    supabase
-      .from("financial_entries")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("date", { ascending: false })
-      .then(({ data }) => setEntries(data || []));
+    // Load entries and onboarding data in parallel
+    Promise.all([
+      supabase.from("financial_entries").select("*").eq("user_id", user.id).order("date", { ascending: false }),
+      supabase.from("onboarding_data").select("*").eq("user_id", user.id).single(),
+      supabase.from("client_debts").select("*").eq("user_id", user.id),
+    ]).then(([entriesRes, onbRes, debtsRes]) => {
+      setEntries(entriesRes.data || []);
+      if (onbRes.data) {
+        const p = calcPatrimonio(onbRes.data, debtsRes.data || []);
+        setOnboardingFinance({
+          liquidezTotal: p.liquidez_alta,
+          passivosTotal: p.passivos.total,
+          ativosTotal: p.liquidez.total + p.imobilizado.total,
+          rendaLiquida: getRendaLiquida(onbRes.data),
+          parcelasDividas: getParcelasDividas(debtsRes.data || []),
+        });
+      }
+    });
   }, [user]);
 
   const availableMonths = useMemo(() => {
