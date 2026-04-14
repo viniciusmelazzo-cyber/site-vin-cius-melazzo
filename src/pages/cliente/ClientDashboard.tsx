@@ -9,12 +9,15 @@ import { DollarSign, TrendingUp, TrendingDown, PlusCircle, Upload, ChevronLeft, 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import DREReport from "@/components/DREReport";
 import TemporalVision from "@/components/dashboard/TemporalVision";
+import EvolutionTimeline from "@/components/dashboard/EvolutionTimeline";
 import { calcPatrimonio, getRendaLiquida, getParcelasDividas } from "@/lib/onboarding-finance";
 
 const ClientDashboard = () => {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
   const [entries, setEntries] = useState<any[]>([]);
+  const [onboardingData, setOnboardingData] = useState<any>(null);
+  const [debtsData, setDebtsData] = useState<any[]>([]);
   const [onboardingFinance, setOnboardingFinance] = useState<{
     liquidezTotal: number; passivosTotal: number; ativosTotal: number;
     rendaLiquida: number; parcelasDividas: number;
@@ -39,6 +42,8 @@ const ClientDashboard = () => {
       supabase.from("client_debts").select("*").eq("user_id", user.id),
     ]).then(([entriesRes, onbRes, debtsRes]) => {
       setEntries(entriesRes.data || []);
+      setOnboardingData(onbRes.data);
+      setDebtsData(debtsRes.data || []);
       if (onbRes.data) {
         const p = calcPatrimonio(onbRes.data, debtsRes.data || []);
         setOnboardingFinance({
@@ -160,6 +165,17 @@ const ClientDashboard = () => {
               </div>
             </CardContent>
           </Card>
+        )}
+
+        {/* Evolution Timeline */}
+        {user && onboardingData && (
+          <EvolutionTimeline
+            userId={user.id}
+            entries={entries}
+            onboardingData={onboardingData}
+            debts={debtsData}
+            canSaveSnapshot
+          />
         )}
 
         {/* DRE */}
