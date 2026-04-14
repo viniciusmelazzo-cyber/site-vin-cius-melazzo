@@ -26,14 +26,6 @@ const HeroSection = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-primary-foreground order-2 lg:order-1">
             
-            <motion.img
-              src={logoVM}
-              alt=""
-              aria-hidden="true"
-              className="w-16 h-16 mb-6 object-contain"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.6 }} />
 
             <div className="mb-4">
               <span className="text-gold font-body text-xs tracking-[0.35em] uppercase font-semibold">
