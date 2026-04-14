@@ -41,10 +41,14 @@ const ClientDashboard = () => {
       supabase.from("financial_entries").select("*").eq("user_id", user.id).order("date", { ascending: false }),
       supabase.from("onboarding_data").select("*").eq("user_id", user.id).single(),
       supabase.from("client_debts").select("*").eq("user_id", user.id),
-    ]).then(([entriesRes, onbRes, debtsRes]) => {
+      supabase.from("budgets").select("*").eq("user_id", user.id),
+      supabase.from("client_monthly_snapshots").select("*").eq("user_id", user.id).order("month", { ascending: true }),
+    ]).then(([entriesRes, onbRes, debtsRes, budgetsRes, snapshotsRes]) => {
       setEntries(entriesRes.data || []);
       setOnboardingData(onbRes.data);
       setDebtsData(debtsRes.data || []);
+      setBudgets(budgetsRes.data || []);
+      setSnapshots(snapshotsRes.data || []);
       if (onbRes.data) {
         const p = calcPatrimonio(onbRes.data, debtsRes.data || []);
         setOnboardingFinance({
