@@ -88,9 +88,12 @@ const ClientDashboard = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-display font-bold text-foreground">Dashboard</h1>
-            <p className="text-muted-foreground font-body text-sm mt-1">Resumo financeiro mensal</p>
+            <p className="text-muted-foreground font-body text-sm mt-1">Resumo financeiro</p>
           </div>
         </div>
+
+        {/* Temporal Vision - Period Selector & Trend Chart */}
+        <TemporalVision entries={entries} selectedMonth={selectedMonth} />
 
         {/* Month Navigation */}
         <div className="flex items-center justify-center gap-4">
