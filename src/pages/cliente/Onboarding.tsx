@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -23,10 +23,46 @@ const TOTAL_STEPS = 8; // 0=welcome, 1-6=steps, 7=summary
 
 const Onboarding = () => {
   const navigate = useNavigate();
-  const { user, refreshProfile } = useAuth();
+  const { user, refreshProfile, profile } = useAuth();
   const [step, setStep] = useState(0);
   const [saving, setSaving] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false);
   const [data, setData] = useState<OnboardingData>(defaultOnboardingData);
+
+  // Redirect if onboarding already completed
+  useEffect(() => {
+    if (profile?.onboarding_completed) {
+      navigate("/cliente/dashboard", { replace: true });
+    }
+  }, [profile, navigate]);
+
+  // Load existing onboarding data from DB
+  useEffect(() => {
+    if (!user || dataLoaded) return;
+    const loadExisting = async () => {
+      const { data: existing } = await supabase
+        .from("onboarding_data")
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (existing) {
+        setData({
+          personal_data: (existing.personal_data as any) || {},
+          activity_type: existing.activity_type || "",
+          income_data: (existing.income_data as any) || {},
+          housing_data: (existing.housing_data as any) || {},
+          expenses_data: (existing.expenses_data as any) || {},
+          assets_liabilities_data: (existing.assets_liabilities_data as any) || {},
+          profile_module_data: (existing.profile_module_data as any) || {},
+        });
+        if (existing.onboarding_step && existing.onboarding_step > 0) {
+          setStep(existing.onboarding_step);
+        }
+      }
+      setDataLoaded(true);
+    };
+    loadExisting();
+  }, [user, dataLoaded]);
 
   const updateData = (partial: Partial<OnboardingData>) => {
     setData((prev) => {
