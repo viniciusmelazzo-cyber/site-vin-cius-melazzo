@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  ArrowLeft, User, DollarSign, Home, ShoppingCart, Briefcase, PiggyBank, CreditCard, FileText, BarChart3, Activity, MessageSquare, LineChart,
+  ArrowLeft, User, DollarSign, Home, ShoppingCart, Briefcase, PiggyBank, CreditCard, FileText, BarChart3, Activity, MessageSquare, LineChart, FileDown,
 } from "lucide-react";
 import DREReport from "@/components/DREReport";
 import HealthScoreBadge from "@/components/dashboard/HealthScoreBadge";
@@ -15,6 +15,7 @@ import ConsultantNotes from "@/components/dashboard/ConsultantNotes";
 import EvolutionTimeline from "@/components/dashboard/EvolutionTimeline";
 import { calculateHealthScore, type HealthScoreBreakdown } from "@/lib/health-score";
 import { calcPatrimonio, getRendaLiquida, getParcelasDividas } from "@/lib/onboarding-finance";
+import { generateFinancialReport } from "@/lib/generate-report";
 
 const AdminClientDetail = () => {
   const { clientId } = useParams<{ clientId: string }>();
@@ -25,23 +26,29 @@ const AdminClientDetail = () => {
   const [docs, setDocs] = useState<any[]>([]);
   const [debts, setDebts] = useState<any[]>([]);
   const [healthScore, setHealthScore] = useState<HealthScoreBreakdown | null>(null);
+  const [budgets, setBudgets] = useState<any[]>([]);
+  const [snapshots, setSnapshots] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!clientId) return;
     const fetchData = async () => {
-      const [profileRes, onbRes, entriesRes, docsRes, debtsRes] = await Promise.all([
+      const [profileRes, onbRes, entriesRes, docsRes, debtsRes, budgetsRes, snapshotsRes] = await Promise.all([
         supabase.from("profiles").select("*").eq("id", clientId).single(),
         supabase.from("onboarding_data").select("*").eq("user_id", clientId).single(),
         supabase.from("financial_entries").select("*").eq("user_id", clientId).order("date", { ascending: false }),
         supabase.from("client_documents").select("*").eq("user_id", clientId),
         supabase.from("client_debts").select("*").eq("user_id", clientId),
+        supabase.from("budgets").select("*").eq("user_id", clientId),
+        supabase.from("client_monthly_snapshots").select("*").eq("user_id", clientId).order("month", { ascending: true }),
       ]);
       setClient(profileRes.data);
       setOnboarding(onbRes.data);
       setEntries(entriesRes.data || []);
       setDocs(docsRes.data || []);
       setDebts(debtsRes.data || []);
+      setBudgets(budgetsRes.data || []);
+      setSnapshots(snapshotsRes.data || []);
 
       // Calculate health score
       if (onbRes.data) {
@@ -128,6 +135,26 @@ const AdminClientDetail = () => {
             </p>
           </div>
           {healthScore && <HealthScoreBadge score={healthScore} size="md" />}
+          <Button
+            variant="outline"
+            size="sm"
+            className="font-body gap-2 text-xs"
+            onClick={() => {
+              const now = new Date();
+              const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+              generateFinancialReport({
+                clientName: client.full_name || "Cliente",
+                month,
+                entries,
+                onboarding,
+                debts,
+                budgets,
+                snapshots,
+              });
+            }}
+          >
+            <FileDown className="h-3.5 w-3.5" /> Exportar PDF
+          </Button>
           <Badge variant={client.onboarding_completed ? "default" : "secondary"} className="font-body">
             {client.onboarding_completed ? "Onboarding Completo" : "Onboarding Pendente"}
           </Badge>

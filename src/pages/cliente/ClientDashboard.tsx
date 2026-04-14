@@ -5,12 +5,13 @@ import { useAuth } from "@/hooks/useAuth";
 import ClientLayout from "@/components/ClientLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { DollarSign, TrendingUp, TrendingDown, PlusCircle, Upload, ChevronLeft, ChevronRight } from "lucide-react";
+import { DollarSign, TrendingUp, TrendingDown, PlusCircle, Upload, ChevronLeft, ChevronRight, FileDown } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import DREReport from "@/components/DREReport";
 import TemporalVision from "@/components/dashboard/TemporalVision";
 import EvolutionTimeline from "@/components/dashboard/EvolutionTimeline";
 import { calcPatrimonio, getRendaLiquida, getParcelasDividas } from "@/lib/onboarding-finance";
+import { generateFinancialReport } from "@/lib/generate-report";
 
 const ClientDashboard = () => {
   const { user, profile } = useAuth();
@@ -18,6 +19,8 @@ const ClientDashboard = () => {
   const [entries, setEntries] = useState<any[]>([]);
   const [onboardingData, setOnboardingData] = useState<any>(null);
   const [debtsData, setDebtsData] = useState<any[]>([]);
+  const [budgets, setBudgets] = useState<any[]>([]);
+  const [snapshots, setSnapshots] = useState<any[]>([]);
   const [onboardingFinance, setOnboardingFinance] = useState<{
     liquidezTotal: number; passivosTotal: number; ativosTotal: number;
     rendaLiquida: number; parcelasDividas: number;
@@ -40,10 +43,14 @@ const ClientDashboard = () => {
       supabase.from("financial_entries").select("*").eq("user_id", user.id).order("date", { ascending: false }),
       supabase.from("onboarding_data").select("*").eq("user_id", user.id).single(),
       supabase.from("client_debts").select("*").eq("user_id", user.id),
-    ]).then(([entriesRes, onbRes, debtsRes]) => {
+      supabase.from("budgets").select("*").eq("user_id", user.id),
+      supabase.from("client_monthly_snapshots").select("*").eq("user_id", user.id).order("month", { ascending: true }),
+    ]).then(([entriesRes, onbRes, debtsRes, budgetsRes, snapshotsRes]) => {
       setEntries(entriesRes.data || []);
       setOnboardingData(onbRes.data);
       setDebtsData(debtsRes.data || []);
+      setBudgets(budgetsRes.data || []);
+      setSnapshots(snapshotsRes.data || []);
       if (onbRes.data) {
         const p = calcPatrimonio(onbRes.data, debtsRes.data || []);
         setOnboardingFinance({
@@ -207,6 +214,21 @@ const ClientDashboard = () => {
           </Button>
           <Button variant="outline" className="font-body gap-2" onClick={() => navigate("/cliente/documentos")}>
             <Upload className="h-4 w-4" /> Upload de Documento
+          </Button>
+          <Button
+            variant="outline"
+            className="font-body gap-2"
+            onClick={() => generateFinancialReport({
+              clientName: profile?.full_name || "Cliente",
+              month: selectedMonth,
+              entries,
+              onboarding: onboardingData,
+              debts: debtsData,
+              budgets,
+              snapshots,
+            })}
+          >
+            <FileDown className="h-4 w-4" /> Exportar Relatório PDF
           </Button>
         </div>
 
