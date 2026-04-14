@@ -146,6 +146,10 @@ const AdminDashboard = () => {
   const totalClients = clients.length;
   const completedOnboarding = clients.filter((c) => c.onboarding_completed).length;
   const pendingInvites = invites.filter((i: any) => i.status === "pending").length;
+  const clientsAtRisk = Object.values(clientScores).filter((s) => s.total < 50).length;
+  const avgScore = Object.values(clientScores).length > 0
+    ? Math.round(Object.values(clientScores).reduce((s, sc) => s + sc.total, 0) / Object.values(clientScores).length)
+    : 0;
 
   const clientReceitas = clientEntries.filter((e) => e.type === "receita").reduce((s, e) => s + Number(e.amount), 0);
   const clientDespesas = clientEntries.filter((e) => e.type === "despesa").reduce((s, e) => s + Number(e.amount), 0);
@@ -195,10 +199,11 @@ const AdminDashboard = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { label: "Clientes Ativos", value: String(totalClients), icon: Users },
-            { label: "Onboarding Completo", value: String(completedOnboarding), icon: DollarSign },
+            { label: "Score Médio", value: avgScore > 0 ? String(avgScore) : "—", icon: Activity },
+            { label: "Em Risco (< 50)", value: String(clientsAtRisk), icon: AlertTriangle },
             { label: "Convites Pendentes", value: String(pendingInvites), icon: Mail },
           ].map((s) => (
             <Card key={s.label} className="border-border shadow-sm">
