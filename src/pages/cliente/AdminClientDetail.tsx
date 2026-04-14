@@ -367,6 +367,19 @@ const AdminClientDetail = () => {
             </TabsContent>
 
             {/* DRE */}
+            {/* Timeline */}
+            <TabsContent value="timeline" className="mt-4">
+              {clientId && (
+                <EvolutionTimeline
+                  userId={clientId}
+                  entries={entries}
+                  onboardingData={onboarding}
+                  debts={debts}
+                  canSaveSnapshot
+                />
+              )}
+            </TabsContent>
+
             <TabsContent value="dre" className="mt-4">
               <DREReport
                 entries={entries}

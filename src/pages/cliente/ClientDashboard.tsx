@@ -9,6 +9,7 @@ import { DollarSign, TrendingUp, TrendingDown, PlusCircle, Upload, ChevronLeft, 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import DREReport from "@/components/DREReport";
 import TemporalVision from "@/components/dashboard/TemporalVision";
+import EvolutionTimeline from "@/components/dashboard/EvolutionTimeline";
 import { calcPatrimonio, getRendaLiquida, getParcelasDividas } from "@/lib/onboarding-finance";
 
 const ClientDashboard = () => {
