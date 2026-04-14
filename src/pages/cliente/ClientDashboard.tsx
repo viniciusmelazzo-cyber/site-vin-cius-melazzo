@@ -167,6 +167,17 @@ const ClientDashboard = () => {
           </Card>
         )}
 
+        {/* Evolution Timeline */}
+        {user && onboardingData && (
+          <EvolutionTimeline
+            userId={user.id}
+            entries={entries}
+            onboardingData={onboardingData}
+            debts={debtsData}
+            canSaveSnapshot
+          />
+        )}
+
         {/* DRE */}
         <DREReport
           entries={entries}
