@@ -249,8 +249,8 @@ export function generateFinancialReport(data: ReportData) {
         body: assetRows,
         margin: { left: margin, right: margin },
         styles: { fontSize: 8, font: "helvetica", cellPadding: 2 },
-        headStyles: { fillColor: [180, 155, 90], textColor: [255, 255, 255], fontStyle: "bold" },
-        alternateRowStyles: { fillColor: [245, 245, 240] },
+        headStyles: { fillColor: [200, 162, 92], textColor: [255, 255, 255], fontStyle: "bold" },
+        alternateRowStyles: { fillColor: [245, 245, 230] },
         theme: "grid",
       });
       y = (doc as any).lastAutoTable.finalY + 8;
@@ -298,8 +298,8 @@ export function generateFinancialReport(data: ReportData) {
       ],
       margin: { left: margin, right: margin },
       styles: { fontSize: 8, font: "helvetica", cellPadding: 2 },
-      headStyles: { fillColor: [180, 155, 90], textColor: [255, 255, 255], fontStyle: "bold" },
-      alternateRowStyles: { fillColor: [245, 245, 240] },
+      headStyles: { fillColor: [200, 162, 92], textColor: [255, 255, 255], fontStyle: "bold" },
+      alternateRowStyles: { fillColor: [245, 245, 230] },
       theme: "grid",
     });
     y = (doc as any).lastAutoTable.finalY + 8;
@@ -324,8 +324,8 @@ export function generateFinancialReport(data: ReportData) {
       body: budgetRows,
       margin: { left: margin, right: margin },
       styles: { fontSize: 8, font: "helvetica", cellPadding: 2 },
-      headStyles: { fillColor: [180, 155, 90], textColor: [255, 255, 255], fontStyle: "bold" },
-      alternateRowStyles: { fillColor: [245, 245, 240] },
+      headStyles: { fillColor: [200, 162, 92], textColor: [255, 255, 255], fontStyle: "bold" },
+      alternateRowStyles: { fillColor: [245, 245, 230] },
       theme: "grid",
     });
     y = (doc as any).lastAutoTable.finalY + 8;
@@ -357,8 +357,8 @@ export function generateFinancialReport(data: ReportData) {
       body: parcRows,
       margin: { left: margin, right: margin },
       styles: { fontSize: 8, font: "helvetica", cellPadding: 2 },
-      headStyles: { fillColor: [180, 155, 90], textColor: [255, 255, 255], fontStyle: "bold" },
-      alternateRowStyles: { fillColor: [245, 245, 240] },
+      headStyles: { fillColor: [200, 162, 92], textColor: [255, 255, 255], fontStyle: "bold" },
+      alternateRowStyles: { fillColor: [245, 245, 230] },
       theme: "grid",
     });
     y = (doc as any).lastAutoTable.finalY + 8;
@@ -380,8 +380,8 @@ export function generateFinancialReport(data: ReportData) {
       body: snapRows,
       margin: { left: margin, right: margin },
       styles: { fontSize: 7, font: "helvetica", cellPadding: 2 },
-      headStyles: { fillColor: [180, 155, 90], textColor: [255, 255, 255], fontStyle: "bold" },
-      alternateRowStyles: { fillColor: [245, 245, 240] },
+      headStyles: { fillColor: [200, 162, 92], textColor: [255, 255, 255], fontStyle: "bold" },
+      alternateRowStyles: { fillColor: [245, 245, 230] },
       theme: "grid",
     });
     y = (doc as any).lastAutoTable.finalY + 8;
