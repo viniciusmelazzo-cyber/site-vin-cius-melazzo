@@ -195,9 +195,9 @@ const ClientDashboard = () => {
                     >
                       <span className="font-body text-sm font-medium capitalize">{label}</span>
                       <div className="flex gap-4 text-xs font-body">
-                        <span className="text-green-700">+{fmt(rec)}</span>
-                        <span className="text-destructive">−{fmt(desp)}</span>
-                        <span className={`font-semibold ${rec - desp >= 0 ? "text-green-700" : "text-destructive"}`}>
+                        <span className="text-finance-positive">+{fmt(rec)}</span>
+                        <span className="text-finance-negative">−{fmt(desp)}</span>
+                        <span className={`font-semibold ${rec - desp >= 0 ? "text-finance-positive" : "text-finance-negative"}`}>
                           {fmt(rec - desp)}
                         </span>
                       </div>
