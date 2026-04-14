@@ -25,6 +25,21 @@ const Login = () => {
 
   const [googleLoading, setGoogleLoading] = useState(false);
 
+  // After Google OAuth redirect, detect authenticated user and redirect to dashboard
+  useEffect(() => {
+    if (loading) return;
+    if (!user) return;
+    // User is authenticated (e.g. after OAuth callback) — redirect
+    const doRedirect = async () => {
+      const [rolesRes, profileRes] = await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", user.id),
+        supabase.from("profiles").select("onboarding_completed").eq("id", user.id).single(),
+      ]);
+      redirectAfterAuth(rolesRes.data, profileRes.data?.onboarding_completed ?? false);
+    };
+    doRedirect();
+  }, [user, loading]);
+
   const redirectAfterAuth = (roles: any[] | null, onboardingDone?: boolean) => {
     const admin = roles?.some((r: any) => r.role === "admin");
     if (admin) {
@@ -40,7 +55,7 @@ const Login = () => {
     setGoogleLoading(true);
     try {
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: window.location.origin + "/cliente/login",
       });
 
       if (result.error) {
