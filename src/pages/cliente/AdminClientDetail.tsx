@@ -33,18 +33,22 @@ const AdminClientDetail = () => {
   useEffect(() => {
     if (!clientId) return;
     const fetchData = async () => {
-      const [profileRes, onbRes, entriesRes, docsRes, debtsRes] = await Promise.all([
+      const [profileRes, onbRes, entriesRes, docsRes, debtsRes, budgetsRes, snapshotsRes] = await Promise.all([
         supabase.from("profiles").select("*").eq("id", clientId).single(),
         supabase.from("onboarding_data").select("*").eq("user_id", clientId).single(),
         supabase.from("financial_entries").select("*").eq("user_id", clientId).order("date", { ascending: false }),
         supabase.from("client_documents").select("*").eq("user_id", clientId),
         supabase.from("client_debts").select("*").eq("user_id", clientId),
+        supabase.from("budgets").select("*").eq("user_id", clientId),
+        supabase.from("client_monthly_snapshots").select("*").eq("user_id", clientId).order("month", { ascending: true }),
       ]);
       setClient(profileRes.data);
       setOnboarding(onbRes.data);
       setEntries(entriesRes.data || []);
       setDocs(docsRes.data || []);
       setDebts(debtsRes.data || []);
+      setBudgets(budgetsRes.data || []);
+      setSnapshots(snapshotsRes.data || []);
 
       // Calculate health score
       if (onbRes.data) {
