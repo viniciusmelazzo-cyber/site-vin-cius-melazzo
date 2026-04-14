@@ -2,6 +2,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { calculateHealthScore, getScoreLabel } from "@/lib/health-score";
 import { calcPatrimonio, getRendaLiquida, getParcelasDividas, type PatrimonioBreakdown } from "@/lib/onboarding-finance";
+import { LOGO_BASE64 } from "@/lib/logo-base64";
 
 const fmt = (v: number) =>
   v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -25,9 +26,12 @@ export function generateFinancialReport(data: ReportData) {
   const contentW = pageW - margin * 2;
   let y = 0;
 
-  const gold = [180, 155, 90] as const;
-  const dark = [26, 26, 26] as const;
-  const gray = [120, 120, 120] as const;
+  // Brand colors — Melazzo palette
+  const navy = [10, 25, 47] as const;      // #0A192F
+  const gold = [200, 162, 92] as const;     // #C8A25C
+  const graphite = [54, 69, 79] as const;   // #36454F
+  const linen = [245, 245, 220] as const;   // #F5F5DC
+  const agro = [0, 75, 73] as const;        // #004B49
   const green = [46, 125, 50] as const;
   const red = [198, 40, 40] as const;
 
@@ -40,62 +44,90 @@ export function generateFinancialReport(data: ReportData) {
 
   const sectionTitle = (title: string) => {
     checkPage(15);
-    doc.setFillColor(...gold);
+    doc.setFillColor(...navy);
     doc.rect(margin, y, contentW, 8, "F");
+    // Gold accent bar on left
+    doc.setFillColor(...gold);
+    doc.rect(margin, y, 2, 8, "F");
     doc.setFontSize(11);
     doc.setTextColor(255, 255, 255);
     doc.setFont("helvetica", "bold");
-    doc.text(title, margin + 3, y + 5.5);
+    doc.text(title, margin + 5, y + 5.5);
     y += 12;
-    doc.setTextColor(...dark);
+    doc.setTextColor(...navy);
   };
 
   const labelValue = (label: string, value: string, indent = 0) => {
     checkPage(6);
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
-    doc.setTextColor(...gray);
+    doc.setTextColor(...graphite);
     doc.text(label, margin + indent, y);
-    doc.setTextColor(...dark);
+    doc.setTextColor(...navy);
     doc.setFont("helvetica", "bold");
     doc.text(value, pageW - margin, y, { align: "right" });
     y += 5;
   };
 
   // ========== COVER ==========
-  doc.setFillColor(...dark);
+  doc.setFillColor(...navy);
   doc.rect(0, 0, pageW, 297, "F");
 
+  // Gold accent lines
   doc.setFillColor(...gold);
-  doc.rect(margin, 40, contentW, 1.5, "F");
+  doc.rect(margin, 35, contentW, 1, "F");
+  doc.rect(margin, 37, contentW * 0.4, 0.5, "F");
 
-  doc.setFontSize(28);
+  // Logo
+  try {
+    doc.addImage(LOGO_BASE64, "PNG", pageW / 2 - 20, 50, 40, 40);
+  } catch { /* logo optional */ }
+
+  // Company name
+  doc.setFontSize(10);
+  doc.setTextColor(...gold);
+  doc.setFont("helvetica", "bold");
+  doc.text("MELAZZO CONSULTORIA", pageW / 2, 98, { align: "center" });
+  doc.setFontSize(7);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(180, 180, 180);
+  doc.text("Estratégia  •  Performance  •  Jurídico  •  Crédito", pageW / 2, 104, { align: "center" });
+
+  // Gold separator
+  doc.setFillColor(...gold);
+  doc.rect(pageW / 2 - 25, 110, 50, 0.5, "F");
+
+  // Report title
+  doc.setFontSize(26);
   doc.setTextColor(255, 255, 255);
   doc.setFont("helvetica", "bold");
-  doc.text("Relatório Financeiro", margin, 60);
+  doc.text("Relatório Financeiro", pageW / 2, 130, { align: "center" });
 
   doc.setFontSize(14);
   doc.setTextColor(...gold);
-  doc.text("Consolidado", margin, 70);
+  doc.text("Consolidado", pageW / 2, 140, { align: "center" });
 
+  // Client info
   doc.setFontSize(12);
-  doc.setTextColor(200, 200, 200);
+  doc.setTextColor(220, 220, 220);
   doc.setFont("helvetica", "normal");
-  doc.text(data.clientName, margin, 90);
+  doc.text(data.clientName, pageW / 2, 160, { align: "center" });
 
   const [y2, m2] = data.month.split("-");
   const monthName = new Date(Number(y2), Number(m2) - 1).toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
-  doc.text(monthName.charAt(0).toUpperCase() + monthName.slice(1), margin, 98);
+  doc.setTextColor(180, 180, 180);
+  doc.text(monthName.charAt(0).toUpperCase() + monthName.slice(1), pageW / 2, 168, { align: "center" });
 
   doc.setFontSize(9);
-  doc.setTextColor(150, 150, 150);
-  doc.text(`Gerado em ${new Date().toLocaleDateString("pt-BR")}`, margin, 110);
+  doc.setTextColor(130, 130, 130);
+  doc.text(`Gerado em ${new Date().toLocaleDateString("pt-BR")}`, pageW / 2, 180, { align: "center" });
 
+  // Footer
   doc.setFillColor(...gold);
-  doc.rect(margin, 270, contentW, 1, "F");
-  doc.setFontSize(8);
+  doc.rect(margin, 265, contentW, 0.5, "F");
+  doc.setFontSize(7);
   doc.setTextColor(100, 100, 100);
-  doc.text("Documento confidencial — uso exclusivo do cliente e consultor", pageW / 2, 280, { align: "center" });
+  doc.text("Documento confidencial — uso exclusivo do cliente e consultor", pageW / 2, 275, { align: "center" });
 
   // ========== PAGE 2: DRE ==========
   doc.addPage();
@@ -127,7 +159,7 @@ export function generateFinancialReport(data: ReportData) {
   doc.text("Resultado Líquido", margin, y);
   doc.text(fmt(resultado), pageW - margin, y, { align: "right" });
   y += 8;
-  doc.setTextColor(...dark);
+  doc.setTextColor(...navy);
 
   // Receitas por categoria
   if (receitas.length > 0) {
@@ -199,7 +231,7 @@ export function generateFinancialReport(data: ReportData) {
     doc.text("Patrimônio Líquido", margin, y);
     doc.text(fmt(pl), pageW - margin, y, { align: "right" });
     y += 8;
-    doc.setTextColor(...dark);
+    doc.setTextColor(...navy);
 
     // Breakdown table
     checkPage(40);
@@ -220,8 +252,8 @@ export function generateFinancialReport(data: ReportData) {
         body: assetRows,
         margin: { left: margin, right: margin },
         styles: { fontSize: 8, font: "helvetica", cellPadding: 2 },
-        headStyles: { fillColor: [180, 155, 90], textColor: [255, 255, 255], fontStyle: "bold" },
-        alternateRowStyles: { fillColor: [245, 245, 240] },
+        headStyles: { fillColor: [200, 162, 92], textColor: [255, 255, 255], fontStyle: "bold" },
+        alternateRowStyles: { fillColor: [245, 245, 230] },
         theme: "grid",
       });
       y = (doc as any).lastAutoTable.finalY + 8;
@@ -256,7 +288,7 @@ export function generateFinancialReport(data: ReportData) {
     doc.setFontSize(10);
     doc.text(`/ 100  —  ${getScoreLabel(hs.classification)}`, margin + 15, y + 2);
     y += 10;
-    doc.setTextColor(...dark);
+    doc.setTextColor(...navy);
 
     autoTable(doc, {
       startY: y,
@@ -269,8 +301,8 @@ export function generateFinancialReport(data: ReportData) {
       ],
       margin: { left: margin, right: margin },
       styles: { fontSize: 8, font: "helvetica", cellPadding: 2 },
-      headStyles: { fillColor: [180, 155, 90], textColor: [255, 255, 255], fontStyle: "bold" },
-      alternateRowStyles: { fillColor: [245, 245, 240] },
+      headStyles: { fillColor: [200, 162, 92], textColor: [255, 255, 255], fontStyle: "bold" },
+      alternateRowStyles: { fillColor: [245, 245, 230] },
       theme: "grid",
     });
     y = (doc as any).lastAutoTable.finalY + 8;
@@ -295,8 +327,8 @@ export function generateFinancialReport(data: ReportData) {
       body: budgetRows,
       margin: { left: margin, right: margin },
       styles: { fontSize: 8, font: "helvetica", cellPadding: 2 },
-      headStyles: { fillColor: [180, 155, 90], textColor: [255, 255, 255], fontStyle: "bold" },
-      alternateRowStyles: { fillColor: [245, 245, 240] },
+      headStyles: { fillColor: [200, 162, 92], textColor: [255, 255, 255], fontStyle: "bold" },
+      alternateRowStyles: { fillColor: [245, 245, 230] },
       theme: "grid",
     });
     y = (doc as any).lastAutoTable.finalY + 8;
@@ -328,8 +360,8 @@ export function generateFinancialReport(data: ReportData) {
       body: parcRows,
       margin: { left: margin, right: margin },
       styles: { fontSize: 8, font: "helvetica", cellPadding: 2 },
-      headStyles: { fillColor: [180, 155, 90], textColor: [255, 255, 255], fontStyle: "bold" },
-      alternateRowStyles: { fillColor: [245, 245, 240] },
+      headStyles: { fillColor: [200, 162, 92], textColor: [255, 255, 255], fontStyle: "bold" },
+      alternateRowStyles: { fillColor: [245, 245, 230] },
       theme: "grid",
     });
     y = (doc as any).lastAutoTable.finalY + 8;
@@ -351,8 +383,8 @@ export function generateFinancialReport(data: ReportData) {
       body: snapRows,
       margin: { left: margin, right: margin },
       styles: { fontSize: 7, font: "helvetica", cellPadding: 2 },
-      headStyles: { fillColor: [180, 155, 90], textColor: [255, 255, 255], fontStyle: "bold" },
-      alternateRowStyles: { fillColor: [245, 245, 240] },
+      headStyles: { fillColor: [200, 162, 92], textColor: [255, 255, 255], fontStyle: "bold" },
+      alternateRowStyles: { fillColor: [245, 245, 230] },
       theme: "grid",
     });
     y = (doc as any).lastAutoTable.finalY + 8;
@@ -360,14 +392,27 @@ export function generateFinancialReport(data: ReportData) {
 
   // ========== FOOTER on all pages ==========
   const totalPages = doc.getNumberOfPages();
-  for (let i = 1; i <= totalPages; i++) {
+  for (let i = 2; i <= totalPages; i++) {
     doc.setPage(i);
+    // Top header bar
+    doc.setFillColor(...navy);
+    doc.rect(0, 0, pageW, 12, "F");
+    doc.setFillColor(...gold);
+    doc.rect(0, 12, pageW, 0.5, "F");
+    doc.setFontSize(7);
+    doc.setTextColor(...gold);
+    doc.setFont("helvetica", "bold");
+    doc.text("MELAZZO CONSULTORIA", margin, 7.5);
+    doc.setTextColor(180, 180, 180);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Relatório Financeiro — ${data.clientName}`, pageW - margin, 7.5, { align: "right" });
+    // Bottom footer
     doc.setFontSize(7);
     doc.setTextColor(150, 150, 150);
     doc.text(`Página ${i} de ${totalPages}`, pageW / 2, 290, { align: "center" });
   }
 
   // Save
-  const fileName = `relatorio-financeiro-${data.month}.pdf`;
+  const fileName = `relatorio-melazzo-${data.month}.pdf`;
   doc.save(fileName);
 }
