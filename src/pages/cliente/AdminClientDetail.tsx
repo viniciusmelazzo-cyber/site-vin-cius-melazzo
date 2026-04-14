@@ -135,6 +135,26 @@ const AdminClientDetail = () => {
             </p>
           </div>
           {healthScore && <HealthScoreBadge score={healthScore} size="md" />}
+          <Button
+            variant="outline"
+            size="sm"
+            className="font-body gap-2 text-xs"
+            onClick={() => {
+              const now = new Date();
+              const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+              generateFinancialReport({
+                clientName: client.full_name || "Cliente",
+                month,
+                entries,
+                onboarding,
+                debts,
+                budgets,
+                snapshots,
+              });
+            }}
+          >
+            <FileDown className="h-3.5 w-3.5" /> Exportar PDF
+          </Button>
           <Badge variant={client.onboarding_completed ? "default" : "secondary"} className="font-body">
             {client.onboarding_completed ? "Onboarding Completo" : "Onboarding Pendente"}
           </Badge>
