@@ -38,7 +38,7 @@ const Login = () => {
       redirectAfterAuth(rolesRes.data, profileRes.data?.onboarding_completed ?? false);
     };
     doRedirect();
-  }, [user, loading]);
+  }, [user, authLoading]);
 
   const redirectAfterAuth = (roles: any[] | null, onboardingDone?: boolean) => {
     const admin = roles?.some((r: any) => r.role === "admin");
