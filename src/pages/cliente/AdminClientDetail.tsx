@@ -27,20 +27,52 @@ const AdminClientDetail = () => {
 
   useEffect(() => {
     if (!clientId) return;
-    const fetch = async () => {
-      const [profileRes, onbRes, entriesRes, docsRes] = await Promise.all([
+    const fetchData = async () => {
+      const [profileRes, onbRes, entriesRes, docsRes, debtsRes] = await Promise.all([
         supabase.from("profiles").select("*").eq("id", clientId).single(),
         supabase.from("onboarding_data").select("*").eq("user_id", clientId).single(),
         supabase.from("financial_entries").select("*").eq("user_id", clientId).order("date", { ascending: false }),
         supabase.from("client_documents").select("*").eq("user_id", clientId),
+        supabase.from("client_debts").select("*").eq("user_id", clientId),
       ]);
       setClient(profileRes.data);
       setOnboarding(onbRes.data);
       setEntries(entriesRes.data || []);
       setDocs(docsRes.data || []);
+      setDebts(debtsRes.data || []);
+
+      // Calculate health score
+      if (onbRes.data) {
+        const patrimonio = calcPatrimonio(onbRes.data, debtsRes.data || []);
+        const rendaLiquida = getRendaLiquida(onbRes.data);
+        const allEntries = entriesRes.data || [];
+        const now = new Date();
+        const curMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+        const monthEntries = allEntries.filter((e: any) => {
+          const d = new Date(e.date);
+          return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}` === curMonth;
+        });
+        const totalReceitas = monthEntries.filter((e: any) => e.type === "receita").reduce((s: number, e: any) => s + Number(e.amount), 0);
+        const totalDespesas = monthEntries.filter((e: any) => e.type === "despesa").reduce((s: number, e: any) => s + Number(e.amount), 0);
+        const DESP_FIXA_CATS = ["Moradia", "Transporte", "Saúde", "Educação", "Cartão de Crédito"];
+        const despFixas = monthEntries
+          .filter((e: any) => e.type === "despesa" && DESP_FIXA_CATS.includes(e.category))
+          .reduce((s: number, e: any) => s + Number(e.amount), 0);
+
+        setHealthScore(calculateHealthScore({
+          despesasFixas: despFixas,
+          rendaLiquida,
+          resultadoLiquido: totalReceitas - totalDespesas,
+          totalReceitas,
+          liquidezAlta: patrimonio.liquidez_alta,
+          passivosTotal: patrimonio.passivos.total,
+          ativosTotal: patrimonio.liquidez.total + patrimonio.imobilizado.total,
+        }));
+      }
+
       setLoading(false);
     };
-    fetch();
+    fetchData();
   }, [clientId]);
 
   const fmt = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
