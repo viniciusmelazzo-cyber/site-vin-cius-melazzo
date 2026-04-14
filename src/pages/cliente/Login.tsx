@@ -27,7 +27,7 @@ const Login = () => {
 
   // After Google OAuth redirect, detect authenticated user and redirect to dashboard
   useEffect(() => {
-    if (loading) return;
+    if (authLoading) return;
     if (!user) return;
     // User is authenticated (e.g. after OAuth callback) — redirect
     const doRedirect = async () => {
