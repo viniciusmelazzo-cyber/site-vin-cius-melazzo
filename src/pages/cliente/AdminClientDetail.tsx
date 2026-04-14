@@ -125,6 +125,7 @@ const AdminClientDetail = () => {
               {client.sector || "—"} • {client.company_name || "—"} • CPF: {client.cpf || "—"}
             </p>
           </div>
+          {healthScore && <HealthScoreBadge score={healthScore} size="md" />}
           <Badge variant={client.onboarding_completed ? "default" : "secondary"} className="font-body">
             {client.onboarding_completed ? "Onboarding Completo" : "Onboarding Pendente"}
           </Badge>
@@ -161,6 +162,7 @@ const AdminClientDetail = () => {
         ) : (
           <Tabs defaultValue="pessoal" className="w-full">
             <TabsList className="flex flex-wrap h-auto gap-1">
+              <TabsTrigger value="score" className="text-xs font-body gap-1"><Activity className="h-3 w-3" /> Health Score</TabsTrigger>
               <TabsTrigger value="pessoal" className="text-xs font-body gap-1"><User className="h-3 w-3" /> Pessoal</TabsTrigger>
               <TabsTrigger value="renda" className="text-xs font-body gap-1"><DollarSign className="h-3 w-3" /> Renda</TabsTrigger>
               <TabsTrigger value="moradia" className="text-xs font-body gap-1"><Home className="h-3 w-3" /> Moradia</TabsTrigger>
@@ -170,6 +172,21 @@ const AdminClientDetail = () => {
               <TabsTrigger value="dre" className="text-xs font-body gap-1"><BarChart3 className="h-3 w-3" /> DRE</TabsTrigger>
               <TabsTrigger value="docs" className="text-xs font-body gap-1"><FileText className="h-3 w-3" /> Documentos</TabsTrigger>
             </TabsList>
+
+            {/* Health Score */}
+            <TabsContent value="score" className="mt-4">
+              {healthScore ? (
+                <HealthScoreBadge score={healthScore} showBreakdown />
+              ) : (
+                <Card className="border-border">
+                  <CardContent className="p-8 text-center">
+                    <p className="text-muted-foreground font-body text-sm">
+                      Dados insuficientes para calcular o Health Score. O cliente precisa concluir o onboarding e registrar lançamentos.
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </TabsContent>
 
             {/* Pessoal */}
             <TabsContent value="pessoal" className="mt-4">
