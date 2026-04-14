@@ -51,23 +51,23 @@ export function generateFinancialReport(data: ReportData) {
     doc.setFont("helvetica", "bold");
     doc.text(title, margin + 3, y + 5.5);
     y += 12;
-    doc.setTextColor(...dark);
+    doc.setTextColor(...navy);
   };
 
   const labelValue = (label: string, value: string, indent = 0) => {
     checkPage(6);
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
-    doc.setTextColor(...gray);
+    doc.setTextColor(...graphite);
     doc.text(label, margin + indent, y);
-    doc.setTextColor(...dark);
+    doc.setTextColor(...navy);
     doc.setFont("helvetica", "bold");
     doc.text(value, pageW - margin, y, { align: "right" });
     y += 5;
   };
 
   // ========== COVER ==========
-  doc.setFillColor(...dark);
+  doc.setFillColor(...navy);
   doc.rect(0, 0, pageW, 297, "F");
 
   doc.setFillColor(...gold);
@@ -131,7 +131,7 @@ export function generateFinancialReport(data: ReportData) {
   doc.text("Resultado Líquido", margin, y);
   doc.text(fmt(resultado), pageW - margin, y, { align: "right" });
   y += 8;
-  doc.setTextColor(...dark);
+  doc.setTextColor(...navy);
 
   // Receitas por categoria
   if (receitas.length > 0) {
@@ -203,7 +203,7 @@ export function generateFinancialReport(data: ReportData) {
     doc.text("Patrimônio Líquido", margin, y);
     doc.text(fmt(pl), pageW - margin, y, { align: "right" });
     y += 8;
-    doc.setTextColor(...dark);
+    doc.setTextColor(...navy);
 
     // Breakdown table
     checkPage(40);
@@ -260,7 +260,7 @@ export function generateFinancialReport(data: ReportData) {
     doc.setFontSize(10);
     doc.text(`/ 100  —  ${getScoreLabel(hs.classification)}`, margin + 15, y + 2);
     y += 10;
-    doc.setTextColor(...dark);
+    doc.setTextColor(...navy);
 
     autoTable(doc, {
       startY: y,
