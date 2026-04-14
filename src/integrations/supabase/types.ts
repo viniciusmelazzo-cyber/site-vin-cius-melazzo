@@ -182,6 +182,39 @@ export type Database = {
         }
         Relationships: []
       }
+      consultant_notes: {
+        Row: {
+          author_id: string
+          category: string
+          client_id: string
+          content: string
+          created_at: string
+          id: string
+          is_pinned: boolean
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          category?: string
+          client_id: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_pinned?: boolean
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          category?: string
+          client_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_pinned?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       financial_entries: {
         Row: {
           amount: number
