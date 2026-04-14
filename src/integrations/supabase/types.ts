@@ -80,6 +80,42 @@ export type Database = {
         }
         Relationships: []
       }
+      client_health_scores: {
+        Row: {
+          breakdown: Json | null
+          calculated_at: string
+          id: string
+          p1_score: number
+          p2_score: number
+          p3_score: number
+          p4_score: number
+          score: number
+          user_id: string
+        }
+        Insert: {
+          breakdown?: Json | null
+          calculated_at?: string
+          id?: string
+          p1_score?: number
+          p2_score?: number
+          p3_score?: number
+          p4_score?: number
+          score?: number
+          user_id: string
+        }
+        Update: {
+          breakdown?: Json | null
+          calculated_at?: string
+          id?: string
+          p1_score?: number
+          p2_score?: number
+          p3_score?: number
+          p4_score?: number
+          score?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       client_invites: {
         Row: {
           accepted_by: string | null
@@ -350,7 +386,9 @@ export type Database = {
           cpf: string | null
           created_at: string
           full_name: string
+          health_score: number | null
           id: string
+          last_score_update: string | null
           onboarding_completed: boolean
           phone: string | null
           sector: string | null
@@ -362,7 +400,9 @@ export type Database = {
           cpf?: string | null
           created_at?: string
           full_name?: string
+          health_score?: number | null
           id: string
+          last_score_update?: string | null
           onboarding_completed?: boolean
           phone?: string | null
           sector?: string | null
@@ -374,7 +414,9 @@ export type Database = {
           cpf?: string | null
           created_at?: string
           full_name?: string
+          health_score?: number | null
           id?: string
+          last_score_update?: string | null
           onboarding_completed?: boolean
           phone?: string | null
           sector?: string | null
