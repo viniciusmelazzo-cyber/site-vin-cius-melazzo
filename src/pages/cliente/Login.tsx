@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +23,8 @@ const Login = () => {
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [googleLoading, setGoogleLoading] = useState(false);
+
   const redirectAfterAuth = (roles: any[] | null, onboardingDone?: boolean) => {
     const admin = roles?.some((r: any) => r.role === "admin");
     if (admin) {
@@ -30,6 +33,56 @@ const Login = () => {
       navigate("/cliente/dashboard", { replace: true });
     } else {
       navigate("/cliente/onboarding", { replace: true });
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setGoogleLoading(true);
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+
+      if (result.error) {
+        throw result.error;
+      }
+
+      if (result.redirected) {
+        return;
+      }
+
+      // After OAuth callback, check if email is in client_invites or user is admin
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user?.email) throw new Error("Erro ao obter dados do usuário.");
+
+      const [rolesRes, inviteRes] = await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", user.id),
+        supabase.from("client_invites").select("id").eq("email", user.email).limit(1),
+      ]);
+
+      const isAdminUser = rolesRes.data?.some((r: any) => r.role === "admin");
+
+      if (!isAdminUser && (!inviteRes.data || inviteRes.data.length === 0)) {
+        await supabase.auth.signOut();
+        toast({
+          title: "Acesso negado",
+          description: "Seu e-mail não possui convite ativo. Entre em contato com seu consultor.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("onboarding_completed")
+        .eq("id", user.id)
+        .single();
+
+      redirectAfterAuth(rolesRes.data, profileData?.onboarding_completed ?? false);
+    } catch (error: any) {
+      toast({ title: "Erro", description: error.message || "Erro ao entrar com Google", variant: "destructive" });
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
