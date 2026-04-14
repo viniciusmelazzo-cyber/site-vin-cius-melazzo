@@ -215,6 +215,21 @@ const ClientDashboard = () => {
           <Button variant="outline" className="font-body gap-2" onClick={() => navigate("/cliente/documentos")}>
             <Upload className="h-4 w-4" /> Upload de Documento
           </Button>
+          <Button
+            variant="outline"
+            className="font-body gap-2"
+            onClick={() => generateFinancialReport({
+              clientName: profile?.full_name || "Cliente",
+              month: selectedMonth,
+              entries,
+              onboarding: onboardingData,
+              debts: debtsData,
+              budgets,
+              snapshots,
+            })}
+          >
+            <FileDown className="h-4 w-4" /> Exportar Relatório PDF
+          </Button>
         </div>
 
         {/* Timeline - Month History */}
