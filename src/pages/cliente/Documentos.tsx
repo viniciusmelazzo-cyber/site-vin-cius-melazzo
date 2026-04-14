@@ -107,9 +107,9 @@ const Documentos = () => {
   return (
     <ClientLayout role="client">
       <div className="space-y-6 animate-fade-in">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-display font-bold text-foreground">Documentos</h1>
+            <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground">Documentos</h1>
             <p className="text-muted-foreground font-body text-sm mt-1">Envie e gerencie seus documentos</p>
           </div>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -140,7 +140,7 @@ const Documentos = () => {
         </div>
 
         <Card className="border-border shadow-sm">
-          <CardContent className="p-0">
+          <CardContent className="p-0 overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>

@@ -192,7 +192,7 @@ const AdminDashboard = () => {
                     />
                   </div>
                 </CardHeader>
-                <CardContent className="p-0">
+                <CardContent className="p-0 overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -336,7 +336,7 @@ const AdminDashboard = () => {
               <CardHeader>
                 <CardTitle className="text-lg font-display">Convites Enviados</CardTitle>
               </CardHeader>
-              <CardContent className="p-0">
+              <CardContent className="p-0 overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
