@@ -13,7 +13,7 @@ import logoVM from "@/assets/logo-vm.webp";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { profile, isAdmin } = useAuth();
+  const { user, loading: authLoading, profile: authProfile, isAdmin } = useAuth();
   const [searchParams] = useSearchParams();
   const inviteToken = searchParams.get("invite");
 
