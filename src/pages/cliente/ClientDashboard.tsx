@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { DollarSign, TrendingUp, TrendingDown, PlusCircle, Upload, ChevronLeft, ChevronRight } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import DREReport from "@/components/DREReport";
+import TemporalVision from "@/components/dashboard/TemporalVision";
 
 const ClientDashboard = () => {
   const { user, profile } = useAuth();
