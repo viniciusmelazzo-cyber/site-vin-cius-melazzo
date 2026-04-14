@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { DollarSign, TrendingUp, TrendingDown, PlusCircle, Upload, ChevronLeft, ChevronRight } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import DREReport from "@/components/DREReport";
+import TemporalVision from "@/components/dashboard/TemporalVision";
 
 const ClientDashboard = () => {
   const { user, profile } = useAuth();
@@ -87,9 +88,12 @@ const ClientDashboard = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-display font-bold text-foreground">Dashboard</h1>
-            <p className="text-muted-foreground font-body text-sm mt-1">Resumo financeiro mensal</p>
+            <p className="text-muted-foreground font-body text-sm mt-1">Resumo financeiro</p>
           </div>
         </div>
+
+        {/* Temporal Vision - Period Selector & Trend Chart */}
+        <TemporalVision entries={entries} selectedMonth={selectedMonth} />
 
         {/* Month Navigation */}
         <div className="flex items-center justify-center gap-4">
@@ -191,9 +195,9 @@ const ClientDashboard = () => {
                     >
                       <span className="font-body text-sm font-medium capitalize">{label}</span>
                       <div className="flex gap-4 text-xs font-body">
-                        <span className="text-green-700">+{fmt(rec)}</span>
-                        <span className="text-destructive">−{fmt(desp)}</span>
-                        <span className={`font-semibold ${rec - desp >= 0 ? "text-green-700" : "text-destructive"}`}>
+                        <span className="text-finance-positive">+{fmt(rec)}</span>
+                        <span className="text-finance-negative">−{fmt(desp)}</span>
+                        <span className={`font-semibold ${rec - desp >= 0 ? "text-finance-positive" : "text-finance-negative"}`}>
                           {fmt(rec - desp)}
                         </span>
                       </div>

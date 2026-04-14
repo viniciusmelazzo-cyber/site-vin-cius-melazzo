@@ -72,6 +72,11 @@ export default {
         agro: {
           DEFAULT: "hsl(var(--agro))",
         },
+        finance: {
+          positive: "hsl(var(--finance-positive))",
+          negative: "hsl(var(--finance-negative))",
+          warning: "hsl(var(--finance-warning))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
