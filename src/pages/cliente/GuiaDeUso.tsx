@@ -181,7 +181,7 @@ const tips = [
   },
   {
     icon: Camera,
-    title: "Salve snapshots mensais",
+    title: "Salve screenshots mensais",
     text: "No dashboard, clique em 'Salvar Snapshot do Mês' para registrar a evolução patrimonial e do Health Score.",
   },
   {
