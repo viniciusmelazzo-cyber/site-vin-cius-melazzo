@@ -21,6 +21,7 @@ import Patrimonio from "./pages/cliente/Patrimonio.tsx";
 import Orcamento from "./pages/cliente/Orcamento.tsx";
 import AdminDashboard from "./pages/cliente/AdminDashboard.tsx";
 import AdminClientDetail from "./pages/cliente/AdminClientDetail.tsx";
+import GuiaDeUso from "./pages/cliente/GuiaDeUso.tsx";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="/cliente/configuracoes" element={<ProtectedRoute><Configuracoes /></ProtectedRoute>} />
             <Route path="/cliente/patrimonio" element={<ProtectedRoute><Patrimonio /></ProtectedRoute>} />
             <Route path="/cliente/orcamento" element={<ProtectedRoute><Orcamento /></ProtectedRoute>} />
+            <Route path="/cliente/guia" element={<ProtectedRoute><GuiaDeUso /></ProtectedRoute>} />
             <Route path="/cliente/admin" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />
             <Route path="/cliente/admin/cliente/:clientId" element={<ProtectedRoute requireAdmin><AdminClientDetail /></ProtectedRoute>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
