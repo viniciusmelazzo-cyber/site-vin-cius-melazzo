@@ -18,6 +18,7 @@ import Lancamentos from "./pages/cliente/Lancamentos.tsx";
 import Documentos from "./pages/cliente/Documentos.tsx";
 import Configuracoes from "./pages/cliente/Configuracoes.tsx";
 import Patrimonio from "./pages/cliente/Patrimonio.tsx";
+import Orcamento from "./pages/cliente/Orcamento.tsx";
 import AdminDashboard from "./pages/cliente/AdminDashboard.tsx";
 import AdminClientDetail from "./pages/cliente/AdminClientDetail.tsx";
 

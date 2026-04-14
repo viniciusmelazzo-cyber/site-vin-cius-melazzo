@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import {
-  LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, PlusCircle, Upload, Landmark,
+  LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, PlusCircle, Upload, Landmark, Wallet,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,7 @@ const clientLinks = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/cliente/dashboard" },
   { label: "Lançamentos", icon: PlusCircle, href: "/cliente/lancamentos" },
   { label: "Patrimônio", icon: Landmark, href: "/cliente/patrimonio" },
+  { label: "Orçamento", icon: Wallet, href: "/cliente/orcamento" },
   { label: "Documentos", icon: Upload, href: "/cliente/documentos" },
   { label: "Configurações", icon: Settings, href: "/cliente/configuracoes" },
 ];
