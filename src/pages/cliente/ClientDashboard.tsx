@@ -16,6 +16,8 @@ const ClientDashboard = () => {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
   const [entries, setEntries] = useState<any[]>([]);
+  const [onboardingData, setOnboardingData] = useState<any>(null);
+  const [debtsData, setDebtsData] = useState<any[]>([]);
   const [onboardingFinance, setOnboardingFinance] = useState<{
     liquidezTotal: number; passivosTotal: number; ativosTotal: number;
     rendaLiquida: number; parcelasDividas: number;
