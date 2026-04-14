@@ -18,6 +18,7 @@ import Lancamentos from "./pages/cliente/Lancamentos.tsx";
 import Documentos from "./pages/cliente/Documentos.tsx";
 import Configuracoes from "./pages/cliente/Configuracoes.tsx";
 import Patrimonio from "./pages/cliente/Patrimonio.tsx";
+import Orcamento from "./pages/cliente/Orcamento.tsx";
 import AdminDashboard from "./pages/cliente/AdminDashboard.tsx";
 import AdminClientDetail from "./pages/cliente/AdminClientDetail.tsx";
 
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/cliente/documentos" element={<ProtectedRoute><Documentos /></ProtectedRoute>} />
             <Route path="/cliente/configuracoes" element={<ProtectedRoute><Configuracoes /></ProtectedRoute>} />
             <Route path="/cliente/patrimonio" element={<ProtectedRoute><Patrimonio /></ProtectedRoute>} />
+            <Route path="/cliente/orcamento" element={<ProtectedRoute><Orcamento /></ProtectedRoute>} />
             <Route path="/cliente/admin" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />
             <Route path="/cliente/admin/cliente/:clientId" element={<ProtectedRoute requireAdmin><AdminClientDetail /></ProtectedRoute>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
