@@ -19,6 +19,8 @@ const ClientDashboard = () => {
   const [entries, setEntries] = useState<any[]>([]);
   const [onboardingData, setOnboardingData] = useState<any>(null);
   const [debtsData, setDebtsData] = useState<any[]>([]);
+  const [budgets, setBudgets] = useState<any[]>([]);
+  const [snapshots, setSnapshots] = useState<any[]>([]);
   const [onboardingFinance, setOnboardingFinance] = useState<{
     liquidezTotal: number; passivosTotal: number; ativosTotal: number;
     rendaLiquida: number; parcelasDividas: number;
