@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import ClientLayout from "@/components/ClientLayout";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +10,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { PlusCircle, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Progress } from "@/components/ui/progress";
+import { PlusCircle, Pencil, Trash2, ChevronLeft, ChevronRight, CreditCard, CalendarClock } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const categorias = [
@@ -26,9 +28,16 @@ interface Entry {
   amount: number;
   date: string;
   created_at: string;
+  installment_current: number | null;
+  installment_total: number | null;
+  installment_group_id: string | null;
 }
 
-const emptyForm = { type: "despesa", category: "Outros", description: "", amount: "", date: new Date().toISOString().slice(0, 10) };
+const emptyForm = {
+  type: "despesa", category: "Outros", description: "", amount: "",
+  date: new Date().toISOString().slice(0, 10),
+  isInstallment: false, installmentTotal: "2",
+};
 
 const Lancamentos = () => {
   const { user } = useAuth();
@@ -49,7 +58,7 @@ const Lancamentos = () => {
       .select("*")
       .eq("user_id", user.id)
       .order("date", { ascending: false });
-    setEntries(data || []);
+    setEntries((data as Entry[]) || []);
   };
 
   useEffect(() => { fetchEntries(); }, [user]);
@@ -83,6 +92,31 @@ const Lancamentos = () => {
     if (next >= 0 && next < availableMonths.length) setSelectedMonth(availableMonths[next]);
   };
 
+  // Group installments for summary
+  const installmentGroups = useMemo(() => {
+    const groups = new Map<string, Entry[]>();
+    entries.forEach((e) => {
+      if (e.installment_group_id) {
+        const list = groups.get(e.installment_group_id) || [];
+        list.push(e);
+        groups.set(e.installment_group_id, list);
+      }
+    });
+    // Build summary per group
+    return Array.from(groups.entries()).map(([groupId, items]) => {
+      items.sort((a, b) => (a.installment_current || 0) - (b.installment_current || 0));
+      const total = items[0]?.installment_total || items.length;
+      const paid = items.length;
+      const remaining = total - paid;
+      const amountEach = items[0]?.amount || 0;
+      const totalValue = amountEach * total;
+      const desc = items[0]?.description || "";
+      const category = items[0]?.category || "";
+      const lastDate = items[items.length - 1]?.date || "";
+      return { groupId, description: desc, category, total, paid, remaining, amountEach, totalValue, lastDate };
+    }).filter((g) => g.remaining > 0);
+  }, [entries]);
+
   const handleSave = async () => {
     if (!user || !form.amount || !form.description) {
       toast({ title: "Preencha todos os campos", variant: "destructive" });
@@ -90,24 +124,48 @@ const Lancamentos = () => {
     }
     setLoading(true);
     try {
-      const payload = {
-        user_id: user.id,
-        type: form.type,
-        category: form.category,
-        description: form.description,
-        amount: parseFloat(form.amount),
-        date: form.date,
-      };
+      const amount = parseFloat(form.amount);
 
       if (editingId) {
-        const { error } = await supabase.from("financial_entries").update(payload).eq("id", editingId).eq("user_id", user.id);
+        // Simple update (no installment changes on edit)
+        const { error } = await supabase.from("financial_entries").update({
+          type: form.type, category: form.category, description: form.description,
+          amount, date: form.date,
+        }).eq("id", editingId).eq("user_id", user.id);
         if (error) throw error;
         toast({ title: "Lançamento atualizado!" });
+      } else if (form.isInstallment) {
+        // Create multiple entries for each installment
+        const totalInstallments = Math.max(2, parseInt(form.installmentTotal) || 2);
+        const groupId = crypto.randomUUID();
+        const baseDate = new Date(form.date);
+        const payloads = [];
+
+        for (let i = 0; i < totalInstallments; i++) {
+          const entryDate = new Date(baseDate.getFullYear(), baseDate.getMonth() + i, baseDate.getDate());
+          payloads.push({
+            user_id: user.id,
+            type: form.type, category: form.category,
+            description: `${form.description} (${i + 1}/${totalInstallments})`,
+            amount, date: entryDate.toISOString().slice(0, 10),
+            installment_current: i + 1,
+            installment_total: totalInstallments,
+            installment_group_id: groupId,
+          });
+        }
+
+        const { error } = await supabase.from("financial_entries").insert(payloads);
+        if (error) throw error;
+        toast({ title: `${totalInstallments} parcelas criadas com sucesso!` });
       } else {
-        const { error } = await supabase.from("financial_entries").insert(payload);
+        const { error } = await supabase.from("financial_entries").insert({
+          user_id: user.id, type: form.type, category: form.category,
+          description: form.description, amount, date: form.date,
+        });
         if (error) throw error;
         toast({ title: "Lançamento criado!" });
       }
+
       setForm(emptyForm);
       setEditingId(null);
       setDialogOpen(false);
@@ -121,11 +179,9 @@ const Lancamentos = () => {
 
   const handleEdit = (entry: Entry) => {
     setForm({
-      type: entry.type,
-      category: entry.category,
-      description: entry.description,
-      amount: String(entry.amount),
-      date: entry.date,
+      type: entry.type, category: entry.category, description: entry.description,
+      amount: String(entry.amount), date: entry.date,
+      isInstallment: false, installmentTotal: "2",
     });
     setEditingId(entry.id);
     setDialogOpen(true);
@@ -137,6 +193,17 @@ const Lancamentos = () => {
       toast({ title: "Erro ao excluir", description: error.message, variant: "destructive" });
     } else {
       toast({ title: "Lançamento excluído" });
+      fetchEntries();
+    }
+  };
+
+  const handleDeleteGroup = async (groupId: string) => {
+    const { error } = await supabase.from("financial_entries").delete()
+      .eq("installment_group_id", groupId).eq("user_id", user!.id);
+    if (error) {
+      toast({ title: "Erro ao excluir parcelamento", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Parcelamento excluído por completo" });
       fetchEntries();
     }
   };
@@ -195,7 +262,7 @@ const Lancamentos = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label className="font-body text-sm">Valor (R$)</Label>
+                    <Label className="font-body text-sm">Valor da parcela (R$)</Label>
                     <Input type="number" step="0.01" min="0" value={form.amount} onChange={(e) => setForm((p) => ({ ...p, amount: e.target.value }))} className="font-body" placeholder="0,00" />
                   </div>
                   <div className="space-y-2">
@@ -203,13 +270,84 @@ const Lancamentos = () => {
                     <Input type="date" value={form.date} onChange={(e) => setForm((p) => ({ ...p, date: e.target.value }))} className="font-body" />
                   </div>
                 </div>
+
+                {/* Installment toggle */}
+                {!editingId && (
+                  <div className="space-y-3 p-3 rounded-lg border border-border bg-secondary/30">
+                    <div className="flex items-center justify-between">
+                      <Label className="font-body text-sm flex items-center gap-2">
+                        <CreditCard className="h-4 w-4 text-accent" />
+                        Parcelado?
+                      </Label>
+                      <Switch
+                        checked={form.isInstallment}
+                        onCheckedChange={(v) => setForm((p) => ({ ...p, isInstallment: v }))}
+                      />
+                    </div>
+                    {form.isInstallment && (
+                      <div className="space-y-2">
+                        <Label className="font-body text-xs text-muted-foreground">Nº de parcelas</Label>
+                        <Input
+                          type="number" min="2" max="72"
+                          value={form.installmentTotal}
+                          onChange={(e) => setForm((p) => ({ ...p, installmentTotal: e.target.value }))}
+                          className="font-body"
+                        />
+                        {form.amount && form.installmentTotal && (
+                          <p className="text-xs font-body text-muted-foreground">
+                            Total: {fmt(parseFloat(form.amount) * parseInt(form.installmentTotal))} em {form.installmentTotal}x de {fmt(parseFloat(form.amount))}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <Button onClick={handleSave} disabled={loading} className="w-full font-body bg-gradient-gold text-primary hover:opacity-90">
-                  {loading ? "Salvando..." : editingId ? "Salvar Alterações" : "Criar Lançamento"}
+                  {loading ? "Salvando..." : editingId ? "Salvar Alterações" : form.isInstallment ? `Criar ${form.installmentTotal} Parcelas` : "Criar Lançamento"}
                 </Button>
               </div>
             </DialogContent>
           </Dialog>
         </div>
+
+        {/* Active Installment Groups */}
+        {installmentGroups.length > 0 && (
+          <Card className="border-border shadow-sm">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base font-display flex items-center gap-2">
+                <CalendarClock className="h-4 w-4 text-accent" />
+                Parcelamentos Ativos ({installmentGroups.length})
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {installmentGroups.map((g) => {
+                const pct = (g.paid / g.total) * 100;
+                return (
+                  <div key={g.groupId} className="p-3 rounded-lg bg-secondary/50 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-body font-medium">{g.description.replace(/\s*\(\d+\/\d+\)/, "")}</p>
+                        <p className="text-xs text-muted-foreground font-body">{g.category} • {fmt(g.amountEach)}/mês</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-display font-bold">{fmt(g.totalValue)}</p>
+                        <p className="text-xs text-muted-foreground font-body">{g.paid}/{g.total} pagas • faltam {g.remaining}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Progress value={pct} className="flex-1 h-2" />
+                      <span className="text-xs font-body text-muted-foreground w-10 text-right">{pct.toFixed(0)}%</span>
+                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleDeleteGroup(g.groupId)}>
+                        <Trash2 className="h-3 w-3 text-destructive" />
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Month Navigation */}
         <div className="flex items-center justify-center gap-4">
@@ -245,8 +383,15 @@ const Lancamentos = () => {
                       </Badge>
                     </TableCell>
                     <TableCell className="font-body text-sm">{entry.category}</TableCell>
-                    <TableCell className="font-body text-sm">{entry.description}</TableCell>
-                    <TableCell className={`font-body text-sm text-right font-semibold ${entry.type === "receita" ? "text-green-700" : "text-destructive"}`}>
+                    <TableCell className="font-body text-sm">
+                      {entry.description}
+                      {entry.installment_current && (
+                        <Badge variant="outline" className="ml-2 text-[9px] font-body">
+                          {entry.installment_current}/{entry.installment_total}
+                        </Badge>
+                      )}
+                    </TableCell>
+                    <TableCell className={`font-body text-sm text-right font-semibold ${entry.type === "receita" ? "text-finance-positive" : "text-finance-negative"}`}>
                       {entry.type === "receita" ? "+" : "−"}{fmt(entry.amount)}
                     </TableCell>
                     <TableCell>
