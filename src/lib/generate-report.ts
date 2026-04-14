@@ -44,12 +44,15 @@ export function generateFinancialReport(data: ReportData) {
 
   const sectionTitle = (title: string) => {
     checkPage(15);
-    doc.setFillColor(...gold);
+    doc.setFillColor(...navy);
     doc.rect(margin, y, contentW, 8, "F");
+    // Gold accent bar on left
+    doc.setFillColor(...gold);
+    doc.rect(margin, y, 2, 8, "F");
     doc.setFontSize(11);
     doc.setTextColor(255, 255, 255);
     doc.setFont("helvetica", "bold");
-    doc.text(title, margin + 3, y + 5.5);
+    doc.text(title, margin + 5, y + 5.5);
     y += 12;
     doc.setTextColor(...navy);
   };
