@@ -182,6 +182,42 @@ export type Database = {
         }
         Relationships: []
       }
+      client_monthly_snapshots: {
+        Row: {
+          created_at: string
+          despesas: number
+          health_score: number
+          id: string
+          month: string
+          patrimonio_liquido: number
+          receitas: number
+          resultado: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          despesas?: number
+          health_score?: number
+          id?: string
+          month: string
+          patrimonio_liquido?: number
+          receitas?: number
+          resultado?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          despesas?: number
+          health_score?: number
+          id?: string
+          month?: string
+          patrimonio_liquido?: number
+          receitas?: number
+          resultado?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       consultant_notes: {
         Row: {
           author_id: string
