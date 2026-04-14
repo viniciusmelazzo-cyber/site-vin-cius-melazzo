@@ -34,6 +34,8 @@ const App = () => (
             <Route path="/manual-credito-rural-2026" element={<ManualCreditoRural />} />
             <Route path="/privacidade" element={<Privacidade />} />
             <Route path="/cliente/login" element={<Login />} />
+            <Route path="/cliente/forgot-password" element={<ForgotPassword />} />
+            <Route path="/cliente/reset-password" element={<ResetPassword />} />
             <Route path="/cliente/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
             <Route path="/cliente/dashboard" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />
             <Route path="/cliente/lancamentos" element={<ProtectedRoute><Lancamentos /></ProtectedRoute>} />
