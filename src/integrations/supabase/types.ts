@@ -251,6 +251,182 @@ export type Database = {
         }
         Relationships: []
       }
+      crm_clientes: {
+        Row: {
+          banco: string | null
+          cidade: string | null
+          comissao_indicador: string | null
+          comissao_percentual: number | null
+          comissao_tipo: string | null
+          conjuge_cidade: string | null
+          conjuge_cpf: string | null
+          conjuge_data_nascimento: string | null
+          conjuge_email: string | null
+          conjuge_endereco: string | null
+          conjuge_estado: string | null
+          conjuge_nome: string | null
+          conjuge_telefone: string | null
+          cpf: string | null
+          created_at: string | null
+          data_entrada: string | null
+          data_indicacao: string | null
+          data_nascimento: string | null
+          email: string | null
+          endereco: string | null
+          estado: string | null
+          estado_civil: string | null
+          formalizacao_renda: string | null
+          google_drive_url: string | null
+          honorarios_iniciais: number | null
+          id: string
+          indicacao: string | null
+          nome: string
+          observacoes: string | null
+          perfil_renda: string | null
+          produto: string | null
+          profissao: string | null
+          regime_casamento: string | null
+          rg: string | null
+          status: Database["public"]["Enums"]["crm_pipeline_status"] | null
+          subproduto: string | null
+          telefones: string | null
+          updated_at: string | null
+          updated_by: string | null
+          user_id: string
+          valor: number | null
+        }
+        Insert: {
+          banco?: string | null
+          cidade?: string | null
+          comissao_indicador?: string | null
+          comissao_percentual?: number | null
+          comissao_tipo?: string | null
+          conjuge_cidade?: string | null
+          conjuge_cpf?: string | null
+          conjuge_data_nascimento?: string | null
+          conjuge_email?: string | null
+          conjuge_endereco?: string | null
+          conjuge_estado?: string | null
+          conjuge_nome?: string | null
+          conjuge_telefone?: string | null
+          cpf?: string | null
+          created_at?: string | null
+          data_entrada?: string | null
+          data_indicacao?: string | null
+          data_nascimento?: string | null
+          email?: string | null
+          endereco?: string | null
+          estado?: string | null
+          estado_civil?: string | null
+          formalizacao_renda?: string | null
+          google_drive_url?: string | null
+          honorarios_iniciais?: number | null
+          id?: string
+          indicacao?: string | null
+          nome: string
+          observacoes?: string | null
+          perfil_renda?: string | null
+          produto?: string | null
+          profissao?: string | null
+          regime_casamento?: string | null
+          rg?: string | null
+          status?: Database["public"]["Enums"]["crm_pipeline_status"] | null
+          subproduto?: string | null
+          telefones?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+          user_id: string
+          valor?: number | null
+        }
+        Update: {
+          banco?: string | null
+          cidade?: string | null
+          comissao_indicador?: string | null
+          comissao_percentual?: number | null
+          comissao_tipo?: string | null
+          conjuge_cidade?: string | null
+          conjuge_cpf?: string | null
+          conjuge_data_nascimento?: string | null
+          conjuge_email?: string | null
+          conjuge_endereco?: string | null
+          conjuge_estado?: string | null
+          conjuge_nome?: string | null
+          conjuge_telefone?: string | null
+          cpf?: string | null
+          created_at?: string | null
+          data_entrada?: string | null
+          data_indicacao?: string | null
+          data_nascimento?: string | null
+          email?: string | null
+          endereco?: string | null
+          estado?: string | null
+          estado_civil?: string | null
+          formalizacao_renda?: string | null
+          google_drive_url?: string | null
+          honorarios_iniciais?: number | null
+          id?: string
+          indicacao?: string | null
+          nome?: string
+          observacoes?: string | null
+          perfil_renda?: string | null
+          produto?: string | null
+          profissao?: string | null
+          regime_casamento?: string | null
+          rg?: string | null
+          status?: Database["public"]["Enums"]["crm_pipeline_status"] | null
+          subproduto?: string | null
+          telefones?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+          user_id?: string
+          valor?: number | null
+        }
+        Relationships: []
+      }
+      crm_historico: {
+        Row: {
+          cliente_id: string
+          created_at: string | null
+          descricao: string | null
+          id: string
+          status_anterior: string | null
+          status_novo: string | null
+          tipo: string
+          titulo: string
+          user_id: string
+        }
+        Insert: {
+          cliente_id: string
+          created_at?: string | null
+          descricao?: string | null
+          id?: string
+          status_anterior?: string | null
+          status_novo?: string | null
+          tipo?: string
+          titulo: string
+          user_id: string
+        }
+        Update: {
+          cliente_id?: string
+          created_at?: string | null
+          descricao?: string | null
+          id?: string
+          status_anterior?: string | null
+          status_novo?: string | null
+          tipo?: string
+          titulo?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_historico_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "crm_clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       financial_entries: {
         Row: {
           amount: number
@@ -568,6 +744,17 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "client"
+      crm_pipeline_status:
+        | "prospeccao"
+        | "analise_documental"
+        | "em_negociacao"
+        | "aprovado"
+        | "em_fechamento"
+        | "contrato_assinado"
+        | "concluido"
+        | "cancelado"
+        | "analise_inicial"
+        | "acompanhamento"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -696,6 +883,18 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "client"],
+      crm_pipeline_status: [
+        "prospeccao",
+        "analise_documental",
+        "em_negociacao",
+        "aprovado",
+        "em_fechamento",
+        "contrato_assinado",
+        "concluido",
+        "cancelado",
+        "analise_inicial",
+        "acompanhamento",
+      ],
     },
   },
 } as const
