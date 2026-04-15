@@ -14,6 +14,59 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_compromissos: {
+        Row: {
+          cliente_pj_id: string | null
+          created_at: string
+          data_hora: string
+          descricao: string | null
+          duracao_minutos: number | null
+          google_calendar_id: string | null
+          id: string
+          status: string
+          tipo: string
+          titulo: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cliente_pj_id?: string | null
+          created_at?: string
+          data_hora: string
+          descricao?: string | null
+          duracao_minutos?: number | null
+          google_calendar_id?: string | null
+          id?: string
+          status?: string
+          tipo?: string
+          titulo: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cliente_pj_id?: string | null
+          created_at?: string
+          data_hora?: string
+          descricao?: string | null
+          duracao_minutos?: number | null
+          google_calendar_id?: string | null
+          id?: string
+          status?: string
+          tipo?: string
+          titulo?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_compromissos_cliente_pj_id_fkey"
+            columns: ["cliente_pj_id"]
+            isOneToOne: false
+            referencedRelation: "clientes_pj"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       budgets: {
         Row: {
           category: string
@@ -214,6 +267,69 @@ export type Database = {
           patrimonio_liquido?: number
           receitas?: number
           resultado?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      clientes_pj: {
+        Row: {
+          atividade: string | null
+          cidade: string | null
+          cnpj: string | null
+          created_at: string
+          email: string | null
+          endereco: string | null
+          estado: string | null
+          google_drive_url: string | null
+          id: string
+          nome: string
+          observacoes: string | null
+          razao_social: string | null
+          responsavel: string | null
+          segmento: string | null
+          status: string
+          telefone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          atividade?: string | null
+          cidade?: string | null
+          cnpj?: string | null
+          created_at?: string
+          email?: string | null
+          endereco?: string | null
+          estado?: string | null
+          google_drive_url?: string | null
+          id?: string
+          nome: string
+          observacoes?: string | null
+          razao_social?: string | null
+          responsavel?: string | null
+          segmento?: string | null
+          status?: string
+          telefone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          atividade?: string | null
+          cidade?: string | null
+          cnpj?: string | null
+          created_at?: string
+          email?: string | null
+          endereco?: string | null
+          estado?: string | null
+          google_drive_url?: string | null
+          id?: string
+          nome?: string
+          observacoes?: string | null
+          razao_social?: string | null
+          responsavel?: string | null
+          segmento?: string | null
+          status?: string
+          telefone?: string | null
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -665,6 +781,103 @@ export type Database = {
           variable_costs_total?: string | null
         }
         Relationships: []
+      }
+      pj_historico: {
+        Row: {
+          cliente_pj_id: string
+          created_at: string
+          descricao: string | null
+          id: string
+          tipo: string
+          titulo: string
+          user_id: string
+        }
+        Insert: {
+          cliente_pj_id: string
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          tipo?: string
+          titulo: string
+          user_id: string
+        }
+        Update: {
+          cliente_pj_id?: string
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          tipo?: string
+          titulo?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pj_historico_cliente_pj_id_fkey"
+            columns: ["cliente_pj_id"]
+            isOneToOne: false
+            referencedRelation: "clientes_pj"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pj_recebimentos: {
+        Row: {
+          cliente_pj_id: string
+          created_at: string
+          data_inicio: string | null
+          data_vencimento: string | null
+          descricao: string | null
+          frequencia: string
+          id: string
+          parcelas_pagas: number | null
+          parcelas_total: number | null
+          recorrente: boolean
+          status: string
+          tipo: string
+          updated_at: string
+          valor: number
+        }
+        Insert: {
+          cliente_pj_id: string
+          created_at?: string
+          data_inicio?: string | null
+          data_vencimento?: string | null
+          descricao?: string | null
+          frequencia?: string
+          id?: string
+          parcelas_pagas?: number | null
+          parcelas_total?: number | null
+          recorrente?: boolean
+          status?: string
+          tipo?: string
+          updated_at?: string
+          valor?: number
+        }
+        Update: {
+          cliente_pj_id?: string
+          created_at?: string
+          data_inicio?: string | null
+          data_vencimento?: string | null
+          descricao?: string | null
+          frequencia?: string
+          id?: string
+          parcelas_pagas?: number | null
+          parcelas_total?: number | null
+          recorrente?: boolean
+          status?: string
+          tipo?: string
+          updated_at?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pj_recebimentos_cliente_pj_id_fkey"
+            columns: ["cliente_pj_id"]
+            isOneToOne: false
+            referencedRelation: "clientes_pj"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
