@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       admin_compromissos: {
         Row: {
+          cliente_id: string | null
           cliente_pj_id: string | null
           created_at: string
           data_hora: string
@@ -23,6 +24,7 @@ export type Database = {
           duracao_minutos: number | null
           google_calendar_id: string | null
           id: string
+          operacao_id: string | null
           status: string
           tipo: string
           titulo: string
@@ -30,6 +32,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          cliente_id?: string | null
           cliente_pj_id?: string | null
           created_at?: string
           data_hora: string
@@ -37,6 +40,7 @@ export type Database = {
           duracao_minutos?: number | null
           google_calendar_id?: string | null
           id?: string
+          operacao_id?: string | null
           status?: string
           tipo?: string
           titulo: string
@@ -44,6 +48,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          cliente_id?: string | null
           cliente_pj_id?: string | null
           created_at?: string
           data_hora?: string
@@ -51,6 +56,7 @@ export type Database = {
           duracao_minutos?: number | null
           google_calendar_id?: string | null
           id?: string
+          operacao_id?: string | null
           status?: string
           tipo?: string
           titulo?: string
@@ -59,10 +65,24 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "admin_compromissos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "crm_clientes_master"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "admin_compromissos_cliente_pj_id_fkey"
             columns: ["cliente_pj_id"]
             isOneToOne: false
             referencedRelation: "clientes_pj"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admin_compromissos_operacao_id_fkey"
+            columns: ["operacao_id"]
+            isOneToOne: false
+            referencedRelation: "crm_operacoes"
             referencedColumns: ["id"]
           },
         ]
@@ -499,6 +519,164 @@ export type Database = {
         }
         Relationships: []
       }
+      crm_clientes_master: {
+        Row: {
+          ativo: boolean
+          cep: string | null
+          checklist_documental: Json
+          cidade: string | null
+          cnpj: string | null
+          cpf: string | null
+          cpf_conjuge: string | null
+          created_at: string
+          data_nascimento: string | null
+          data_nascimento_conjuge: string | null
+          email_conjuge: string | null
+          email_principal: string | null
+          empresas_relacionadas: string | null
+          endereco: string | null
+          estado: string | null
+          estado_civil: string | null
+          estrategia_resumo: string | null
+          formalizacao_renda: string | null
+          funcao_empresarial: string | null
+          garantias_resumo: string | null
+          google_drive_url: string | null
+          grupo_economico: string | null
+          id: string
+          legacy_crm_cliente_id: string | null
+          nacionalidade: string | null
+          nome: string
+          nome_conjuge: string | null
+          notas_renda: string | null
+          origem_canal: string | null
+          origem_parceiro: string | null
+          participacao_societaria: string | null
+          patrimonio_resumo: string | null
+          perfil_renda: string | null
+          profissao: string | null
+          regime_bens: string | null
+          relacionamentos_bancarios: string | null
+          renda_declarada: number | null
+          renda_percebida: number | null
+          rg_ie: string | null
+          riscos_observacoes: string | null
+          sazonalidade: string | null
+          telefone_conjuge: string | null
+          telefone_principal: string | null
+          telefone_secundario: string | null
+          tipo_pessoa: Database["public"]["Enums"]["crm_tipo_pessoa"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ativo?: boolean
+          cep?: string | null
+          checklist_documental?: Json
+          cidade?: string | null
+          cnpj?: string | null
+          cpf?: string | null
+          cpf_conjuge?: string | null
+          created_at?: string
+          data_nascimento?: string | null
+          data_nascimento_conjuge?: string | null
+          email_conjuge?: string | null
+          email_principal?: string | null
+          empresas_relacionadas?: string | null
+          endereco?: string | null
+          estado?: string | null
+          estado_civil?: string | null
+          estrategia_resumo?: string | null
+          formalizacao_renda?: string | null
+          funcao_empresarial?: string | null
+          garantias_resumo?: string | null
+          google_drive_url?: string | null
+          grupo_economico?: string | null
+          id?: string
+          legacy_crm_cliente_id?: string | null
+          nacionalidade?: string | null
+          nome: string
+          nome_conjuge?: string | null
+          notas_renda?: string | null
+          origem_canal?: string | null
+          origem_parceiro?: string | null
+          participacao_societaria?: string | null
+          patrimonio_resumo?: string | null
+          perfil_renda?: string | null
+          profissao?: string | null
+          regime_bens?: string | null
+          relacionamentos_bancarios?: string | null
+          renda_declarada?: number | null
+          renda_percebida?: number | null
+          rg_ie?: string | null
+          riscos_observacoes?: string | null
+          sazonalidade?: string | null
+          telefone_conjuge?: string | null
+          telefone_principal?: string | null
+          telefone_secundario?: string | null
+          tipo_pessoa?: Database["public"]["Enums"]["crm_tipo_pessoa"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ativo?: boolean
+          cep?: string | null
+          checklist_documental?: Json
+          cidade?: string | null
+          cnpj?: string | null
+          cpf?: string | null
+          cpf_conjuge?: string | null
+          created_at?: string
+          data_nascimento?: string | null
+          data_nascimento_conjuge?: string | null
+          email_conjuge?: string | null
+          email_principal?: string | null
+          empresas_relacionadas?: string | null
+          endereco?: string | null
+          estado?: string | null
+          estado_civil?: string | null
+          estrategia_resumo?: string | null
+          formalizacao_renda?: string | null
+          funcao_empresarial?: string | null
+          garantias_resumo?: string | null
+          google_drive_url?: string | null
+          grupo_economico?: string | null
+          id?: string
+          legacy_crm_cliente_id?: string | null
+          nacionalidade?: string | null
+          nome?: string
+          nome_conjuge?: string | null
+          notas_renda?: string | null
+          origem_canal?: string | null
+          origem_parceiro?: string | null
+          participacao_societaria?: string | null
+          patrimonio_resumo?: string | null
+          perfil_renda?: string | null
+          profissao?: string | null
+          regime_bens?: string | null
+          relacionamentos_bancarios?: string | null
+          renda_declarada?: number | null
+          renda_percebida?: number | null
+          rg_ie?: string | null
+          riscos_observacoes?: string | null
+          sazonalidade?: string | null
+          telefone_conjuge?: string | null
+          telefone_principal?: string | null
+          telefone_secundario?: string | null
+          tipo_pessoa?: Database["public"]["Enums"]["crm_tipo_pessoa"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_clientes_master_legacy_crm_cliente_id_fkey"
+            columns: ["legacy_crm_cliente_id"]
+            isOneToOne: false
+            referencedRelation: "crm_clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       crm_historico: {
         Row: {
           cliente_id: string
@@ -539,6 +717,313 @@ export type Database = {
             columns: ["cliente_id"]
             isOneToOne: false
             referencedRelation: "crm_clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_operacao_eventos: {
+        Row: {
+          cliente_id: string | null
+          created_at: string
+          descricao: string | null
+          id: string
+          metadata: Json
+          operacao_id: string
+          prazo: string | null
+          status_anterior:
+            | Database["public"]["Enums"]["crm_operacao_status"]
+            | null
+          status_novo: Database["public"]["Enums"]["crm_operacao_status"] | null
+          tipo: Database["public"]["Enums"]["crm_evento_tipo"]
+          titulo: string
+          user_id: string
+        }
+        Insert: {
+          cliente_id?: string | null
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          metadata?: Json
+          operacao_id: string
+          prazo?: string | null
+          status_anterior?:
+            | Database["public"]["Enums"]["crm_operacao_status"]
+            | null
+          status_novo?:
+            | Database["public"]["Enums"]["crm_operacao_status"]
+            | null
+          tipo?: Database["public"]["Enums"]["crm_evento_tipo"]
+          titulo: string
+          user_id: string
+        }
+        Update: {
+          cliente_id?: string | null
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          metadata?: Json
+          operacao_id?: string
+          prazo?: string | null
+          status_anterior?:
+            | Database["public"]["Enums"]["crm_operacao_status"]
+            | null
+          status_novo?:
+            | Database["public"]["Enums"]["crm_operacao_status"]
+            | null
+          tipo?: Database["public"]["Enums"]["crm_evento_tipo"]
+          titulo?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_operacao_eventos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "crm_clientes_master"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_operacao_eventos_operacao_id_fkey"
+            columns: ["operacao_id"]
+            isOneToOne: false
+            referencedRelation: "crm_operacoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_operacoes: {
+        Row: {
+          ativo: boolean
+          banco_alvo: string | null
+          categoria_produto: string
+          cliente_id: string
+          created_at: string
+          data_entrada: string
+          data_previsao_fechamento: string | null
+          descricao: string | null
+          drive_url: string | null
+          fee_sucesso_gatilho_status:
+            | Database["public"]["Enums"]["crm_operacao_status"]
+            | null
+          fee_sucesso_percentual: number | null
+          fee_sucesso_tipo:
+            | Database["public"]["Enums"]["crm_tipo_fee_sucesso"]
+            | null
+          fee_sucesso_valor: number | null
+          honorarios_data_vencimento: string | null
+          honorarios_iniciais: number | null
+          id: string
+          indicador_nome: string | null
+          legacy_crm_cliente_id: string | null
+          mensalidade_frequencia: string | null
+          mensalidade_inicio: string | null
+          mensalidade_quantidade: number | null
+          mensalidade_valor: number | null
+          modelo_cobranca:
+            | Database["public"]["Enums"]["crm_modelo_cobranca"]
+            | null
+          observacoes_internas: string | null
+          origem_lead: string | null
+          parcelas_fixas_quantidade: number | null
+          parcelas_fixas_valor: number | null
+          prioridade: Database["public"]["Enums"]["crm_prioridade"]
+          produto: string
+          proxima_acao: string | null
+          proxima_acao_data: string | null
+          responsavel_user_id: string | null
+          risco: Database["public"]["Enums"]["crm_risco"]
+          status: Database["public"]["Enums"]["crm_operacao_status"]
+          subproduto: string | null
+          titulo: string
+          updated_at: string
+          user_id: string
+          valor_aprovado: number | null
+          valor_objetivo: number | null
+        }
+        Insert: {
+          ativo?: boolean
+          banco_alvo?: string | null
+          categoria_produto: string
+          cliente_id: string
+          created_at?: string
+          data_entrada?: string
+          data_previsao_fechamento?: string | null
+          descricao?: string | null
+          drive_url?: string | null
+          fee_sucesso_gatilho_status?:
+            | Database["public"]["Enums"]["crm_operacao_status"]
+            | null
+          fee_sucesso_percentual?: number | null
+          fee_sucesso_tipo?:
+            | Database["public"]["Enums"]["crm_tipo_fee_sucesso"]
+            | null
+          fee_sucesso_valor?: number | null
+          honorarios_data_vencimento?: string | null
+          honorarios_iniciais?: number | null
+          id?: string
+          indicador_nome?: string | null
+          legacy_crm_cliente_id?: string | null
+          mensalidade_frequencia?: string | null
+          mensalidade_inicio?: string | null
+          mensalidade_quantidade?: number | null
+          mensalidade_valor?: number | null
+          modelo_cobranca?:
+            | Database["public"]["Enums"]["crm_modelo_cobranca"]
+            | null
+          observacoes_internas?: string | null
+          origem_lead?: string | null
+          parcelas_fixas_quantidade?: number | null
+          parcelas_fixas_valor?: number | null
+          prioridade?: Database["public"]["Enums"]["crm_prioridade"]
+          produto: string
+          proxima_acao?: string | null
+          proxima_acao_data?: string | null
+          responsavel_user_id?: string | null
+          risco?: Database["public"]["Enums"]["crm_risco"]
+          status?: Database["public"]["Enums"]["crm_operacao_status"]
+          subproduto?: string | null
+          titulo: string
+          updated_at?: string
+          user_id: string
+          valor_aprovado?: number | null
+          valor_objetivo?: number | null
+        }
+        Update: {
+          ativo?: boolean
+          banco_alvo?: string | null
+          categoria_produto?: string
+          cliente_id?: string
+          created_at?: string
+          data_entrada?: string
+          data_previsao_fechamento?: string | null
+          descricao?: string | null
+          drive_url?: string | null
+          fee_sucesso_gatilho_status?:
+            | Database["public"]["Enums"]["crm_operacao_status"]
+            | null
+          fee_sucesso_percentual?: number | null
+          fee_sucesso_tipo?:
+            | Database["public"]["Enums"]["crm_tipo_fee_sucesso"]
+            | null
+          fee_sucesso_valor?: number | null
+          honorarios_data_vencimento?: string | null
+          honorarios_iniciais?: number | null
+          id?: string
+          indicador_nome?: string | null
+          legacy_crm_cliente_id?: string | null
+          mensalidade_frequencia?: string | null
+          mensalidade_inicio?: string | null
+          mensalidade_quantidade?: number | null
+          mensalidade_valor?: number | null
+          modelo_cobranca?:
+            | Database["public"]["Enums"]["crm_modelo_cobranca"]
+            | null
+          observacoes_internas?: string | null
+          origem_lead?: string | null
+          parcelas_fixas_quantidade?: number | null
+          parcelas_fixas_valor?: number | null
+          prioridade?: Database["public"]["Enums"]["crm_prioridade"]
+          produto?: string
+          proxima_acao?: string | null
+          proxima_acao_data?: string | null
+          responsavel_user_id?: string | null
+          risco?: Database["public"]["Enums"]["crm_risco"]
+          status?: Database["public"]["Enums"]["crm_operacao_status"]
+          subproduto?: string | null
+          titulo?: string
+          updated_at?: string
+          user_id?: string
+          valor_aprovado?: number | null
+          valor_objetivo?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_operacoes_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "crm_clientes_master"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_operacoes_legacy_crm_cliente_id_fkey"
+            columns: ["legacy_crm_cliente_id"]
+            isOneToOne: false
+            referencedRelation: "crm_clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_recebiveis: {
+        Row: {
+          cliente_id: string
+          created_at: string
+          data_competencia: string | null
+          data_pagamento: string | null
+          data_vencimento: string
+          descricao: string | null
+          evento_gatilho: string | null
+          id: string
+          operacao_id: string
+          origem_automatica: boolean
+          parcela_atual: number | null
+          parcelas_total: number | null
+          status: Database["public"]["Enums"]["crm_recebivel_status"]
+          tipo: Database["public"]["Enums"]["crm_recebivel_tipo"]
+          updated_at: string
+          user_id: string
+          valor: number
+        }
+        Insert: {
+          cliente_id: string
+          created_at?: string
+          data_competencia?: string | null
+          data_pagamento?: string | null
+          data_vencimento: string
+          descricao?: string | null
+          evento_gatilho?: string | null
+          id?: string
+          operacao_id: string
+          origem_automatica?: boolean
+          parcela_atual?: number | null
+          parcelas_total?: number | null
+          status?: Database["public"]["Enums"]["crm_recebivel_status"]
+          tipo: Database["public"]["Enums"]["crm_recebivel_tipo"]
+          updated_at?: string
+          user_id: string
+          valor?: number
+        }
+        Update: {
+          cliente_id?: string
+          created_at?: string
+          data_competencia?: string | null
+          data_pagamento?: string | null
+          data_vencimento?: string
+          descricao?: string | null
+          evento_gatilho?: string | null
+          id?: string
+          operacao_id?: string
+          origem_automatica?: boolean
+          parcela_atual?: number | null
+          parcelas_total?: number | null
+          status?: Database["public"]["Enums"]["crm_recebivel_status"]
+          tipo?: Database["public"]["Enums"]["crm_recebivel_tipo"]
+          updated_at?: string
+          user_id?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_recebiveis_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "crm_clientes_master"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_recebiveis_operacao_id_fkey"
+            columns: ["operacao_id"]
+            isOneToOne: false
+            referencedRelation: "crm_operacoes"
             referencedColumns: ["id"]
           },
         ]
@@ -957,6 +1442,36 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "client"
+      crm_evento_tipo:
+        | "nota"
+        | "status"
+        | "pendencia"
+        | "documento"
+        | "financeiro"
+        | "agenda"
+        | "sistema"
+      crm_modelo_cobranca:
+        | "honorarios_mensalidade"
+        | "fee_sucesso"
+        | "hibrido"
+        | "fixo_parcelado"
+      crm_operacao_status:
+        | "lead_novo"
+        | "contato_inicial"
+        | "triagem"
+        | "analise_inicial"
+        | "analise_documental"
+        | "viabilidade"
+        | "proposta_enviada"
+        | "em_negociacao"
+        | "aprovado"
+        | "em_fechamento"
+        | "contrato_assinado"
+        | "em_execucao"
+        | "acompanhamento"
+        | "concluido"
+        | "cancelado"
+        | "suspenso"
       crm_pipeline_status:
         | "prospeccao"
         | "analise_documental"
@@ -968,6 +1483,22 @@ export type Database = {
         | "cancelado"
         | "analise_inicial"
         | "acompanhamento"
+      crm_prioridade: "baixa" | "media" | "alta" | "critica"
+      crm_recebivel_status:
+        | "previsto"
+        | "pendente"
+        | "pago"
+        | "vencido"
+        | "cancelado"
+      crm_recebivel_tipo:
+        | "honorario_inicial"
+        | "mensalidade"
+        | "fee_sucesso"
+        | "parcela_fixa"
+        | "ajuste"
+      crm_risco: "baixo" | "moderado" | "alto"
+      crm_tipo_fee_sucesso: "percentual" | "fixo"
+      crm_tipo_pessoa: "pf" | "pj"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1096,6 +1627,39 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "client"],
+      crm_evento_tipo: [
+        "nota",
+        "status",
+        "pendencia",
+        "documento",
+        "financeiro",
+        "agenda",
+        "sistema",
+      ],
+      crm_modelo_cobranca: [
+        "honorarios_mensalidade",
+        "fee_sucesso",
+        "hibrido",
+        "fixo_parcelado",
+      ],
+      crm_operacao_status: [
+        "lead_novo",
+        "contato_inicial",
+        "triagem",
+        "analise_inicial",
+        "analise_documental",
+        "viabilidade",
+        "proposta_enviada",
+        "em_negociacao",
+        "aprovado",
+        "em_fechamento",
+        "contrato_assinado",
+        "em_execucao",
+        "acompanhamento",
+        "concluido",
+        "cancelado",
+        "suspenso",
+      ],
       crm_pipeline_status: [
         "prospeccao",
         "analise_documental",
@@ -1108,6 +1672,24 @@ export const Constants = {
         "analise_inicial",
         "acompanhamento",
       ],
+      crm_prioridade: ["baixa", "media", "alta", "critica"],
+      crm_recebivel_status: [
+        "previsto",
+        "pendente",
+        "pago",
+        "vencido",
+        "cancelado",
+      ],
+      crm_recebivel_tipo: [
+        "honorario_inicial",
+        "mensalidade",
+        "fee_sucesso",
+        "parcela_fixa",
+        "ajuste",
+      ],
+      crm_risco: ["baixo", "moderado", "alto"],
+      crm_tipo_fee_sucesso: ["percentual", "fixo"],
+      crm_tipo_pessoa: ["pf", "pj"],
     },
   },
 } as const
