@@ -1,202 +1,230 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
 import ClientLayout from "@/components/ClientLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Users, Building2, Briefcase, CalendarDays, DollarSign, Clock, Plus, CheckCircle } from "lucide-react";
-import { useCompromissos } from "@/hooks/useCompromissos";
-import { usePjClientes } from "@/hooks/usePjClientes";
-import { useCrmClientes } from "@/hooks/useCrmClientes";
-import CompromissoForm from "@/components/pj/CompromissoForm";
-import { formatCurrency } from "@/lib/pj-constants";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ArrowRight, CalendarDays, DollarSign, FolderKanban, TriangleAlert, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useCrmV2 } from "@/hooks/useCrmV2";
+import { CRM_STATUS_LABELS, formatCurrency, formatDate, formatDateTime, getStatusBadgeClasses } from "@/lib/crm-v2";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const { compromissos, compromissosHoje, compromissosAmanha, createCompromisso, updateCompromisso } = useCompromissos();
-  const { clientes: clientesPj } = usePjClientes();
-  const { clientes: clientesCrm } = useCrmClientes();
-  const [clientesPf, setClientesPf] = useState<any[]>([]);
-  const [compromissoFormOpen, setCompromissoFormOpen] = useState(false);
+  const { loading, clientesMap, operacoesAtivas, agendaHoje, agendaAmanha, dashboardMetrics, produtosAtivos, recebiveis } = useCrmV2();
 
-  // Recebimentos do mês
-  const [recebimentosMes, setRecebimentosMes] = useState<number>(0);
+  const vencimentosProximos = recebiveis
+    .filter((item) => item.status !== "pago" && item.status !== "cancelado")
+    .slice(0, 8);
 
-  useEffect(() => {
-    fetchPfClients();
-    fetchRecebimentosMes();
-  }, []);
+  const operacoesCriticas = operacoesAtivas
+    .filter((item) => item.prioridade === "critica" || item.risco === "alto")
+    .slice(0, 8);
 
-  const fetchPfClients = async () => {
-    const { data } = await supabase.from("profiles").select("id").order("created_at", { ascending: false });
-    setClientesPf(data || []);
-  };
-
-  const fetchRecebimentosMes = async () => {
-    const now = new Date();
-    const startOfMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
-    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    const endStr = `${endOfMonth.getFullYear()}-${String(endOfMonth.getMonth() + 1).padStart(2, "0")}-${String(endOfMonth.getDate()).padStart(2, "0")}`;
-
-    const { data } = await supabase
-      .from("pj_recebimentos")
-      .select("valor, status")
-      .gte("data_vencimento", startOfMonth)
-      .lte("data_vencimento", endStr) as any;
-
-    const total = (data || []).filter((r: any) => r.status !== 'cancelado').reduce((s: number, r: any) => s + Number(r.valor), 0);
-    setRecebimentosMes(total);
-  };
-
-  // Product breakdown for CRM
-  const crmByProduto = clientesCrm.reduce((acc: Record<string, number>, c) => {
-    const key = c.produto || "Sem produto";
-    acc[key] = (acc[key] || 0) + 1;
-    return acc;
-  }, {});
-
-  const pjBySegmento = clientesPj.reduce((acc: Record<string, number>, c) => {
-    const key = c.segmento || "Sem segmento";
-    acc[key] = (acc[key] || 0) + 1;
-    return acc;
-  }, {});
-
-  const formatTime = (dateStr: string) => {
-    try { return new Date(dateStr).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }); }
-    catch { return "—"; }
-  };
-
-  const handleConcluir = async (id: string) => {
-    await updateCompromisso(id, { status: 'concluido' });
-  };
+  if (loading) {
+    return (
+      <ClientLayout role="admin">
+        <div className="flex h-64 items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-accent" />
+        </div>
+      </ClientLayout>
+    );
+  }
 
   return (
     <ClientLayout role="admin">
-      <div className="space-y-8 animate-fade-in">
-        <div className="flex items-center justify-between">
+      <div className="space-y-8">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h1 className="text-3xl font-display font-bold text-foreground">Dashboard Geral</h1>
-            <p className="text-muted-foreground font-body text-sm mt-1">Visão consolidada da sua operação</p>
+            <p className="mt-1 text-sm font-body text-muted-foreground">
+              Resumo executivo da operação com clientes ativos, agenda, carteira e recebíveis do escritório.
+            </p>
           </div>
-          <Button onClick={() => setCompromissoFormOpen(true)} className="font-body gap-2 bg-gradient-gold text-primary hover:opacity-90">
-            <Plus className="h-4 w-4" /> Compromisso
+          <Button onClick={() => navigate("/cliente/admin/crm")} className="gap-2 font-body bg-gradient-gold text-primary hover:opacity-90">
+            Abrir CRM <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-6">
           {[
-            { label: "Clientes PF", value: String(clientesPf.length), icon: Users, onClick: () => navigate("/cliente/admin/pf") },
-            { label: "Clientes PJ", value: String(clientesPj.length), icon: Building2, onClick: () => navigate("/cliente/admin/pj") },
-            { label: "CRM Crédito", value: String(clientesCrm.length), icon: Briefcase, onClick: () => navigate("/cliente/admin/crm") },
-            { label: "Recebimentos do Mês", value: formatCurrency(recebimentosMes), icon: DollarSign },
-          ].map((s) => (
-            <Card key={s.label} className="border-border shadow-sm cursor-pointer hover:shadow-md transition-shadow" onClick={s.onClick}>
-              <CardContent className="p-5 flex items-center gap-4">
-                <div className="p-3 rounded-lg bg-secondary">
-                  <s.icon className="h-5 w-5 text-accent" />
+            { label: "Clientes ativos", value: String(dashboardMetrics.clientesAtivos), icon: Users },
+            { label: "Operações", value: String(dashboardMetrics.operacoesAndamento), icon: FolderKanban },
+            { label: "A receber", value: formatCurrency(dashboardMetrics.aReceberMes), icon: DollarSign },
+            { label: "Recebido", value: formatCurrency(dashboardMetrics.recebidoMes), icon: DollarSign },
+            { label: "Em atraso", value: formatCurrency(dashboardMetrics.emAtraso), icon: TriangleAlert },
+            { label: "Agenda amanhã", value: String(dashboardMetrics.compromissosAmanha), icon: CalendarDays },
+          ].map((item) => (
+            <Card key={item.label} className="border-border shadow-sm">
+              <CardContent className="flex items-center gap-3 p-4">
+                <div className="rounded-xl bg-secondary p-3">
+                  <item.icon className="h-5 w-5 text-accent" />
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground font-body">{s.label}</p>
-                  <p className="text-xl font-display font-bold text-foreground">{s.value}</p>
+                  <p className="text-xs font-body text-muted-foreground">{item.label}</p>
+                  <p className="text-lg font-display font-bold text-foreground">{item.value}</p>
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        {/* Two columns: Compromissos + Breakdown */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Compromissos */}
-          <div className="space-y-4">
-            <Card className="border-border shadow-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-display flex items-center gap-2">
-                  <CalendarDays className="h-4 w-4 text-accent" /> Compromissos de Hoje
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {compromissosHoje.length === 0 && <p className="text-sm text-muted-foreground font-body text-center py-4">Nenhum compromisso para hoje</p>}
-                {compromissosHoje.map(c => (
-                  <div key={c.id} className="flex items-center justify-between p-3 rounded-lg bg-secondary">
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-body">
-                        <Clock className="h-3.5 w-3.5" /> {formatTime(c.data_hora)}
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-display text-base">O que tenho marcado para o próximo ciclo</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <p className="mb-2 text-xs font-body uppercase tracking-wide text-muted-foreground">Hoje</p>
+                <div className="space-y-2">
+                  {agendaHoje.length === 0 && <p className="text-sm font-body text-muted-foreground">Nenhum compromisso hoje.</p>}
+                  {agendaHoje.map((item) => (
+                    <div key={item.id} className="rounded-xl border border-border p-4">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="font-body text-sm font-medium text-foreground">{item.titulo}</p>
+                        <Badge variant="outline" className="font-body capitalize">{item.tipo}</Badge>
                       </div>
-                      <div>
-                        <p className="text-sm font-body font-medium">{c.titulo}</p>
-                        <Badge variant="outline" className="text-[9px] font-body capitalize">{c.tipo}</Badge>
+                      <p className="mt-2 text-xs font-body text-muted-foreground">{formatDateTime(item.data_hora)}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="mb-2 text-xs font-body uppercase tracking-wide text-muted-foreground">Amanhã</p>
+                <div className="space-y-2">
+                  {agendaAmanha.length === 0 && <p className="text-sm font-body text-muted-foreground">Nenhum compromisso amanhã.</p>}
+                  {agendaAmanha.map((item) => (
+                    <div key={item.id} className="rounded-xl border border-border p-4">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="font-body text-sm font-medium text-foreground">{item.titulo}</p>
+                        <Badge variant="outline" className="font-body capitalize">{item.tipo}</Badge>
                       </div>
+                      <p className="mt-2 text-xs font-body text-muted-foreground">{formatDateTime(item.data_hora)}</p>
                     </div>
-                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleConcluir(c.id)}>
-                      <CheckCircle className="h-4 w-4 text-emerald-600" />
-                    </Button>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-            <Card className="border-border shadow-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-display flex items-center gap-2">
-                  <CalendarDays className="h-4 w-4 text-muted-foreground" /> Amanhã
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {compromissosAmanha.length === 0 && <p className="text-sm text-muted-foreground font-body text-center py-4">Nenhum compromisso para amanhã</p>}
-                {compromissosAmanha.map(c => (
-                  <div key={c.id} className="flex items-center gap-3 p-3 rounded-lg bg-secondary">
-                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-body">
-                      <Clock className="h-3.5 w-3.5" /> {formatTime(c.data_hora)}
-                    </div>
-                    <div>
-                      <p className="text-sm font-body font-medium">{c.titulo}</p>
-                      <Badge variant="outline" className="text-[9px] font-body capitalize">{c.tipo}</Badge>
-                    </div>
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-display text-base">Quais produtos têm clientes ativos</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {produtosAtivos.length === 0 && <p className="text-sm font-body text-muted-foreground">Nenhum produto ativo.</p>}
+              {produtosAtivos.map((item) => (
+                <div key={item.produto} className="flex items-center justify-between rounded-xl border border-border p-4">
+                  <div>
+                    <p className="font-body text-sm font-medium text-foreground">{item.produto}</p>
+                    <p className="text-xs font-body text-muted-foreground">
+                      {item.clientes} cliente(s) ativos • {item.operacoes} operação(ões)
+                    </p>
                   </div>
-                ))}
-              </CardContent>
-            </Card>
-          </div>
+                  <Badge variant="outline" className="font-body">{formatCurrency(item.valor)}</Badge>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
 
-          {/* Breakdown por produto */}
-          <div className="space-y-4">
-            <Card className="border-border shadow-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-display">Clientes por Produto (CRM)</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {Object.keys(crmByProduto).length === 0 && <p className="text-sm text-muted-foreground font-body text-center py-4">Nenhum cliente no CRM</p>}
-                {Object.entries(crmByProduto).sort((a, b) => b[1] - a[1]).map(([produto, count]) => (
-                  <div key={produto} className="flex items-center justify-between p-3 rounded-lg bg-secondary">
-                    <span className="text-sm font-body">{produto}</span>
-                    <Badge variant="default" className="font-body text-xs">{count}</Badge>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-display text-base">Projetos em andamento com atenção</CardTitle>
+            </CardHeader>
+            <CardContent className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Operação</TableHead>
+                    <TableHead>Cliente</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Próxima ação</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {operacoesCriticas.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>
+                        <div>
+                          <p className="font-body text-sm font-medium text-foreground">{item.titulo}</p>
+                          <p className="text-xs font-body text-muted-foreground">{item.produto}</p>
+                        </div>
+                      </TableCell>
+                      <TableCell>{clientesMap[item.cliente_id]?.nome || "—"}</TableCell>
+                      <TableCell>
+                        <Badge className={`${getStatusBadgeClasses(item.status)} border-0 font-body`}>
+                          {CRM_STATUS_LABELS[item.status]}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div>
+                          <p className="font-body text-sm">{item.proxima_acao || "—"}</p>
+                          <p className="text-xs font-body text-muted-foreground">{formatDateTime(item.proxima_acao_data)}</p>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {operacoesCriticas.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={4} className="py-8 text-center text-sm font-body text-muted-foreground">
+                        Nenhuma operação crítica identificada.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
 
-            <Card className="border-border shadow-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-display">Clientes PJ por Segmento</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {Object.keys(pjBySegmento).length === 0 && <p className="text-sm text-muted-foreground font-body text-center py-4">Nenhum cliente PJ</p>}
-                {Object.entries(pjBySegmento).sort((a, b) => b[1] - a[1]).map(([seg, count]) => (
-                  <div key={seg} className="flex items-center justify-between p-3 rounded-lg bg-secondary">
-                    <span className="text-sm font-body">{seg}</span>
-                    <Badge variant="default" className="font-body text-xs">{count}</Badge>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-display text-base">Fluxo de recebimento a partir dos cards</CardTitle>
+            </CardHeader>
+            <CardContent className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Descrição</TableHead>
+                    <TableHead>Cliente</TableHead>
+                    <TableHead>Vencimento</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Valor</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {vencimentosProximos.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>
+                        <div>
+                          <p className="font-body text-sm font-medium text-foreground">{item.descricao || "Recebível"}</p>
+                          <p className="text-xs font-body text-muted-foreground">{item.evento_gatilho || "manual"}</p>
+                        </div>
+                      </TableCell>
+                      <TableCell>{clientesMap[item.cliente_id]?.nome || "—"}</TableCell>
+                      <TableCell>{formatDate(item.data_vencimento)}</TableCell>
+                      <TableCell>
+                        <Badge className={`${getStatusBadgeClasses(item.status)} border-0 font-body`}>
+                          {item.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{formatCurrency(item.valor)}</TableCell>
+                    </TableRow>
+                  ))}
+                  {vencimentosProximos.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={5} className="py-8 text-center text-sm font-body text-muted-foreground">
+                        Nenhum recebível previsto no momento.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
         </div>
       </div>
-
-      <CompromissoForm open={compromissoFormOpen} onClose={() => setCompromissoFormOpen(false)} onSave={createCompromisso} clientes={clientesPj} />
     </ClientLayout>
   );
 };
