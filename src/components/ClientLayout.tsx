@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import {
-  LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, PlusCircle, Upload, Landmark, Wallet, BookOpen, Briefcase,
+  LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, PlusCircle, Upload, Landmark, Wallet, BookOpen, Briefcase, Building2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -24,11 +24,12 @@ const clientLinks = [
 ];
 
 const adminLinks = [
-  { label: "Dashboard", icon: LayoutDashboard, href: "/cliente/admin" },
-  { label: "Clientes", icon: Users, href: "/cliente/admin", tab: "clientes" },
+  { label: "Dashboard Geral", icon: LayoutDashboard, href: "/cliente/admin" },
+  { label: "Clientes Gestão PF", icon: Users, href: "/cliente/admin/pf" },
+  { label: "Clientes PJ", icon: Building2, href: "/cliente/admin/pj" },
   { label: "CRM Crédito", icon: Briefcase, href: "/cliente/admin/crm" },
-  { label: "Convites", icon: FileText, href: "/cliente/admin", tab: "convites" },
-  { label: "Configurações", icon: Settings, href: "/cliente/admin", tab: "configuracoes" },
+  { label: "Convites", icon: FileText, href: "/cliente/admin/convites" },
+  { label: "Configurações", icon: Settings, href: "/cliente/admin/config" },
 ];
 
 const ClientLayout = ({ children, role = "client" }: ClientLayoutProps) => {
