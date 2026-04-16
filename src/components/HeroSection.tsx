@@ -3,6 +3,7 @@ import { useRef } from "react";
 import viniciusPhoto from "@/assets/vinicius-photo.jpg";
 
 import manhattanSkyline from "@/assets/manhattan-skyline.jpg";
+import manhattanSkylineMobile from "@/assets/manhattan-skyline-mobile.jpg";
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -16,18 +17,25 @@ const HeroSection = () => {
 
   return (
     <section ref={sectionRef} id="inicio" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background skyline with parallax + Ken Burns zoom */}
+      {/* Background skyline with parallax + Ken Burns zoom (art-directed for mobile) */}
       <motion.div
         aria-hidden="true"
         initial={{ scale: 1.05 }}
         animate={{ scale: 1.18 }}
         transition={{ duration: 18, ease: "easeOut" }}
-        style={{
-          backgroundImage: `url(${manhattanSkyline})`,
-          y: skylineY,
-        }}
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
-      />
+        style={{ y: skylineY }}
+        className="absolute inset-0 will-change-transform"
+      >
+        <picture>
+          <source media="(max-width: 767px)" srcSet={manhattanSkylineMobile} />
+          <img
+            src={manhattanSkyline}
+            alt=""
+            className="w-full h-full object-cover object-center"
+            fetchPriority="high"
+          />
+        </picture>
+      </motion.div>
 
       {/* Navy gradient overlay to keep brand mood and ensure text contrast */}
       <div className="absolute inset-0 bg-gradient-navy opacity-80" />
