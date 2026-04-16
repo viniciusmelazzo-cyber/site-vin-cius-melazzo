@@ -28,6 +28,7 @@ import AdminCRM from "./pages/cliente/AdminCRM.tsx";
 import AdminPJ from "./pages/cliente/AdminPJ.tsx";
 import AdminPF from "./pages/cliente/AdminPF.tsx";
 import AdminConvites from "./pages/cliente/AdminConvites.tsx";
+import AdminLeads from "./pages/cliente/AdminLeads.tsx";
 import GuiaDeUso from "./pages/cliente/GuiaDeUso.tsx";
 
 const queryClient = new QueryClient();
@@ -62,6 +63,7 @@ const App = () => (
             <Route path="/cliente/admin/pj" element={<ProtectedRoute requireAdmin><AdminPJ /></ProtectedRoute>} />
             <Route path="/cliente/admin/crm" element={<ProtectedRoute requireAdmin><AdminCRM /></ProtectedRoute>} />
             <Route path="/cliente/admin/convites" element={<ProtectedRoute requireAdmin><AdminConvites /></ProtectedRoute>} />
+            <Route path="/cliente/admin/leads" element={<ProtectedRoute requireAdmin><AdminLeads /></ProtectedRoute>} />
             <Route path="/cliente/admin/config" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />
             <Route path="/cliente/admin/cliente/:clientId" element={<ProtectedRoute requireAdmin><AdminClientDetail /></ProtectedRoute>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

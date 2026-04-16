@@ -1105,7 +1105,10 @@ export type Database = {
           email: string
           id: string
           ip_hash: string | null
+          lido: boolean
+          mensagem: string | null
           nome: string
+          origem: string
           page_path: string | null
           propriedade: string | null
           segmento: string | null
@@ -1122,7 +1125,10 @@ export type Database = {
           email: string
           id?: string
           ip_hash?: string | null
+          lido?: boolean
+          mensagem?: string | null
           nome: string
+          origem?: string
           page_path?: string | null
           propriedade?: string | null
           segmento?: string | null
@@ -1139,7 +1145,10 @@ export type Database = {
           email?: string
           id?: string
           ip_hash?: string | null
+          lido?: boolean
+          mensagem?: string | null
           nome?: string
+          origem?: string
           page_path?: string | null
           propriedade?: string | null
           segmento?: string | null
