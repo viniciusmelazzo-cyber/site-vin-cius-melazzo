@@ -126,7 +126,7 @@ const WhatsAppConnect = () => {
         ) : link?.verified ? (
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <Badge className="bg-emerald-600 hover:bg-emerald-600 text-white gap-1">
+              <Badge className="bg-finance-positive hover:bg-finance-positive text-primary-foreground gap-1">
                 <CheckCircle2 className="h-3.5 w-3.5" /> Conectado
               </Badge>
               <span className="font-body text-sm text-foreground">{prettyPhone(link.phone_e164)}</span>
