@@ -10,7 +10,7 @@ const links = [
   { href: "#metodologia", label: "Metodologia" },
   { href: "/empresarial", label: "Empresarial", route: true },
   { href: "/rural", label: "Rural", route: true },
-  { href: "#frentes", label: "Consultoria para Pessoa Física" },
+  { href: "/pessoa-fisica", label: "Consultoria para Pessoa Física", route: true },
   { href: "#contato", label: "Contato" },
 ];
 
