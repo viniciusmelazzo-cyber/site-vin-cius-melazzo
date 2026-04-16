@@ -291,6 +291,7 @@ const ContactSection = () => {
             </a>
           </motion.div>
         </div>
+      </div>
     </section>
   );
 };
