@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import logoVM from "@/assets/logo-vm.webp";
+import logoVM2x from "@/assets/logo-vm@2x.webp";
 
 type LogoVariant = "auto" | "onDark" | "onLight" | "light" | "navy" | "gold";
 
@@ -58,6 +59,7 @@ const Logo = ({
     >
       <img
         src={logoVM}
+        srcSet={`${logoVM} 1x, ${logoVM2x} 2x`}
         alt={alt}
         width={size}
         height={size}
