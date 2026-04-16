@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, UserCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 import logoVM from "@/assets/logo-vm.webp";
 
 const links = [
@@ -54,15 +55,25 @@ const Navbar = () => {
 
         {/* Desktop links */}
         <div className="hidden xl:flex items-center gap-6">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="font-body text-[11px] tracking-[0.1em] uppercase text-primary-foreground/60 hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm px-1"
-            >
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) =>
+            l.route ? (
+              <Link
+                key={l.href}
+                to={l.href}
+                className="font-body text-[11px] tracking-[0.1em] uppercase text-gold/90 hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm px-1"
+              >
+                {l.label}
+              </Link>
+            ) : (
+              <a
+                key={l.href}
+                href={l.href}
+                className="font-body text-[11px] tracking-[0.1em] uppercase text-primary-foreground/60 hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm px-1"
+              >
+                {l.label}
+              </a>
+            )
+          )}
 
           {/* Área do Cliente */}
           <a
