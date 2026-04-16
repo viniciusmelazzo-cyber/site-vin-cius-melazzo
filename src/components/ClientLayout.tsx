@@ -7,6 +7,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/brand/Logo";
+import FloatingActionButton from "@/components/cliente/FloatingActionButton";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -132,8 +133,9 @@ const ClientLayout = ({ children, role = "client" }: ClientLayoutProps) => {
             </div>
           </div>
         </header>
-        <div className="flex-1 p-6 lg:p-8 overflow-auto bg-linen-texture">{children}</div>
+        <div className="flex-1 p-6 lg:p-8 overflow-auto bg-linen-texture pb-24">{children}</div>
       </main>
+      {role === "client" && <FloatingActionButton />}
     </div>
   );
 };

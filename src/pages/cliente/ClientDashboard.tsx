@@ -10,6 +10,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import DREReport from "@/components/DREReport";
 import TemporalVision from "@/components/dashboard/TemporalVision";
 import EvolutionTimeline from "@/components/dashboard/EvolutionTimeline";
+import QuickEntryBar from "@/components/cliente/QuickEntryBar";
 import { calcPatrimonio, getRendaLiquida, getParcelasDividas } from "@/lib/onboarding-finance";
 import { generateFinancialReport } from "@/lib/generate-report";
 
@@ -120,6 +121,12 @@ const ClientDashboard = () => {
             <p className="text-muted-foreground font-body text-sm mt-1">Resumo financeiro</p>
           </div>
         </div>
+
+        {/* Quick AI entry bar */}
+        <QuickEntryBar onCreated={() => {
+          if (!user) return;
+          supabase.from("financial_entries").select("*").eq("user_id", user.id).order("date", { ascending: false }).then(({ data }) => setEntries(data || []));
+        }} />
 
         {/* Temporal Vision - Period Selector & Trend Chart */}
         <TemporalVision entries={entries} selectedMonth={selectedMonth} />
