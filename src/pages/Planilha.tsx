@@ -78,7 +78,7 @@ const Planilha = () => {
   return (
     <div className="min-h-screen bg-background">
       <a href="#planos" className="skip-to-content">Pular para os planos</a>
-      <RuralNavbar variant="default" />
+      <RuralNavbar variant="empresarial" />
 
       {/* Hero */}
       <section className="relative pt-28 pb-20 lg:pt-36 lg:pb-28 bg-gradient-navy overflow-hidden">

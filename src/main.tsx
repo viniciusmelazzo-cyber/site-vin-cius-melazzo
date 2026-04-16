@@ -1,6 +1,10 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+import { initAnalytics } from "./lib/analytics";
+
+// Default-denied Consent Mode v2; pixels load only after user accepts cookies.
+initAnalytics();
 
 // Patch to prevent "removeChild" errors caused by browser extensions
 // that manipulate the DOM outside of React's control

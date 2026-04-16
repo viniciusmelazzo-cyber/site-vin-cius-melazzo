@@ -52,7 +52,7 @@ const Obrigado = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <RuralNavbar variant="default" />
+      <RuralNavbar variant="empresarial" />
 
       <main className="pt-28 pb-20 lg:pt-36 lg:pb-28 bg-gradient-navy min-h-[80vh] flex items-center">
         <div className="container mx-auto px-6 lg:px-12 max-w-2xl">
