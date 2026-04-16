@@ -137,15 +137,6 @@ const Navbar = () => {
                 Área do Cliente
               </a>
 
-              {/* Mobile CTA */}
-              <a
-                href="#contato"
-                onClick={handleLinkClick}
-                role="menuitem"
-                className="block mt-2 text-center px-6 py-3 bg-gradient-gold text-primary font-body font-semibold text-xs tracking-[0.15em] uppercase transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-              >
-                Agende sua Análise Estratégica Gratuita
-              </a>
             </div>
           </motion.div>
         )}
