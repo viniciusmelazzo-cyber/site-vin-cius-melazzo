@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Handshake, ShieldCheck, Network } from "lucide-react";
-import pillarsBg from "@/assets/rural-pillars.jpg";
+import pillarsBg from "@/assets/rural-pillars.webp";
 
 const pillars = [
   {

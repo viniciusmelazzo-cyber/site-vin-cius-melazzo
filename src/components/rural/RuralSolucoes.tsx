@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Wheat, Building2, Home, Scale } from "lucide-react";
-import bgAgro from "@/assets/rural-solucoes.jpg";
+import bgAgro from "@/assets/rural-solucoes.webp";
 
 const solutions = [
   {

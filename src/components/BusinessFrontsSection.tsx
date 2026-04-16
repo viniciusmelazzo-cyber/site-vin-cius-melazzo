@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Building2, Wheat, ArrowRight } from "lucide-react";
-import empresarialImg from "@/assets/empresarial-hero.jpg";
-import ruralImg from "@/assets/rural-hero.jpg";
+import empresarialImg from "@/assets/empresarial-hero.webp";
+import ruralImg from "@/assets/rural-hero.webp";
 
 const fronts = [
   {
