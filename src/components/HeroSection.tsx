@@ -1,13 +1,23 @@
 import { motion } from "framer-motion";
 import viniciusPhoto from "@/assets/vinicius-photo.jpg";
 import logoVM from "@/assets/logo-vm.webp";
+import manhattanSkyline from "@/assets/manhattan-skyline.jpg";
 
 const HeroSection = () => {
   return (
     <section id="inicio" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-navy" />
-      
+      {/* Background skyline */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${manhattanSkyline})` }}
+      />
+
+      {/* Navy gradient overlay to keep brand mood and ensure text contrast */}
+      <div className="absolute inset-0 bg-gradient-navy opacity-80" />
+
+      {/* Bottom-up navy fade for depth */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--navy))] via-[hsl(var(--navy)/0.55)] to-transparent" />
+
       {/* Subtle linen overlay on dark */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E")`
