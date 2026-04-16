@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import logoVM from "@/assets/logo-vm.webp";
+import logoVM2x from "@/assets/logo-vm@2x.webp";
 
 type LogoVariant = "auto" | "onDark" | "onLight" | "light" | "navy" | "gold";
 
