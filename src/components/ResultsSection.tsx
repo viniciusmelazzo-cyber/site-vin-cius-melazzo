@@ -108,7 +108,7 @@ const ResultsSection = () => {
               {/* Tag header */}
               <div className="px-8 pt-8 pb-4">
                 <span className="inline-block px-3 py-1 bg-primary text-primary-foreground font-body text-[10px] tracking-[0.2em] uppercase font-semibold">
-                  {c.tag} — Exemplo
+                  {c.tag}
                 </span>
               </div>
 
