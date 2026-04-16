@@ -1,17 +1,18 @@
 import { cn } from "@/lib/utils";
-import logoVM from "@/assets/logo-vm.webp";
-import logoVM2x from "@/assets/logo-vm@2x.webp";
+import logoMark from "@/assets/logo-vm-mark.webp";
+import logoMark2x from "@/assets/logo-vm-mark@2x.webp";
+import logoMarkLight from "@/assets/logo-vm-mark-light.webp";
 
 type LogoVariant = "auto" | "onDark" | "onLight" | "light" | "navy" | "gold";
 
 interface LogoProps {
   /**
-   * onDark  → uso sobre fundos escuros (navy, hero) — adiciona leve halo dourado p/ destacar
-   * onLight → uso sobre fundos claros (linen, branco) — sem ajustes
-   * auto    → renderiza neutro (sem efeitos)
+   * onDark  → uso sobre fundos escuros (navy, hero) — usa versão clarificada (M cream + V gold)
+   * onLight → uso sobre fundos claros (linen, branco) — usa versão original
+   * auto    → renderiza versão original (sem efeitos)
    */
   variant?: LogoVariant;
-  /** Tamanho em px (largura/altura). Default: 40 */
+  /** Tamanho em px (largura/altura). Default: 48 */
   size?: number;
   className?: string;
   alt?: string;
@@ -22,16 +23,15 @@ interface LogoProps {
 }
 
 /**
- * Componente Logo reutilizável.
- * Usa a imagem original `logo-vm.webp` com:
- *  - tamanhos responsivos via prop `size`
- *  - srcset 1x/2x para nitidez em retina
- *  - leve drop-shadow dourado em fundos escuros (legibilidade)
- *  - decoding async + lazy fora da fold
+ * Componente Logo reutilizável — monograma V+M oficial.
+ * - Asset transparente extraído do poster original
+ * - srcset 1x/2x para nitidez retina
+ * - variante "onDark" troca para versão clarificada (legibilidade em navy)
+ * - drop-shadow contextual sutil
  */
 const Logo = ({
   variant = "auto",
-  size = 40,
+  size = 48,
   className,
   alt = "Melazzo Consultoria",
   withWordmark = false,
@@ -43,14 +43,18 @@ const Logo = ({
     : variant === "navy" || variant === "gold" || variant === "onLight" ? "onLight"
     : "auto";
 
+  // Em fundos escuros usamos a versão clarificada
+  const src = v === "onDark" ? logoMarkLight : logoMark;
+  const src2x = v === "onDark" ? logoMarkLight : logoMark2x;
+
   const filterStyle =
     v === "onDark"
       ? {
           filter:
-            "drop-shadow(0 0 1px hsl(var(--gold) / 0.35)) drop-shadow(0 1px 2px hsl(0 0% 0% / 0.45))",
+            "drop-shadow(0 0 2px hsl(var(--gold) / 0.25)) drop-shadow(0 1px 3px hsl(0 0% 0% / 0.5))",
         }
       : v === "onLight"
-      ? { filter: "drop-shadow(0 1px 1px hsl(var(--navy) / 0.15))" }
+      ? { filter: "drop-shadow(0 1px 2px hsl(var(--navy) / 0.18))" }
       : undefined;
 
   return (
@@ -58,8 +62,8 @@ const Logo = ({
       className={cn("inline-flex items-center gap-3 leading-none select-none", className)}
     >
       <img
-        src={logoVM}
-        srcSet={`${logoVM} 1x, ${logoVM2x} 2x`}
+        src={src}
+        srcSet={`${src} 1x, ${src2x} 2x`}
         alt={alt}
         width={size}
         height={size}
