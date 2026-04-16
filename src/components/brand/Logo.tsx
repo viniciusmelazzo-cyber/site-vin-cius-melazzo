@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import logoVM from "@/assets/logo-vm.webp";
 
-type LogoVariant = "auto" | "onDark" | "onLight";
+type LogoVariant = "auto" | "onDark" | "onLight" | "light" | "navy" | "gold";
 
 interface LogoProps {
   /**
@@ -36,13 +36,19 @@ const Logo = ({
   withWordmark = false,
   wordmarkClassName,
 }: LogoProps) => {
+  // aliases p/ retrocompatibilidade
+  const v: "onDark" | "onLight" | "auto" =
+    variant === "light" || variant === "onDark" ? "onDark"
+    : variant === "navy" || variant === "gold" || variant === "onLight" ? "onLight"
+    : "auto";
+
   const filterStyle =
-    variant === "onDark"
+    v === "onDark"
       ? {
           filter:
             "drop-shadow(0 0 1px hsl(var(--gold) / 0.35)) drop-shadow(0 1px 2px hsl(0 0% 0% / 0.45))",
         }
-      : variant === "onLight"
+      : v === "onLight"
       ? { filter: "drop-shadow(0 1px 1px hsl(var(--navy) / 0.15))" }
       : undefined;
 
