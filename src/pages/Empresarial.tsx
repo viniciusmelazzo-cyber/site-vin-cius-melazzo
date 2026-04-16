@@ -4,7 +4,7 @@ import AboutSection from "@/components/AboutSection";
 import MethodologySection from "@/components/MethodologySection";
 import ServicesSection from "@/components/ServicesSection";
 import ResultsSection from "@/components/ResultsSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
+import EmpresarialTestimonials from "@/components/EmpresarialTestimonials";
 import InsightsSection from "@/components/InsightsSection";
 import ContactSection from "@/components/ContactSection";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -140,7 +140,7 @@ const Empresarial = () => {
       <MethodologySection />
       <ServicesSection />
       <ResultsSection />
-      <TestimonialsSection />
+      <EmpresarialTestimonials />
       <InsightsSection />
       <ContactSection />
       <WhatsAppFloat />

@@ -5,6 +5,7 @@ import RuralProof from "@/components/rural/RuralProof";
 import RuralPilares from "@/components/rural/RuralPilares";
 import RuralSolucoes from "@/components/rural/RuralSolucoes";
 import RuralQuemSomos from "@/components/rural/RuralQuemSomos";
+import RuralTestimonials from "@/components/rural/RuralTestimonials";
 import LeadMagnetSection from "@/components/LeadMagnetSection";
 import ContactSection from "@/components/ContactSection";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -29,6 +30,7 @@ const Rural = () => {
       <RuralPilares />
       <RuralSolucoes />
       <RuralQuemSomos />
+      <RuralTestimonials />
       <LeadMagnetSection />
       <ContactSection />
       <WhatsAppFloat />
