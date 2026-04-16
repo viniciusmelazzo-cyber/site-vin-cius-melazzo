@@ -3,7 +3,11 @@ import { useRef } from "react";
 import viniciusPhoto from "@/assets/vinicius-photo.jpg";
 
 import manhattanSkyline from "@/assets/manhattan-skyline.jpg";
+import manhattanSkylineWebp from "@/assets/manhattan-skyline.webp";
+import manhattanSkylineAvif from "@/assets/manhattan-skyline.avif";
 import manhattanSkylineMobile from "@/assets/manhattan-skyline-mobile.jpg";
+import manhattanSkylineMobileWebp from "@/assets/manhattan-skyline-mobile.webp";
+import manhattanSkylineMobileAvif from "@/assets/manhattan-skyline-mobile.avif";
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -27,12 +31,19 @@ const HeroSection = () => {
         className="absolute inset-0 will-change-transform"
       >
         <picture>
+          {/* Mobile (vertical) — AVIF, WebP, JPG */}
+          <source media="(max-width: 767px)" type="image/avif" srcSet={manhattanSkylineMobileAvif} />
+          <source media="(max-width: 767px)" type="image/webp" srcSet={manhattanSkylineMobileWebp} />
           <source media="(max-width: 767px)" srcSet={manhattanSkylineMobile} />
+          {/* Desktop — AVIF, WebP, JPG */}
+          <source type="image/avif" srcSet={manhattanSkylineAvif} />
+          <source type="image/webp" srcSet={manhattanSkylineWebp} />
           <img
             src={manhattanSkyline}
             alt=""
             className="w-full h-full object-cover object-center"
             fetchPriority="high"
+            decoding="async"
           />
         </picture>
       </motion.div>
