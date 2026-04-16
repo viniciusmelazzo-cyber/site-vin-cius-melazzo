@@ -17,13 +17,15 @@ const HeroSection = () => {
 
   return (
     <section ref={sectionRef} id="inicio" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background skyline with parallax */}
+      {/* Background skyline with parallax + Ken Burns zoom */}
       <motion.div
         aria-hidden="true"
+        initial={{ scale: 1.05 }}
+        animate={{ scale: 1.18 }}
+        transition={{ duration: 18, ease: "easeOut" }}
         style={{
           backgroundImage: `url(${manhattanSkyline})`,
           y: skylineY,
-          scale: skylineScale,
         }}
         className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
       />
