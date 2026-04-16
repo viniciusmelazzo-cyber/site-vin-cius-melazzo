@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import {
-  LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, PlusCircle, Upload, Landmark, Wallet, BookOpen, Briefcase, Building2,
+  LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, PlusCircle, Upload, Landmark, Wallet, BookOpen, Briefcase, Building2, Inbox,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -25,6 +25,7 @@ const clientLinks = [
 
 const adminLinks = [
   { label: "Dashboard Geral", icon: LayoutDashboard, href: "/cliente/admin" },
+  { label: "Leads do Site", icon: Inbox, href: "/cliente/admin/leads" },
   { label: "Clientes Gestão PF", icon: Users, href: "/cliente/admin/pf" },
   { label: "Clientes PJ", icon: Building2, href: "/cliente/admin/pj" },
   { label: "CRM Crédito", icon: Briefcase, href: "/cliente/admin/crm" },
