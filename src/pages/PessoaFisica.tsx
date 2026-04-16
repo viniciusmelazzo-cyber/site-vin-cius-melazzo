@@ -18,7 +18,8 @@ import {
 } from "lucide-react";
 import RuralNavbar from "@/components/rural/RuralNavbar";
 import PfContactSection from "@/components/PfContactSection";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import SiteChrome from "@/components/SiteChrome";
+import SiteFooter from "@/components/SiteFooter";
 import pfHero from "@/assets/pessoa-fisica-hero.jpg";
 import pfHeroWebp from "@/assets/pessoa-fisica-hero.webp";
 import pfHeroAvif from "@/assets/pessoa-fisica-hero.avif";
@@ -492,7 +493,8 @@ const PessoaFisica = () => {
       <SegurancaSection />
       <CTAFinalSection />
       <PfContactSection />
-      <WhatsAppFloat />
+      <SiteFooter />
+      <SiteChrome />
     </div>
   );
 };
