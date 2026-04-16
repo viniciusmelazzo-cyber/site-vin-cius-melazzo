@@ -59,6 +59,7 @@ const Logo = ({
     >
       <img
         src={logoVM}
+        srcSet={`${logoVM} 1x, ${logoVM2x} 2x`}
         alt={alt}
         width={size}
         height={size}
