@@ -6,6 +6,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index.tsx";
+import Empresarial from "./pages/Empresarial.tsx";
+import Rural from "./pages/Rural.tsx";
 import ManualCreditoRural from "./pages/ManualCreditoRural.tsx";
 import Privacidade from "./pages/Privacidade.tsx";
 import NotFound from "./pages/NotFound.tsx";
@@ -38,6 +40,8 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/empresarial" element={<Empresarial />} />
+            <Route path="/rural" element={<Rural />} />
             <Route path="/manual-credito-rural-2026" element={<ManualCreditoRural />} />
             <Route path="/privacidade" element={<Privacidade />} />
             <Route path="/cliente/login" element={<Login />} />

@@ -7,9 +7,9 @@ const links = [
   { href: "#inicio", label: "Início" },
   { href: "#sobre", label: "Quem Somos" },
   { href: "#metodologia", label: "Metodologia" },
-  { href: "#servicos", label: "Serviços" },
-  { href: "#resultados", label: "Resultados" },
-  { href: "#insights", label: "Insights" },
+  { href: "#frentes", label: "Frentes" },
+  { href: "/empresarial", label: "Empresarial", route: true },
+  { href: "/rural", label: "Rural", route: true },
   { href: "#contato", label: "Contato" },
 ];
 
