@@ -11,9 +11,8 @@ const HeroSection = () => {
     offset: ["start start", "end start"],
   });
 
-  // Subtle parallax: skyline moves slower than scroll, with a soft scale
+  // Subtle parallax: skyline moves slower than scroll
   const skylineY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-  const skylineScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.15]);
 
   return (
     <section ref={sectionRef} id="inicio" className="relative min-h-screen flex items-center overflow-hidden">
