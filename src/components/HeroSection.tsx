@@ -31,12 +31,19 @@ const HeroSection = () => {
         className="absolute inset-0 will-change-transform"
       >
         <picture>
+          {/* Mobile (vertical) — AVIF, WebP, JPG */}
+          <source media="(max-width: 767px)" type="image/avif" srcSet={manhattanSkylineMobileAvif} />
+          <source media="(max-width: 767px)" type="image/webp" srcSet={manhattanSkylineMobileWebp} />
           <source media="(max-width: 767px)" srcSet={manhattanSkylineMobile} />
+          {/* Desktop — AVIF, WebP, JPG */}
+          <source type="image/avif" srcSet={manhattanSkylineAvif} />
+          <source type="image/webp" srcSet={manhattanSkylineWebp} />
           <img
             src={manhattanSkyline}
             alt=""
             className="w-full h-full object-cover object-center"
             fetchPriority="high"
+            decoding="async"
           />
         </picture>
       </motion.div>
