@@ -27,14 +27,11 @@ const SocialFloat = () => {
     };
   }, [open]);
 
-  // Channels except WhatsApp (which is the main button)
-  const others = SOCIAL_CHANNELS.filter((c) => c.name !== "WhatsApp");
-
   return (
     <div ref={ref} className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
       <AnimatePresence>
         {open &&
-          others.map((channel, i) => (
+          SOCIAL_CHANNELS.map((channel, i) => (
             <motion.a
               key={channel.name}
               href={channel.href}
@@ -44,10 +41,10 @@ const SocialFloat = () => {
               initial={{ opacity: 0, scale: 0.5, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.5, y: 20 }}
-              transition={{ duration: 0.18, delay: i * 0.05 }}
+              transition={{ duration: 0.18, delay: i * 0.04 }}
               className="group flex items-center gap-3"
             >
-              <span className="bg-primary text-primary-foreground font-body text-[11px] tracking-[0.15em] uppercase px-3 py-1.5 shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="bg-primary text-primary-foreground font-body text-[11px] tracking-[0.15em] uppercase px-3 py-1.5 shadow-md opacity-0 group-hover:opacity-100 transition-opacity hidden sm:inline-block">
                 {channel.name}
               </span>
               <span
@@ -64,41 +61,40 @@ const SocialFloat = () => {
         type="button"
         onClick={() => setOpen((s) => !s)}
         aria-expanded={open}
-        aria-label={open ? "Fechar redes sociais" : "Abrir redes sociais"}
-        className="relative flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] text-white shadow-xl hover:scale-105 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+        aria-label={open ? "Fechar redes sociais" : "Falar com Vinícius — abrir redes sociais"}
+        className="relative flex items-center justify-center w-14 h-14 rounded-full bg-gradient-gold text-primary shadow-xl hover:scale-105 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
       >
-        <motion.span
-          animate={{ rotate: open ? 90 : 0, opacity: open ? 0 : 1 }}
-          transition={{ duration: 0.2 }}
-          className="absolute"
-        >
-          <WhatsAppIcon size={26} />
-        </motion.span>
-        <motion.span
-          animate={{ rotate: open ? 0 : -90, opacity: open ? 1 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="absolute"
-        >
-          <X className="w-6 h-6" />
-        </motion.span>
+        <AnimatePresence mode="wait" initial={false}>
+          {open ? (
+            <motion.span
+              key="close"
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="absolute"
+            >
+              <X className="w-6 h-6" />
+            </motion.span>
+          ) : (
+            <motion.span
+              key="open"
+              initial={{ rotate: 90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: -90, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="absolute"
+              aria-hidden="true"
+            >
+              <WhatsAppIcon size={26} />
+            </motion.span>
+          )}
+        </AnimatePresence>
+        {/* Pulse ring to draw attention when closed */}
+        {!open && (
+          <span className="absolute inset-0 rounded-full bg-gold/40 animate-ping opacity-40" aria-hidden="true" />
+        )}
       </button>
-
-      {/* Direct link for WhatsApp when collapsed (long-press hint via title) */}
-      {!open && (
-        <a
-          href="https://wa.me/5534992282778"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Conversar no WhatsApp"
-          className="absolute inset-0 rounded-full"
-          onClick={(e) => {
-            // Only navigate if user single-clicked the FAB while closed
-            // Stop event so the toggle button click doesn't open the menu
-            e.stopPropagation();
-          }}
-          style={{ display: "none" }}
-        />
-      )}
     </div>
   );
 };
