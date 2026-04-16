@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import logoVM from "@/assets/logo-vm.webp";
+import Logo from "@/components/brand/Logo";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -57,7 +57,7 @@ const ClientLayout = ({ children, role = "client" }: ClientLayoutProps) => {
       >
         <div className="p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src={logoVM} alt="" className="w-7 h-7 object-contain" />
+            <Logo variant="light" size={32} />
             <div>
               <h1 className="text-lg font-display font-bold text-primary-foreground">Melazzo</h1>
               <p className="text-primary-foreground/40 text-[10px] tracking-widest uppercase font-body">

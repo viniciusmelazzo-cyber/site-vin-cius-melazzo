@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import viniciusPhoto from "@/assets/vinicius-photo.jpg";
-import logoVM from "@/assets/logo-vm.webp";
+
 import manhattanSkyline from "@/assets/manhattan-skyline.jpg";
 
 const HeroSection = () => {
