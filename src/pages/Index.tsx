@@ -8,8 +8,10 @@ import ResultsSection from "@/components/ResultsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import InsightsSection from "@/components/InsightsSection";
 import ContactSection from "@/components/ContactSection";
+import { useHashScroll } from "@/hooks/useHashScroll";
 
 const Index = () => {
+  useHashScroll();
   return (
     <div className="min-h-screen">
       <a href="#inicio" className="skip-to-content">Pular para o conteúdo</a>
