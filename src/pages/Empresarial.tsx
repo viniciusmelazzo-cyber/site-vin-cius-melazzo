@@ -12,6 +12,8 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowDown } from "lucide-react";
 import empresarialBg from "@/assets/empresarial-hero.jpg";
+import empresarialBgWebp from "@/assets/empresarial-hero.webp";
+import empresarialBgAvif from "@/assets/empresarial-hero.avif";
 
 const EmpresarialHero = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -31,13 +33,21 @@ const EmpresarialHero = () => {
     >
       <motion.div
         aria-hidden="true"
-        style={{
-          backgroundImage: `url(${empresarialBg})`,
-          y: bgY,
-          scale: bgScale,
-        }}
-        className="absolute inset-0 bg-cover bg-center will-change-transform"
-      />
+        style={{ y: bgY, scale: bgScale }}
+        className="absolute inset-0 will-change-transform"
+      >
+        <picture>
+          <source type="image/avif" srcSet={empresarialBgAvif} />
+          <source type="image/webp" srcSet={empresarialBgWebp} />
+          <img
+            src={empresarialBg}
+            alt=""
+            className="w-full h-full object-cover object-center"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
+      </motion.div>
 
       <div className="absolute inset-0 bg-gradient-navy opacity-80" />
       <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--navy))] via-[hsl(var(--navy)/0.55)] to-transparent" />

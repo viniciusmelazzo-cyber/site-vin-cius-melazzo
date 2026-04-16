@@ -20,6 +20,8 @@ import RuralNavbar from "@/components/rural/RuralNavbar";
 import PfContactSection from "@/components/PfContactSection";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import pfHero from "@/assets/pessoa-fisica-hero.jpg";
+import pfHeroWebp from "@/assets/pessoa-fisica-hero.webp";
+import pfHeroAvif from "@/assets/pessoa-fisica-hero.avif";
 
 const pilares = [
   {
@@ -117,13 +119,21 @@ const PessoaFisicaHero = () => {
     >
       <motion.div
         aria-hidden="true"
-        style={{
-          backgroundImage: `url(${pfHero})`,
-          y: bgY,
-          scale: bgScale,
-        }}
-        className="absolute inset-0 bg-cover bg-center will-change-transform"
-      />
+        style={{ y: bgY, scale: bgScale }}
+        className="absolute inset-0 will-change-transform"
+      >
+        <picture>
+          <source type="image/avif" srcSet={pfHeroAvif} />
+          <source type="image/webp" srcSet={pfHeroWebp} />
+          <img
+            src={pfHero}
+            alt=""
+            className="w-full h-full object-cover object-center"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
+      </motion.div>
       <div className="absolute inset-0 bg-gradient-navy opacity-85" />
       <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--navy))] via-[hsl(var(--navy)/0.6)] to-transparent" />
 

@@ -7,6 +7,9 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import manualCover from "@/assets/manual-cover.png";
+import manualCoverWebp from "@/assets/manual-cover.webp";
+import manualCoverAvif from "@/assets/manual-cover.avif";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 import Logo from "@/components/brand/Logo";
 
 const SEGMENTOS = ["Agro", "Indústria", "Serviços", "Outro"] as const;
@@ -185,8 +188,10 @@ const ManualCreditoRural = () => {
               >
                 <div className="relative">
                   <div className="absolute -inset-4 bg-gold/5 blur-3xl rounded-full" />
-                  <img
+                  <ResponsiveImage
                     src={manualCover}
+                    webp={manualCoverWebp}
+                    avif={manualCoverAvif}
                     alt="Manual Completo de Crédito Rural 2026 — Melazzo Consultoria"
                     className="relative w-64 md:w-80 lg:w-[22rem] drop-shadow-2xl"
                     width={600}

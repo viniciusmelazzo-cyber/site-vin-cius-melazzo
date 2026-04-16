@@ -2,6 +2,8 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowDown } from "lucide-react";
 import ruralBg from "@/assets/rural-hero.jpg";
+import ruralBgWebp from "@/assets/rural-hero.webp";
+import ruralBgAvif from "@/assets/rural-hero.avif";
 
 const RuralHero = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -22,13 +24,21 @@ const RuralHero = () => {
       {/* Parallax background */}
       <motion.div
         aria-hidden="true"
-        style={{
-          backgroundImage: `url(${ruralBg})`,
-          y: bgY,
-          scale: bgScale,
-        }}
-        className="absolute inset-0 bg-cover bg-center will-change-transform"
-      />
+        style={{ y: bgY, scale: bgScale }}
+        className="absolute inset-0 will-change-transform"
+      >
+        <picture>
+          <source type="image/avif" srcSet={ruralBgAvif} />
+          <source type="image/webp" srcSet={ruralBgWebp} />
+          <img
+            src={ruralBg}
+            alt=""
+            className="w-full h-full object-cover object-center"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
+      </motion.div>
 
       {/* Navy gradient — keeps Melazzo identity */}
       <div className="absolute inset-0 bg-gradient-navy opacity-75" />
