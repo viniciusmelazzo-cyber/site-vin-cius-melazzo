@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { Shield, Crosshair, Lightbulb, Heart } from "lucide-react";
 import viniciusPhoto from "@/assets/vinicius-photo.jpg";
+import viniciusPhotoWebp from "@/assets/vinicius-photo.webp";
+import viniciusPhotoAvif from "@/assets/vinicius-photo.avif";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 
 const values = [
   { icon: Shield, title: "Integridade", desc: "Transparência absoluta em cada operação. Sua confiança é o nosso maior ativo." },
