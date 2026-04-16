@@ -167,17 +167,28 @@ const SiteFooter = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-16 pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="font-body text-xs text-primary-foreground/40 font-light">
-            © {year} Melazzo Consultoria. Todos os direitos reservados.
-          </p>
-          <div className="flex items-center gap-6 text-xs font-body text-primary-foreground/40 font-light">
-            <Link to="/privacidade" className="hover:text-gold transition-colors">
-              Política de Privacidade
-            </Link>
-            <span aria-hidden="true">·</span>
-            <span>CNPJ disponível mediante solicitação</span>
+        <div className="mt-16 pt-8 border-t border-primary-foreground/10 space-y-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="font-body text-xs text-primary-foreground/40 font-light">
+              © {year} Melazzo Consultoria. Todos os direitos reservados.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-body text-primary-foreground/40 font-light">
+              <Link to="/privacidade" className="hover:text-gold transition-colors">
+                Política de Privacidade
+              </Link>
+              <span aria-hidden="true">·</span>
+              <Link to="/termos-de-uso" className="hover:text-gold transition-colors">
+                Termos de Uso
+              </Link>
+              <span aria-hidden="true">·</span>
+              <Link to="/politica-reembolso" className="hover:text-gold transition-colors">
+                Reembolso
+              </Link>
+            </div>
           </div>
+          <p className="font-body text-[11px] text-primary-foreground/35 font-light text-center md:text-left">
+            Melazzo Consultoria — CNPJ 57.460.598/0001-19 · Av. Bélgica, 375 — Uberlândia/MG
+          </p>
         </div>
       </div>
     </footer>

@@ -11,6 +11,10 @@ import Rural from "./pages/Rural.tsx";
 import PessoaFisica from "./pages/PessoaFisica.tsx";
 import ManualCreditoRural from "./pages/ManualCreditoRural.tsx";
 import Privacidade from "./pages/Privacidade.tsx";
+import Termos from "./pages/Termos.tsx";
+import PoliticaReembolso from "./pages/PoliticaReembolso.tsx";
+import Planilha from "./pages/Planilha.tsx";
+import Obrigado from "./pages/Obrigado.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Login from "./pages/cliente/Login.tsx";
 import ForgotPassword from "./pages/cliente/ForgotPassword.tsx";
@@ -47,6 +51,10 @@ const App = () => (
             <Route path="/pessoa-fisica" element={<PessoaFisica />} />
             <Route path="/manual-credito-rural-2026" element={<ManualCreditoRural />} />
             <Route path="/privacidade" element={<Privacidade />} />
+            <Route path="/termos-de-uso" element={<Termos />} />
+            <Route path="/politica-reembolso" element={<PoliticaReembolso />} />
+            <Route path="/planilha" element={<Planilha />} />
+            <Route path="/obrigado" element={<Obrigado />} />
             <Route path="/cliente/login" element={<Login />} />
             <Route path="/cliente/forgot-password" element={<ForgotPassword />} />
             <Route path="/cliente/reset-password" element={<ResetPassword />} />
