@@ -11,19 +11,20 @@ const HeroSection = () => {
     offset: ["start start", "end start"],
   });
 
-  // Subtle parallax: skyline moves slower than scroll, with a soft scale
+  // Subtle parallax: skyline moves slower than scroll
   const skylineY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-  const skylineScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.15]);
 
   return (
     <section ref={sectionRef} id="inicio" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background skyline with parallax */}
+      {/* Background skyline with parallax + Ken Burns zoom */}
       <motion.div
         aria-hidden="true"
+        initial={{ scale: 1.05 }}
+        animate={{ scale: 1.18 }}
+        transition={{ duration: 18, ease: "easeOut" }}
         style={{
           backgroundImage: `url(${manhattanSkyline})`,
           y: skylineY,
-          scale: skylineScale,
         }}
         className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
       />
