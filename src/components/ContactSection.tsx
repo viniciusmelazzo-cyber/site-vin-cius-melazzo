@@ -83,14 +83,14 @@ const ContactSection = () => {
 
       <div className="container relative z-10 mx-auto px-6 lg:px-12">
         <div className="max-w-xl mx-auto">
-          <motion.img
-            src={logoVM}
-            alt="Melazzo Consultoria"
-            className="w-16 h-16 object-contain mx-auto mb-8 opacity-50"
+          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 0.5, scale: 1 }}
+            whileInView={{ opacity: 0.6, scale: 1 }}
             viewport={{ once: true }}
-          />
+            className="mx-auto mb-8 flex justify-center"
+          >
+            <Logo variant="light" size={64} />
+          </motion.div>
 
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
