@@ -241,7 +241,7 @@ const PfContactSection = () => {
               </div>
 
               {status === "error" && (
-                <div className="flex items-center gap-2 text-red-400 font-body text-sm">
+                <div className="flex items-center gap-2 text-destructive font-body text-sm">
                   <AlertCircle className="w-4 h-4 flex-shrink-0" />
                   {errorMsg}
                 </div>
