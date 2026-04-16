@@ -2,12 +2,11 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import AboutSection from "@/components/AboutSection";
-import ServicesSection from "@/components/ServicesSection";
+import BusinessFrontsSection from "@/components/BusinessFrontsSection";
 import MethodologySection from "@/components/MethodologySection";
 import ResultsSection from "@/components/ResultsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import InsightsSection from "@/components/InsightsSection";
-import LeadMagnetSection from "@/components/LeadMagnetSection";
 import ContactSection from "@/components/ContactSection";
 
 const Index = () => {
@@ -18,11 +17,10 @@ const Index = () => {
       <HeroSection />
       <AboutSection />
       <MethodologySection />
-      <ServicesSection />
+      <BusinessFrontsSection />
       <ResultsSection />
       <TestimonialsSection />
       <InsightsSection />
-      <LeadMagnetSection />
       <ContactSection />
       <WhatsAppFloat />
     </div>
