@@ -42,6 +42,7 @@ const Planilha = () => {
       description: "Pare de tentar entender suas finanças no escuro. Sistema Melazzo: Health Score, orçamento base zero, patrimônio e acompanhamento consultivo. A partir de R$ 39,90/mês.",
       canonical: "https://melazzo.co/planilha",
       ogType: "product",
+      ogImage: "https://melazzo.co/og-planilha.jpg",
     });
     trackEvent("ViewContent", { content_name: "Sistema Melazzo", content_category: "subscription" });
   }, []);
