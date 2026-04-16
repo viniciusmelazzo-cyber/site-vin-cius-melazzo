@@ -1,15 +1,31 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import viniciusPhoto from "@/assets/vinicius-photo.jpg";
 import logoVM from "@/assets/logo-vm.webp";
 import manhattanSkyline from "@/assets/manhattan-skyline.jpg";
 
 const HeroSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Subtle parallax: skyline moves slower than scroll, with a soft scale
+  const skylineY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
+  const skylineScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.15]);
+
   return (
-    <section id="inicio" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background skyline */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${manhattanSkyline})` }}
+    <section ref={sectionRef} id="inicio" className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Background skyline with parallax */}
+      <motion.div
+        aria-hidden="true"
+        style={{
+          backgroundImage: `url(${manhattanSkyline})`,
+          y: skylineY,
+          scale: skylineScale,
+        }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
       />
 
       {/* Navy gradient overlay to keep brand mood and ensure text contrast */}
