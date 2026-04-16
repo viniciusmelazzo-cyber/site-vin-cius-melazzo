@@ -8,6 +8,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index.tsx";
 import Empresarial from "./pages/Empresarial.tsx";
 import Rural from "./pages/Rural.tsx";
+import PessoaFisica from "./pages/PessoaFisica.tsx";
 import ManualCreditoRural from "./pages/ManualCreditoRural.tsx";
 import Privacidade from "./pages/Privacidade.tsx";
 import NotFound from "./pages/NotFound.tsx";
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/empresarial" element={<Empresarial />} />
             <Route path="/rural" element={<Rural />} />
+            <Route path="/pessoa-fisica" element={<PessoaFisica />} />
             <Route path="/manual-credito-rural-2026" element={<ManualCreditoRural />} />
             <Route path="/privacidade" element={<Privacidade />} />
             <Route path="/cliente/login" element={<Login />} />
