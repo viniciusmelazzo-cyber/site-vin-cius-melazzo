@@ -17,7 +17,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import RuralNavbar from "@/components/rural/RuralNavbar";
-import ContactSection from "@/components/ContactSection";
+import PfContactSection from "@/components/PfContactSection";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import pfHero from "@/assets/pessoa-fisica-hero.jpg";
 
@@ -481,7 +481,7 @@ const PessoaFisica = () => {
       <ComoFuncionaSection />
       <SegurancaSection />
       <CTAFinalSection />
-      <ContactSection />
+      <PfContactSection />
       <WhatsAppFloat />
     </div>
   );
