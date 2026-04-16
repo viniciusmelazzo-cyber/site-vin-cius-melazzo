@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import manualCover from "@/assets/manual-cover.png";
-import logoVM from "@/assets/logo-vm.webp";
+import Logo from "@/components/brand/Logo";
 
 const SEGMENTOS = ["Agro", "Indústria", "Serviços", "Outro"] as const;
 
@@ -131,7 +131,7 @@ const ManualCreditoRural = () => {
         <nav className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm border-b border-primary-foreground/10">
           <div className="container mx-auto px-6 py-3 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3">
-              <img src={logoVM} alt="Melazzo Consultoria" className="w-8 h-8 object-contain" />
+              <Logo variant="light" size={36} />
               <span className="font-display text-sm text-primary-foreground font-semibold tracking-wide hidden sm:block">
                 Melazzo Consultoria
               </span>

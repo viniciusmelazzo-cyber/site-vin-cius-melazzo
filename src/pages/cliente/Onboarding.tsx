@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { ArrowLeft, ArrowRight, Save } from "lucide-react";
-import logoVM from "@/assets/logo-vm.webp";
+import Logo from "@/components/brand/Logo";
 
 import OnboardingProgress from "@/components/onboarding/OnboardingProgress";
 import OnboardingWelcome from "@/components/onboarding/OnboardingWelcome";
@@ -164,7 +164,7 @@ const Onboarding = () => {
       {/* Header */}
       <header className="border-b border-border bg-card px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src={logoVM} alt="" className="w-7 h-7 object-contain" />
+          <Logo variant="navy" size={32} />
           <div>
             <h1 className="text-lg font-display font-bold text-primary">Melazzo</h1>
             <p className="text-[10px] text-muted-foreground tracking-widest uppercase font-body">Onboarding</p>
