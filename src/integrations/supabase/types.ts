@@ -120,6 +120,33 @@ export type Database = {
         }
         Relationships: []
       }
+      category_memory: {
+        Row: {
+          category: string
+          hit_count: number
+          id: string
+          keyword: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          hit_count?: number
+          id?: string
+          keyword: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          hit_count?: number
+          id?: string
+          keyword?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       client_debts: {
         Row: {
           created_at: string
@@ -1039,6 +1066,7 @@ export type Database = {
           installment_current: number | null
           installment_group_id: string | null
           installment_total: number | null
+          source: string
           type: string
           user_id: string
         }
@@ -1052,6 +1080,7 @@ export type Database = {
           installment_current?: number | null
           installment_group_id?: string | null
           installment_total?: number | null
+          source?: string
           type: string
           user_id: string
         }
@@ -1065,6 +1094,7 @@ export type Database = {
           installment_current?: number | null
           installment_group_id?: string | null
           installment_total?: number | null
+          source?: string
           type?: string
           user_id?: string
         }
@@ -1418,6 +1448,48 @@ export type Database = {
         }
         Relationships: []
       }
+      recurring_entries: {
+        Row: {
+          active: boolean
+          amount: number
+          category: string
+          created_at: string
+          day_of_month: number
+          description: string
+          id: string
+          last_generated_month: string | null
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          amount?: number
+          category?: string
+          created_at?: string
+          day_of_month?: number
+          description?: string
+          id?: string
+          last_generated_month?: string | null
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          amount?: number
+          category?: string
+          created_at?: string
+          day_of_month?: number
+          description?: string
+          id?: string
+          last_generated_month?: string | null
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
@@ -1433,6 +1505,36 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      whatsapp_links: {
+        Row: {
+          created_at: string
+          id: string
+          phone_e164: string
+          user_id: string
+          verification_code: string | null
+          verified: boolean
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          phone_e164: string
+          user_id: string
+          verification_code?: string | null
+          verified?: boolean
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          phone_e164?: string
+          user_id?: string
+          verification_code?: string | null
+          verified?: boolean
+          verified_at?: string | null
         }
         Relationships: []
       }
