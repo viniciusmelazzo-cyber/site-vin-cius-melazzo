@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import MethodologySection from "@/components/MethodologySection";
@@ -23,6 +24,7 @@ const Index = () => {
       <InsightsSection />
       <LeadMagnetSection />
       <ContactSection />
+      <WhatsAppFloat />
     </div>
   );
 };

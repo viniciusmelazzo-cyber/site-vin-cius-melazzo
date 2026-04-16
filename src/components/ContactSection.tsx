@@ -280,10 +280,15 @@ const ContactSection = () => {
               <span className="font-body text-sm font-light">Uberaba & Uberlândia — MG</span>
             </div>
             <div className="hidden sm:block w-px h-4 bg-primary-foreground/20" />
-            <div className="flex items-center gap-3 text-primary-foreground/70">
+            <a
+              href="https://wa.me/5534992282778"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors"
+            >
               <Phone className="w-4 h-4 text-gold" />
-              <span className="font-body text-sm font-light">Atendimento presencial e remoto</span>
-            </div>
+              <span className="font-body text-sm font-light">(34) 9 9228-2778</span>
+            </a>
           </motion.div>
         </div>
       </div>
