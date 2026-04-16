@@ -3,7 +3,11 @@ import { useRef } from "react";
 import viniciusPhoto from "@/assets/vinicius-photo.jpg";
 
 import manhattanSkyline from "@/assets/manhattan-skyline.jpg";
+import manhattanSkylineWebp from "@/assets/manhattan-skyline.webp";
+import manhattanSkylineAvif from "@/assets/manhattan-skyline.avif";
 import manhattanSkylineMobile from "@/assets/manhattan-skyline-mobile.jpg";
+import manhattanSkylineMobileWebp from "@/assets/manhattan-skyline-mobile.webp";
+import manhattanSkylineMobileAvif from "@/assets/manhattan-skyline-mobile.avif";
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
