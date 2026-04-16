@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { Target, Award, Users } from "lucide-react";
 import viniciusPhoto from "@/assets/vinicius-photo.jpg";
+import viniciusPhotoWebp from "@/assets/vinicius-photo.webp";
+import viniciusPhotoAvif from "@/assets/vinicius-photo.avif";
+import { ResponsiveImage } from "@/components/ui/responsive-image";
 
 const values = [
   {
@@ -89,8 +92,10 @@ const RuralQuemSomos = () => {
         >
           <div className="relative mx-auto md:mx-0">
             <div className="absolute -inset-2 border border-gold/30" />
-            <img
+            <ResponsiveImage
               src={viniciusPhoto}
+              webp={viniciusPhotoWebp}
+              avif={viniciusPhotoAvif}
               alt="Vinícius Melazzo"
               className="relative w-32 h-32 md:w-36 md:h-36 object-cover object-top"
               loading="lazy"

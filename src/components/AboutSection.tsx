@@ -66,8 +66,10 @@ const AboutSection = () => {
               <div className="absolute -inset-3 border border-gold/15" />
               <div className="absolute -top-3 -left-3 w-6 h-6 border-t-2 border-l-2 border-gold/40" />
               <div className="absolute -bottom-3 -right-3 w-6 h-6 border-b-2 border-r-2 border-gold/40" />
-              <img
+              <ResponsiveImage
                 src={viniciusPhoto}
+                webp={viniciusPhotoWebp}
+                avif={viniciusPhotoAvif}
                 alt="Vinícius Melazzo — Consultor Estratégico"
                 loading="lazy"
                 className="relative w-full max-w-md h-[26rem] lg:h-[30rem] object-cover object-top shadow-xl"
