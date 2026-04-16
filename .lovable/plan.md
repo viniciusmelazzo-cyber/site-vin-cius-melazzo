@@ -1,91 +1,131 @@
 
 
-## Plano: Site pronto para anúncios + venda da Solução-Planilha (acesso à Área do Cliente)
+# Plano: Plataforma de Gestão Financeira — Lançamentos sem fricção (WhatsApp + Foto + IA)
 
-Dois blocos de trabalho que se complementam: **(A) Tracking & SEO** para rodar Meta + Google + TikTok com mensuração real, e **(B) Checkout em 1 clique** que vende o acesso à plataforma (Pix + Cartão) e libera login automaticamente.
+## Diagnóstico atual (o que vi)
 
-### A. Pronto para anunciar (tracking, SEO, conversão)
+Olhei a plataforma interna (`/cliente/dashboard`, `/cliente/lancamentos`, `ClientLayout`, `financial_entries`, `budgets`, `client_debts`, `onboarding_data`) e o gargalo é claro:
 
-1. **Tracking unificado (cookie consent + IDs)**
-   - Banner LGPD discreto (rodapé) com "Aceitar / Recusar". Sem consentimento, **nenhum pixel dispara** (Consent Mode v2 do Google).
-   - Instala 4 tags via `<script>` no `index.html` controladas por consentimento:
-     - **Meta Pixel** (Instagram + Facebook)
-     - **Google Tag (gtag.js)** com Google Ads + GA4
-     - **TikTok Pixel**
-     - **Google Tag Manager** (opcional, container único — recomendado para escalar)
-   - Helper `src/lib/analytics.ts` com função `trackEvent(name, params)` que dispara para os 4 pixels de uma vez (`Lead`, `InitiateCheckout`, `Purchase`, etc.).
+**O cliente só lança quando senta no computador.** Como toda planilha tradicional, ele esquece, acumula 15 dias de comprovantes e abandona. Esse é o motivo nº 1 de churn em SaaS financeiro pessoal — confirmado por benchmarks (Mobills, Organizze).
 
-2. **Eventos de conversão padronizados**
-   - `Lead` → submit dos formulários de contato e do Manual de Crédito Rural.
-   - `InitiateCheckout` → clique em "Comprar planilha".
-   - `Purchase` (com valor + currency BRL) → confirmação de pagamento (server-side via webhook + client-side fallback).
-   - **Conversão server-side** via Meta CAPI e Google Enhanced Conversions a partir do webhook do Stripe — essencial pós iOS 17/ad-blockers, dobra a precisão do otimizador de campanha.
+Pra justificar **R$ 39,90/mês ou R$ 450/ano**, a plataforma precisa de **3 atalhos de entrada de dado** que custem menos de 10 segundos:
 
-3. **SEO técnico + compartilhamento**
-   - `sitemap.xml` e `robots.txt` revisados (já existe robots, falta sitemap).
-   - **JSON-LD Schema.org** em `index.html`: `LocalBusiness` + `Person` (Vinícius) com `sameAs` apontando Instagram/LinkedIn/TikTok — melhora Knowledge Panel do Google.
-   - Verifica meta tags Open Graph/Twitter por página (Empresarial, Rural, PF, Manual) — hoje só a home tem completas.
-   - Cria `og-image` específica para a página da planilha.
+1. **WhatsApp** ("Almoço 35" → categorizado em "Alimentação")
+2. **Foto de recibo/cupom** (OCR + IA)
+3. **PWA mobile** com botão flutuante "+ Lançar" em qualquer tela
 
-4. **Páginas legais obrigatórias para anunciar**
-   - `/privacidade` já existe ✓
-   - **Cria `/termos-de-uso`** (exigido por Google Ads e Meta para aprovar a conta).
-   - **Cria `/politica-reembolso`** (obrigatório para venda de produto digital — Stripe e Procon exigem).
-   - Adiciona CNPJ + endereço no rodapé (Meta exige para anúncios de finanças).
+---
 
-5. **Performance & UX para pontuação de anúncios**
-   - `<link rel="preload" as="image" type="image/avif">` da skyline NYC no `index.html` → melhora LCP (impacta Quality Score do Google Ads).
-   - Verificar Web Vitals na home (LCP, CLS, INP).
+## Resposta direta às suas perguntas
 
-### B. Carrinho/Checkout da Solução-Planilha (acesso ao sistema)
+### 1. WhatsApp — sim, dá pra fazer (e bem feito)
+**Não usamos a API oficial do WhatsApp Business** (cara, lenta de aprovar, exige Facebook Business verificado). Em vez disso, usamos **Twilio WhatsApp Sandbox → Twilio WhatsApp Business** (~US$ 0,005/msg, ativa em 1 dia, sem dor de cabeça regulatória).
 
-**Recomendação de provedor**: rodar `recommend_payment_provider` primeiro. Para venda de SaaS/acesso a plataforma no Brasil com Pix + Cartão, o caminho mais provável é **Stripe (built-in Lovable Payments)**, que suporta Pix e cartão BRL nativamente. Paddle não cobre Pix bem para o público BR — só confirmamos depois do recommend.
-
-**Fluxo desenhado:**
-
+**Fluxo:**
 ```text
-[ Landing /planilha ] -- Comprar --> [ Stripe Checkout (Pix+Cartão) ]
-                                              |
-                                       paga ✓ |
-                                              v
-                                  [ Webhook Stripe -> Edge Function ]
-                                              |
-                                              v
-                            1. Cria registro em `purchases`
-                            2. Gera `client_invites` token único
-                            3. Resend envia e-mail: "Acesse seu sistema"
-                            4. Dispara Meta CAPI + Google Conversion
-                                              |
-                                              v
-                          [ /cliente/aceitar-convite?token=xxx ]
-                          → cria conta, faz login, vai para /cliente/onboarding
+Cliente envia: "Mercado 127,50"
+   ↓
+Twilio webhook → Edge Function (process-whatsapp)
+   ↓
+1. Identifica usuário pelo número de celular (campo phone em profiles)
+2. Lovable AI (gemini-flash) interpreta: tipo, valor, categoria, data
+3. Insere em financial_entries
+4. Responde no WhatsApp: "✓ R$ 127,50 em Alimentação registrado. Saldo do mês: R$ 1.840"
 ```
 
-**Implementação:**
+Aceita também: foto do cupom, áudio ("anota aí, paguei 50 reais de uber"), múltiplos lançamentos numa msg só.
 
-1. **Habilitar Lovable Payments** (Stripe built-in, não BYOK).
-2. **Criar 1 produto** "Sistema Melazzo - Acesso Vitalício" (ou mensal — definir preço com você).
-3. **Página `/planilha`** (landing dedicada): demo da plataforma, screenshots do dashboard, CTA único "Quero acesso", preço destacado, garantia 7 dias, depoimentos, FAQ.
-4. **Nova tabela `purchases`**: `id, email, stripe_session_id, amount, status, invite_token, created_at, paid_at`. RLS deny-all (só edge function service_role mexe).
-5. **Edge Function `create-checkout`**: cria sessão Stripe Checkout com Pix+Cartão habilitados, success_url=`/obrigado?session={CHECKOUT_SESSION_ID}`.
-6. **Edge Function `stripe-webhook`** (verify_jwt=false): valida assinatura, cria `purchase` + `client_invite`, dispara Resend com link, envia evento server-side para Meta CAPI e Google.
-7. **Página `/obrigado`**: confirma pagamento, mostra "verifique seu e-mail", incentiva seguir Instagram (mais conversão social).
-8. **Reutiliza** o fluxo de aceitação de convite que já existe em `client_invites` — não precisa criar onboarding novo.
+### 2. Foto de recibo/cupom — sim, com IA multimodal
+Usamos **Gemini 2.5 Flash** (multimodal nativo, já incluído no Lovable AI, custo ~R$ 0,003 por foto). Ele lê o cupom, extrai estabelecimento + valor + data, e a IA decide a categoria baseada no histórico do cliente.
 
-### Estrutura de entrega (ordem de execução, ~3 etapas)
+**Funciona em 2 lugares:**
+- App web (botão "Tirar foto" em `/cliente/lancamentos`)
+- WhatsApp (mandar a foto direto)
 
-| Etapa | Entregáveis | Tempo |
-|---|---|---|
-| **1. Foundation legal + SEO** | /termos, /reembolso, sitemap, JSON-LD, CNPJ no footer, meta tags por página | Curto |
-| **2. Tracking + LGPD** | Banner consent, 4 pixels, helper analytics, eventos Lead | Médio |
-| **3. Checkout Stripe** | Recommend provider → enable → /planilha → tabela → 2 edge functions → /obrigado → eventos Purchase server-side | Maior |
+### 3. Bonus: comandos de voz e SMS-like
+A mesma edge function que processa texto do WhatsApp processa qualquer entrada — então um "campo rápido" no dashboard ("digite: jantar 80") usa a mesma IA.
 
-### Decisões que preciso de você antes de codar (responda em texto livre se quiser):
+---
 
-1. **Preço da planilha/acesso**: R$ ___ (à vista) e/ou R$ ___ /mês?
-2. **Modelo**: pagamento único (acesso vitalício) ou assinatura mensal/anual?
-3. **CNPJ + endereço completo da Melazzo** para colocar no rodapé e nos termos.
-4. **IDs de pixel**: você já tem conta Meta Business, Google Ads, TikTok Ads criadas? Se sim, vou pedir os IDs (Meta Pixel ID, GA4 Measurement ID, Google Ads Conversion ID, TikTok Pixel ID) na hora de instalar.
+## Pacote de melhorias UX (4 pilares)
 
-Após sua aprovação, executo nesta ordem: **Etapa 1 → Etapa 2 → recommend_payment_provider → Etapa 3**.
+### Pilar 1 — Entrada de dados sem fricção (o coração)
+
+| Ferramenta | Onde | Custo IA | Tempo do usuário |
+|---|---|---|---|
+| **Bot WhatsApp** | Twilio + edge function | ~R$ 0,005/msg | 5 segundos |
+| **Foto de recibo** | Mobile + web | ~R$ 0,003/foto | 8 segundos |
+| **Quick entry bar** | Dashboard ("uber 25") | ~R$ 0,001/req | 4 segundos |
+| **Importar extrato CSV** | Banco do Brasil/Itaú/Nubank | grátis | 30 seg pra mês inteiro |
+| **Lançamentos recorrentes** | Aluguel, Netflix, salário | grátis | 1x e nunca mais |
+
+### Pilar 2 — Mobile first (PWA)
+
+A plataforma hoje funciona em mobile mas **não está instalável**. Vamos:
+- Transformar em **PWA instalável** (ícone na home do celular, abre fullscreen)
+- **Botão flutuante "+"** em todas as telas (gesto de dedão, igual Nubank)
+- Notificações push: "Você não lança há 3 dias. Tudo ok?" (opt-in)
+
+### Pilar 3 — Inteligência preditiva
+
+- **Auto-categorização aprendendo**: se "Uber" virou "Transporte" 3 vezes, na 4ª já vem certo sem perguntar
+- **Detecção de duplicidade**: "Você já lançou R$ 35 no almoço hoje, é outro?"
+- **Alertas inteligentes**: "Você está 80% do orçamento de Alimentação e ainda faltam 12 dias do mês"
+
+### Pilar 4 — Engajamento (retenção mensal)
+
+- **Resumo semanal por WhatsApp** (sexta 18h): "Esta semana: R$ 340 em Alimentação, R$ 120 a mais que a meta. Saldo: +R$ 850"
+- **Streak de dias lançando** (gamification leve, igual Duolingo)
+- **Insight do mês**: card no dashboard com 1 frase do Vinícius (gerada por IA): "Seus gastos com delivery cresceram 40% — vale revisar"
+
+---
+
+## Implementação (3 fases)
+
+### Fase 1 — Quick wins de UX (1 sprint, sem custos novos)
+- Quick entry bar no dashboard: campo único "digite seu gasto"
+- Botão flutuante "+ Lançar" em mobile (todas as telas)
+- Lançamentos recorrentes (template salvo, gera automaticamente todo mês)
+- PWA básico (manifest + service worker, instalável)
+- Auto-categorização por histórico (sem IA ainda, regra simples)
+
+### Fase 2 — IA + Foto de recibo (1 sprint, usa Lovable AI)
+- Edge function `parse-expense` (texto OU imagem → JSON estruturado)
+- Botão "📷 Foto do recibo" no `/cliente/lancamentos` mobile
+- Tela de confirmação rápida ("É isso? [Sim] [Editar]")
+- Aprende categoria por estabelecimento por usuário
+
+### Fase 3 — WhatsApp Bot + Resumos (1 sprint, exige Twilio)
+- Cadastro Twilio WhatsApp (ajudo no passo a passo)
+- Edge function `whatsapp-webhook` (recebe mensagens, valida número, processa)
+- Tela de configuração: "Conectar meu WhatsApp" (vincula phone do profile)
+- Resumo semanal automático (cron edge function)
+- Notificações push opt-in para inatividade
+
+---
+
+## Decisões técnicas (resumo rápido)
+
+- **IA**: Lovable AI (`google/gemini-3-flash-preview` para texto, `google/gemini-2.5-pro` para imagens) — sem API key extra
+- **WhatsApp**: Twilio (~R$ 30/mês de uso médio por 100 usuários ativos) — secret `TWILIO_AUTH_TOKEN` será pedido na Fase 3
+- **OCR**: Gemini multimodal direto (não precisa Tesseract/Google Vision separado)
+- **PWA**: Vite PWA Plugin (`vite-plugin-pwa`)
+- **Sem mudança de schema** na Fase 1. Fase 2 adiciona coluna `source` em `financial_entries` (`web|whatsapp|photo|voice`). Fase 3 adiciona tabela `whatsapp_links` (vincula número → user_id).
+
+---
+
+## Decisões que preciso de você antes de começar
+
+1. **Por onde começamos?**
+   - **A)** Fase 1 inteira (quick wins UX, sem custo novo) → entrega valor já, sem dependências externas
+   - **B)** Pular direto pra Fase 2 (foto de recibo + IA) → "uau effect" mais rápido pro marketing
+   - **C)** Tudo de uma vez (Fases 1+2+3) → 2-3x mais demorado, mas plataforma fica completa pra divulgar
+
+2. **WhatsApp — qual nível de ambição?**
+   - Bot **só recebe** lançamentos (mais simples)
+   - Bot **conversa** ("quanto gastei essa semana?", "qual minha categoria que mais cresceu?") → vira mini-assistente financeiro
+
+3. **Você topa pagar ~US$1 do Twilio Sandbox** (grátis pra testes, aí sim US$5-30/mês quando virar produção) ou prefere começar **só com foto + quick entry** e adicionar WhatsApp depois?
+
+Após sua resposta, abro a Fase escolhida em tasks atômicas e codo.
 
