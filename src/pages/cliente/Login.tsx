@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { Shield, TrendingUp, FileText, ArrowLeft } from "lucide-react";
-import logoVM from "@/assets/logo-vm.webp";
+import Logo from "@/components/brand/Logo";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -173,7 +173,7 @@ const Login = () => {
             </span>
           </Link>
           <div className="flex items-center gap-3 mb-2">
-            <img src={logoVM} alt="" className="w-10 h-10 object-contain" />
+            <Logo variant="light" size={44} />
             <h1 className="font-display text-3xl font-bold text-primary-foreground">
               Melazzo Consultoria
             </h1>
@@ -211,7 +211,7 @@ const Login = () => {
         <Card className="w-full max-w-md border-border shadow-lg">
           <CardHeader className="text-center space-y-2 pb-2">
             <div className="lg:hidden mb-4 flex items-center justify-center gap-3">
-              <img src={logoVM} alt="" className="w-8 h-8 object-contain" />
+              <Logo variant="navy" size={36} />
               <div>
                 <h1 className="text-xl font-display font-bold text-primary">Melazzo</h1>
                 <p className="text-muted-foreground text-[10px] tracking-wider uppercase font-body">

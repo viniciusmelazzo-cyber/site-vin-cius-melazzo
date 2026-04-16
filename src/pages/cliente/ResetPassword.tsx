@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { ArrowLeft, KeyRound } from "lucide-react";
-import logoVM from "@/assets/logo-vm.webp";
+import Logo from "@/components/brand/Logo";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -81,7 +81,7 @@ const ResetPassword = () => {
       <Card className="w-full max-w-md border-border shadow-lg">
         <CardHeader className="text-center space-y-2 pb-2">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <img src={logoVM} alt="" className="w-8 h-8 object-contain" />
+            <Logo variant="navy" size={36} />
             <h1 className="text-xl font-display font-bold text-primary">Melazzo</h1>
           </div>
           <h2 className="text-2xl font-display font-semibold text-foreground">Nova Senha</h2>

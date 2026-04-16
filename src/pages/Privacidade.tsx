@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import logoVM from "@/assets/logo-vm.webp";
+import Logo from "@/components/brand/Logo";
 
 const Privacidade = () => {
   useEffect(() => {
@@ -15,7 +15,7 @@ const Privacidade = () => {
       <nav className="bg-primary border-b border-primary-foreground/10">
         <div className="container mx-auto px-6 py-3 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
-            <img src={logoVM} alt="Melazzo Consultoria" className="w-8 h-8 object-contain" />
+            <Logo variant="light" size={36} />
             <span className="font-display text-sm text-primary-foreground font-semibold tracking-wide hidden sm:block">
               Melazzo Consultoria
             </span>

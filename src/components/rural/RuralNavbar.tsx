@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import logoVM from "@/assets/logo-vm.webp";
+import Logo from "@/components/brand/Logo";
 
 const links = [
   { href: "#inicio", label: "Início" },
@@ -47,7 +47,7 @@ const RuralNavbar = ({ variant = "rural" }: RuralNavbarProps) => {
     >
       <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-3" aria-label="Voltar à home Melazzo">
-          <img src={logoVM} alt="" className="w-8 h-8 object-contain" aria-hidden="true" />
+          <Logo variant="light" size={36} />
           <div className="flex flex-col leading-tight">
             <span className="font-display text-base font-semibold text-primary-foreground tracking-wide">
               Melazzo Consultoria
