@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import Logo from "@/components/brand/Logo";
 
 const links = [
-  { href: "#inicio", label: "Início" },
-  { href: "#sobre", label: "Quem Somos" },
-  { href: "#metodologia", label: "Metodologia" },
+  { href: "/#inicio", label: "Início", route: true },
+  { href: "/#sobre", label: "Quem Somos", route: true },
+  { href: "/#metodologia", label: "Metodologia", route: true },
   { href: "/empresarial", label: "Empresarial", route: true },
   { href: "/rural", label: "Rural", route: true },
   { href: "/pessoa-fisica", label: "Consultoria para Pessoa Física", route: true },
-  { href: "#contato", label: "Contato" },
+  { href: "/#contato", label: "Contato", route: true },
 ];
 
 const Navbar = () => {
@@ -46,12 +46,12 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
         {/* Brand */}
-        <a href="#inicio" className="flex items-center gap-3" aria-label="Melazzo Consultoria — Voltar ao início">
+        <Link to="/#inicio" className="flex items-center gap-3" aria-label="Melazzo Consultoria — Voltar ao início">
           <Logo variant="onDark" size={48} />
           <span className="font-display text-base font-semibold text-primary-foreground tracking-wide">
             Melazzo Consultoria
           </span>
-        </a>
+        </Link>
 
         {/* Desktop links */}
         <div className="hidden xl:flex items-center gap-5">
@@ -112,18 +112,21 @@ const Navbar = () => {
           >
             <div className="px-6 py-6 space-y-1">
               {links.map((l, i) => (
-                <motion.a
+                <motion.div
                   key={l.href}
-                  href={l.href}
-                  onClick={handleLinkClick}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 * i }}
-                  role="menuitem"
-                  className="block py-3 px-3 font-body text-xs tracking-[0.1em] uppercase text-primary-foreground/60 hover:text-gold hover:bg-primary-foreground/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
                 >
-                  {l.label}
-                </motion.a>
+                  <Link
+                    to={l.href}
+                    onClick={handleLinkClick}
+                    role="menuitem"
+                    className="block py-3 px-3 font-body text-xs tracking-[0.1em] uppercase text-primary-foreground/60 hover:text-gold hover:bg-primary-foreground/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-sm"
+                  >
+                    {l.label}
+                  </Link>
+                </motion.div>
               ))}
 
               {/* Área do Cliente - Mobile */}
