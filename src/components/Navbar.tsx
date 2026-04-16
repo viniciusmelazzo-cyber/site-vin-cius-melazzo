@@ -47,7 +47,7 @@ const Navbar = () => {
       <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
         {/* Brand */}
         <a href="#inicio" className="flex items-center gap-3" aria-label="Melazzo Consultoria — Voltar ao início">
-          <Logo variant="light" size={36} />
+          <Logo variant="onDark" size={48} />
           <span className="font-display text-base font-semibold text-primary-foreground tracking-wide">
             Melazzo Consultoria
           </span>
