@@ -104,6 +104,11 @@ Deno.serve(async (req) => {
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, serviceKey);
 
+    // Origem do lead — controla se gera/envia o manual
+    const origem = String(body.origem || "manual-rural").trim().slice(0, 50);
+    const isManualRural = origem === "manual-rural";
+    const mensagem = body.mensagem ? String(body.mensagem).trim().slice(0, 2000) : null;
+
     // Insert lead
     const leadData = {
       nome,
@@ -112,6 +117,8 @@ Deno.serve(async (req) => {
       propriedade: body.propriedade ? String(body.propriedade).trim() : null,
       segmento: body.segmento ? String(body.segmento).trim() : null,
       wants_checklist: Boolean(body.wants_checklist),
+      origem,
+      mensagem,
       utm_source: body.utm_source || null,
       utm_medium: body.utm_medium || null,
       utm_campaign: body.utm_campaign || null,
