@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Save, User, Lock } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import WhatsAppConnect from "@/components/cliente/WhatsAppConnect";
 
 const Configuracoes = () => {
   const { user, refreshProfile } = useAuth();
@@ -113,6 +114,9 @@ const Configuracoes = () => {
             </Button>
           </CardContent>
         </Card>
+
+        {/* WhatsApp */}
+        <WhatsAppConnect />
 
         {/* Password */}
         <Card className="border-border shadow-sm">
