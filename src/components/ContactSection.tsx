@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import logoVM from "@/assets/logo-vm.webp";
+import Logo from "@/components/brand/Logo";
 
 const SEGMENTOS = ["Agro", "Indústria", "Serviços", "Outro"] as const;
 
