@@ -8,7 +8,8 @@ import RuralQuemSomos from "@/components/rural/RuralQuemSomos";
 import RuralTestimonials from "@/components/rural/RuralTestimonials";
 import LeadMagnetSection from "@/components/LeadMagnetSection";
 import ContactSection from "@/components/ContactSection";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import SiteChrome from "@/components/SiteChrome";
+import SiteFooter from "@/components/SiteFooter";
 
 const Rural = () => {
   useEffect(() => {
@@ -33,7 +34,8 @@ const Rural = () => {
       <RuralTestimonials />
       <LeadMagnetSection />
       <ContactSection />
-      <WhatsAppFloat />
+      <SiteFooter />
+      <SiteChrome />
     </div>
   );
 };

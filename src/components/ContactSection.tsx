@@ -292,18 +292,6 @@ const ContactSection = () => {
           </motion.div>
         </div>
       </div>
-
-      {/* Footer */}
-      <div className="container mx-auto px-6 lg:px-12 mt-24">
-        <div className="border-t border-primary-foreground/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <span className="font-body text-xs text-primary-foreground/35 font-light">
-            © 2025 Melazzo Consultoria
-          </span>
-          <span className="font-body text-xs text-primary-foreground/35 font-light">
-            Estratégia & Performance Empresarial
-          </span>
-        </div>
-      </div>
     </section>
   );
 };

@@ -7,7 +7,8 @@ import ResultsSection from "@/components/ResultsSection";
 import EmpresarialTestimonials from "@/components/EmpresarialTestimonials";
 import InsightsSection from "@/components/InsightsSection";
 import ContactSection from "@/components/ContactSection";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import SiteChrome from "@/components/SiteChrome";
+import SiteFooter from "@/components/SiteFooter";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowDown } from "lucide-react";
@@ -153,7 +154,8 @@ const Empresarial = () => {
       <EmpresarialTestimonials />
       <InsightsSection />
       <ContactSection />
-      <WhatsAppFloat />
+      <SiteFooter />
+      <SiteChrome />
     </div>
   );
 };

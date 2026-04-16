@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import SiteChrome from "@/components/SiteChrome";
+import SiteFooter from "@/components/SiteFooter";
 import AboutSection from "@/components/AboutSection";
 import BusinessFrontsSection from "@/components/BusinessFrontsSection";
 import MethodologySection from "@/components/MethodologySection";
@@ -24,7 +25,8 @@ const Index = () => {
       <TestimonialsSection />
       <InsightsSection />
       <ContactSection />
-      <WhatsAppFloat />
+      <SiteFooter />
+      <SiteChrome />
     </div>
   );
 };
