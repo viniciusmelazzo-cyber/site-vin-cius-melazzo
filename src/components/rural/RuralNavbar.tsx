@@ -4,8 +4,8 @@ import { Menu, X, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import Logo from "@/components/brand/Logo";
 
-const links = [
-  { href: "#inicio", label: "Início" },
+// Anchor links target sections inside the current sub-page
+const sectionLinks = [
   { href: "#pilares", label: "Diferenciais" },
   { href: "#solucoes", label: "Soluções" },
   { href: "#quem-somos", label: "Quem Somos" },
@@ -60,7 +60,14 @@ const RuralNavbar = ({ variant = "rural" }: RuralNavbarProps) => {
 
         {/* Desktop links */}
         <div className="hidden lg:flex items-center gap-6">
-          {links.map((l) => (
+          {/* Início always returns to the homepage */}
+          <Link
+            to="/#inicio"
+            className="font-body text-[11px] tracking-[0.1em] uppercase text-primary-foreground/60 hover:text-gold transition-colors px-1"
+          >
+            Início
+          </Link>
+          {sectionLinks.map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -108,7 +115,14 @@ const RuralNavbar = ({ variant = "rural" }: RuralNavbarProps) => {
             className="lg:hidden bg-primary/95 backdrop-blur-md overflow-hidden"
           >
             <div className="px-6 py-6 space-y-1">
-              {links.map((l) => (
+              <Link
+                to="/#inicio"
+                onClick={handleLinkClick}
+                className="block py-3 px-3 font-body text-xs tracking-[0.1em] uppercase text-primary-foreground/60 hover:text-gold transition-colors"
+              >
+                Início
+              </Link>
+              {sectionLinks.map((l) => (
                 <a
                   key={l.href}
                   href={l.href}
