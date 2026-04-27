@@ -21,7 +21,12 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
     );
   }
 
-  if (!user) return <Navigate to="/cliente/login" replace />;
+  if (!user) {
+    const loginPath = location.pathname.startsWith("/restrito")
+      ? "/restrito/login?next=demos"
+      : "/cliente/login";
+    return <Navigate to={loginPath} replace />;
+  }
   if (requireAdmin && !isAdmin) return <Navigate to="/cliente/dashboard" replace />;
 
   // Redirect to onboarding if not completed (unless already on onboarding page)
