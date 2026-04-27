@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft, Briefcase, GalleryHorizontalEnd, Shield } from "lucide-react";
+import { ArrowLeft, Briefcase, Check, GalleryHorizontalEnd, LayoutDashboard, Shield } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -10,10 +10,32 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import Logo from "@/components/brand/Logo";
 
-const destinations = {
-  demos: "/restrito/demonstracoes",
-  crm: "/cliente/admin/crm",
-  admin: "/cliente/admin",
+type DestinationKey = "demos" | "crm" | "admin";
+
+const destinationOptions: Record<DestinationKey, { label: string; description: string; path: string; icon: typeof GalleryHorizontalEnd }> = {
+  demos: {
+    label: "Central de Demonstrações",
+    description: "Showroom dos produtos Melazzo",
+    path: "/restrito/demonstracoes",
+    icon: GalleryHorizontalEnd,
+  },
+  crm: {
+    label: "CRM Interno",
+    description: "Operações, clientes e pipeline",
+    path: "/cliente/admin/crm",
+    icon: Briefcase,
+  },
+  admin: {
+    label: "Painel Administrativo",
+    description: "Visão geral da operação interna",
+    path: "/cliente/admin",
+    icon: LayoutDashboard,
+  },
+};
+
+const getDestinationKey = (value: string | null): DestinationKey => {
+  if (value === "crm" || value === "admin") return value;
+  return "demos";
 };
 
 const RestrictedLogin = () => {
@@ -23,13 +45,17 @@ const RestrictedLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const nextKey = searchParams.get("next") === "crm" ? "crm" : searchParams.get("next") === "admin" ? "admin" : "demos";
-  const next = destinations[nextKey];
+  const [selectedDestination, setSelectedDestination] = useState<DestinationKey>(() => getDestinationKey(searchParams.get("next")));
+  const destination = destinationOptions[selectedDestination];
+
+  useEffect(() => {
+    setSelectedDestination(getDestinationKey(searchParams.get("next")));
+  }, [searchParams]);
 
   useEffect(() => {
     if (authLoading || !user) return;
     if (isAdmin) {
-      navigate(next, { replace: true });
+      navigate(destination.path, { replace: true });
       return;
     }
 
@@ -39,7 +65,7 @@ const RestrictedLogin = () => {
       variant: "destructive",
     });
     navigate("/cliente/dashboard", { replace: true });
-  }, [authLoading, user, isAdmin, navigate, next]);
+  }, [authLoading, user, isAdmin, navigate, destination.path]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,7 +88,7 @@ const RestrictedLogin = () => {
         return;
       }
 
-      navigate(next, { replace: true });
+      navigate(destination.path, { replace: true });
     } catch (error: any) {
       toast({ title: "Erro", description: error.message || "Não foi possível acessar a área restrita.", variant: "destructive" });
     } finally {
@@ -115,9 +141,32 @@ const RestrictedLogin = () => {
               </div>
             </div>
             <h2 className="text-2xl font-display font-semibold text-foreground">Acesso administrativo</h2>
-            <p className="text-muted-foreground font-body text-sm">Entre com o perfil ADMIN para acessar {nextKey === "crm" ? "o CRM interno" : "a Central de Demonstrações"}.</p>
+            <p className="text-muted-foreground font-body text-sm">Escolha a plataforma restrita e entre com perfil ADMIN.</p>
           </CardHeader>
           <CardContent className="pt-4">
+            <div className="mb-5 grid gap-2" aria-label="Escolha da plataforma restrita">
+              {(Object.entries(destinationOptions) as [DestinationKey, typeof destination][]).map(([key, option]) => {
+                const Icon = option.icon;
+                const active = selectedDestination === key;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setSelectedDestination(key)}
+                    className={`flex w-full items-center gap-3 rounded-lg border p-3 text-left transition-colors ${active ? "border-gold bg-gold/10" : "border-border bg-card hover:border-gold/50"}`}
+                  >
+                    <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-md ${active ? "bg-gold text-primary" : "bg-muted text-muted-foreground"}`}>
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-display text-sm font-semibold text-foreground">{option.label}</span>
+                      <span className="block font-body text-xs text-muted-foreground">{option.description}</span>
+                    </span>
+                    {active && <Check className="h-4 w-4 text-gold" />}
+                  </button>
+                );
+              })}
+            </div>
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email" className="font-body text-sm font-medium">E-mail</Label>
@@ -127,12 +176,8 @@ const RestrictedLogin = () => {
                 <Label htmlFor="password" className="font-body text-sm font-medium">Senha</Label>
                 <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required minLength={6} className="font-body" />
               </div>
-              <Button type="submit" className="w-full font-body bg-gradient-gold text-primary hover:opacity-90" disabled={loading}>{loading ? "Validando..." : "Entrar na Área Restrita"}</Button>
+              <Button type="submit" className="w-full font-body bg-gradient-gold text-primary hover:opacity-90" disabled={loading || authLoading}>{loading || authLoading ? "Validando..." : `Entrar em ${destination.label}`}</Button>
             </form>
-            <div className="mt-5 flex flex-col sm:flex-row gap-2">
-              <Button type="button" variant="outline" className="flex-1 font-body" onClick={() => navigate("/restrito/login?next=demos")}>Demonstrações</Button>
-              <Button type="button" variant="outline" className="flex-1 font-body" onClick={() => navigate("/restrito/login?next=crm")}>CRM Interno</Button>
-            </div>
             <div className="mt-5 text-center">
               <Link to="/cliente/login" className="text-xs text-muted-foreground font-body hover:underline">Ir para Área do Cliente</Link>
             </div>
