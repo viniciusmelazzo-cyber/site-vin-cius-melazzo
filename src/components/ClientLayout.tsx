@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import {
-  LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, PlusCircle, Upload, Landmark, Wallet, BookOpen, Briefcase, Building2, Inbox,
+  LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, PlusCircle, Upload, Landmark, Wallet, BookOpen, Briefcase, Building2, Inbox, GalleryHorizontalEnd,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -30,6 +30,7 @@ const adminLinks = [
   { label: "Clientes Gestão PF", icon: Users, href: "/cliente/admin/pf" },
   { label: "Clientes PJ", icon: Building2, href: "/cliente/admin/pj" },
   { label: "CRM Crédito", icon: Briefcase, href: "/cliente/admin/crm" },
+  { label: "Demonstrações", icon: GalleryHorizontalEnd, href: "/restrito/demonstracoes" },
   { label: "Convites", icon: FileText, href: "/cliente/admin/convites" },
   { label: "Configurações", icon: Settings, href: "/cliente/admin/config" },
 ];

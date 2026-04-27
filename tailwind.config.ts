@@ -55,6 +55,7 @@ export default {
         gold: {
           DEFAULT: "hsl(var(--gold))",
           light: "hsl(var(--gold-light))",
+          dark: "hsl(var(--gold-dark))",
         },
         navy: {
           DEFAULT: "hsl(var(--navy))",
@@ -71,11 +72,19 @@ export default {
         },
         agro: {
           DEFAULT: "hsl(var(--agro))",
+          light: "hsl(var(--agro-light))",
+          pale: "hsl(var(--agro-pale))",
+        },
+        cobranca: {
+          DEFAULT: "hsl(var(--cobranca))",
+          light: "hsl(var(--cobranca-light))",
+          pale: "hsl(var(--cobranca-pale))",
         },
         finance: {
           positive: "hsl(var(--finance-positive))",
           negative: "hsl(var(--finance-negative))",
           warning: "hsl(var(--finance-warning))",
+          neutral: "hsl(var(--finance-neutral))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
