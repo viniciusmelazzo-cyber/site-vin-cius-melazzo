@@ -27,7 +27,18 @@ const RestrictedLogin = () => {
   const next = destinations[nextKey];
 
   useEffect(() => {
-    if (!authLoading && user && isAdmin) navigate(next, { replace: true });
+    if (authLoading || !user) return;
+    if (isAdmin) {
+      navigate(next, { replace: true });
+      return;
+    }
+
+    toast({
+      title: "Acesso restrito",
+      description: "Esta área é exclusiva para usuários com perfil ADMIN.",
+      variant: "destructive",
+    });
+    navigate("/cliente/dashboard", { replace: true });
   }, [authLoading, user, isAdmin, navigate, next]);
 
   const handleLogin = async (e: React.FormEvent) => {
