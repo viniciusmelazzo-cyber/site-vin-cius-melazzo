@@ -53,6 +53,7 @@
     /* #C8A25C - Dourado Rico */
     --gold: 38.9 49.5% 57.3%;
     --gold-light: 39 55% 68%;
+    --gold-dark: 35 55% 32%;
     /* #0A192F - Azul Marinho Profundo */
     --navy: 215.7 64.9% 11.2%;
     --navy-medium: 204 18.8% 26.1%;
@@ -65,6 +66,11 @@
     --graphite: 204 18.8% 26.1%;
     /* #004B49 - Verde Agro (Acento) */
     --agro: 178.4 100% 14.7%;
+    --agro-light: 158 50% 28%;
+    --agro-pale: 90 35% 88%;
+    --cobranca: 21 100% 32%;
+    --cobranca-light: 18 90% 45%;
+    --cobranca-pale: 24 80% 92%;
 
     /* Financial feedback tokens */
     /* #2E8B57 - Verde Esmeralda */
@@ -73,6 +79,7 @@
     --finance-negative: 0 100% 25.1%;
     /* #CC5500 - Laranja Queimado */
     --finance-warning: 25 100% 40%;
+    --finance-neutral: 215 30% 35%;
 
     --font-display: 'Playfair Display', serif;
     --font-body: 'Montserrat', sans-serif;
