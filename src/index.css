@@ -157,6 +157,25 @@
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='%23a09080' fill-opacity='0.025'%3E%3Cpath d='M0 0h1v1H0zM2 0h1v1H2zM4 0h1v1H4zM6 0h1v1H6zM8 0h1v1H8zM10 0h1v1h-1zM12 0h1v1h-1zM14 0h1v1h-1zM16 0h1v1h-1zM18 0h1v1h-1zM20 0h1v1h-1zM22 0h1v1h-1zM24 0h1v1h-1zM26 0h1v1h-1zM28 0h1v1h-1zM30 0h1v1h-1zM32 0h1v1h-1zM34 0h1v1h-1zM36 0h1v1h-1zM38 0h1v1h-1z'%3E%3C/path%3E%3Cpath d='M1 1h1v1H1zM3 1h1v1H3zM5 1h1v1H5zM7 1h1v1H7zM9 1h1v1H9zM11 1h1v1h-1zM13 1h1v1h-1zM15 1h1v1h-1zM17 1h1v1h-1zM19 1h1v1h-1zM21 1h1v1h-1zM23 1h1v1h-1zM25 1h1v1h-1zM27 1h1v1h-1zM29 1h1v1h-1zM31 1h1v1h-1zM33 1h1v1h-1zM35 1h1v1h-1zM37 1h1v1h-1zM39 1h1v1h-1z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
 }
 
+@layer components {
+  .melazzo-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--gold) / 0.18);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 2px hsl(var(--navy) / 0.04), 0 4px 16px -8px hsl(var(--navy) / 0.08);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    position: relative;
+  }
+  .melazzo-card:hover { border-color: hsl(var(--gold) / 0.45); }
+  .melazzo-card-highlight { background: hsl(var(--card)); border: 1px solid hsl(var(--gold) / 0.4); border-left: 3px solid hsl(var(--gold)); border-radius: var(--radius); }
+  .navy-card { background: linear-gradient(160deg, hsl(216 68% 7%) 0%, hsl(var(--navy)) 60%, hsl(var(--navy-medium)) 100%); color: hsl(var(--linen)); border: 1px solid hsl(var(--gold) / 0.25); border-radius: var(--radius); }
+  .section-label { font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.2em; color: hsl(var(--gold-dark)); font-weight: 600; }
+  .kpi-value { font-family: var(--font-display); font-weight: 600; font-size: 1.875rem; line-height: 1; font-variant-numeric: tabular-nums; color: hsl(var(--navy)); }
+  .kpi-label { font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.18em; color: hsl(var(--muted-foreground)); font-weight: 600; }
+  .sidebar-active { background: hsl(var(--gold) / 0.12); border-left: 3px solid hsl(var(--gold)); color: hsl(var(--linen)); }
+  .divider-gold { height: 1px; background: linear-gradient(90deg, hsl(var(--gold)), transparent); }
+}
+
 @layer utilities {
   .text-gradient-gold {
     background: linear-gradient(135deg, hsl(var(--gold)) 0%, hsl(var(--gold-light)) 100%);
