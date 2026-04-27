@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setLoading(true);
       setSession(session);
       setUser(session?.user ?? null);
       if (!session?.user) {
@@ -41,6 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     supabase.auth.getSession().then(({ data: { session } }) => {
+      setLoading(true);
       setSession(session);
       setUser(session?.user ?? null);
       if (!session?.user) setLoading(false);
@@ -50,13 +52,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const fetchProfile = async (uid: string) => {
-    const [rolesRes, profileRes] = await Promise.all([
-      supabase.from("user_roles").select("role").eq("user_id", uid),
-      supabase.from("profiles").select("full_name, onboarding_completed").eq("id", uid).single(),
-    ]);
-    setIsAdmin(rolesRes.data?.some((r: any) => r.role === "admin") ?? false);
-    setProfile(profileRes.data ?? null);
-    setLoading(false);
+    setLoading(true);
+    try {
+      const [rolesRes, profileRes] = await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", uid),
+        supabase.from("profiles").select("full_name, onboarding_completed").eq("id", uid).single(),
+      ]);
+      setIsAdmin(rolesRes.data?.some((r: any) => r.role === "admin") ?? false);
+      setProfile(profileRes.data ?? null);
+    } catch {
+      setIsAdmin(false);
+      setProfile(null);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Fetch role and profile when user changes
