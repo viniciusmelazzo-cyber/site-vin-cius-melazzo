@@ -192,6 +192,11 @@
     background: linear-gradient(135deg, hsl(var(--gold)) 0%, hsl(var(--gold-light)) 100%);
   }
 
+  .bg-linen-paper {
+    background-color: hsl(var(--background));
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='%23a09080' fill-opacity='0.04'%3E%3Cpath d='M0 0h1v1H0zM2 0h1v1H2zM4 0h1v1H4zM6 0h1v1H6zM8 0h1v1H8z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
   .border-gold {
     border-color: hsl(var(--gold));
   }
@@ -200,6 +205,13 @@
     color: hsl(var(--gold));
   }
 
+  .text-gold-dark { color: hsl(var(--gold-dark)); }
+  .text-navy { color: hsl(var(--navy)); }
+  .text-positive { color: hsl(var(--finance-positive)); }
+  .text-negative { color: hsl(var(--finance-negative)); }
+  .text-warning { color: hsl(var(--finance-warning)); }
+  .text-cobranca { color: hsl(var(--cobranca)); }
+
   .text-agro {
     color: hsl(var(--agro));
   }
@@ -207,6 +219,12 @@
   .border-agro {
     border-color: hsl(var(--agro));
   }
+
+  .bg-agro { background-color: hsl(var(--agro)); }
+  .bg-agro-pale { background-color: hsl(var(--agro-pale)); }
+  .bg-cobranca { background-color: hsl(var(--cobranca)); }
+  .bg-cobranca-pale { background-color: hsl(var(--cobranca-pale)); }
+  .border-cobranca { border-color: hsl(var(--cobranca)); }
 
   /* Classic ornamental divider */
   .ornament-line {
