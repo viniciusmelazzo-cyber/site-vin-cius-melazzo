@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, ArrowRight } from "lucide-react";
+import { MapPin, Phone, Mail, ArrowRight, LockKeyhole, GalleryHorizontalEnd } from "lucide-react";
 import Logo from "@/components/brand/Logo";
 import { SOCIAL_CHANNELS } from "@/lib/social-channels";
 
@@ -157,12 +157,22 @@ const SiteFooter = () => {
               </Link>
             </motion.div>
 
-            <Link
-              to="/cliente/login"
-              className="block mt-4 text-center px-4 py-3 border border-primary-foreground/15 text-primary-foreground/70 font-body text-[11px] tracking-[0.2em] uppercase font-medium hover:border-gold/40 hover:text-gold transition-all"
-            >
-              Área do Cliente
-            </Link>
+            <div className="mt-4 grid gap-3">
+              <Link
+                to="/restrito/demonstracoes"
+                className="inline-flex items-center justify-center gap-2 px-4 py-3 border border-gold/35 text-gold font-body text-[11px] tracking-[0.18em] uppercase font-medium hover:bg-gold/10 transition-all"
+              >
+                <GalleryHorizontalEnd className="w-4 h-4" />
+                Central de Demonstrações
+              </Link>
+              <Link
+                to="/restrito/login?next=crm"
+                className="inline-flex items-center justify-center gap-2 px-4 py-3 border border-primary-foreground/15 text-primary-foreground/70 font-body text-[11px] tracking-[0.2em] uppercase font-medium hover:border-gold/40 hover:text-gold transition-all"
+              >
+                <LockKeyhole className="w-4 h-4" />
+                Área Restrita
+              </Link>
+            </div>
           </div>
         </div>
 
