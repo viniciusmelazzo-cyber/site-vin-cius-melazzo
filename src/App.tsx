@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { DrillDownProvider } from "@/hooks/use-drill-down";
+import { DrillDownSheet } from "@/components/drill/DrillDownSheet";
 import Index from "./pages/Index.tsx";
 import Empresarial from "./pages/Empresarial.tsx";
 import Rural from "./pages/Rural.tsx";
@@ -17,6 +19,7 @@ import Planilha from "./pages/Planilha.tsx";
 import Obrigado from "./pages/Obrigado.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Login from "./pages/cliente/Login.tsx";
+import RestrictedLogin from "./pages/cliente/RestrictedLogin.tsx";
 import ForgotPassword from "./pages/cliente/ForgotPassword.tsx";
 import ResetPassword from "./pages/cliente/ResetPassword.tsx";
 import Onboarding from "./pages/cliente/Onboarding.tsx";
@@ -34,6 +37,7 @@ import AdminPF from "./pages/cliente/AdminPF.tsx";
 import AdminConvites from "./pages/cliente/AdminConvites.tsx";
 import AdminLeads from "./pages/cliente/AdminLeads.tsx";
 import GuiaDeUso from "./pages/cliente/GuiaDeUso.tsx";
+import DemoHubRoutes from "./demo-hub/DemoHubRoutes.tsx";
 
 const queryClient = new QueryClient();
 
@@ -44,7 +48,8 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
+          <DrillDownProvider>
+            <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/empresarial" element={<Empresarial />} />
             <Route path="/rural" element={<Rural />} />
@@ -56,6 +61,7 @@ const App = () => (
             <Route path="/planilha" element={<Planilha />} />
             <Route path="/obrigado" element={<Obrigado />} />
             <Route path="/cliente/login" element={<Login />} />
+            <Route path="/restrito/login" element={<RestrictedLogin />} />
             <Route path="/cliente/forgot-password" element={<ForgotPassword />} />
             <Route path="/cliente/reset-password" element={<ResetPassword />} />
             <Route path="/cliente/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
@@ -74,9 +80,12 @@ const App = () => (
             <Route path="/cliente/admin/leads" element={<ProtectedRoute requireAdmin><AdminLeads /></ProtectedRoute>} />
             <Route path="/cliente/admin/config" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />
             <Route path="/cliente/admin/cliente/:clientId" element={<ProtectedRoute requireAdmin><AdminClientDetail /></ProtectedRoute>} />
+            <Route path="/restrito/demonstracoes/*" element={<ProtectedRoute requireAdmin><DemoHubRoutes /></ProtectedRoute>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
-          </Routes>
+            </Routes>
+            <DrillDownSheet />
+          </DrillDownProvider>
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
