@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import {
@@ -35,7 +35,7 @@ const adminLinks = [
   { label: "Configurações", icon: Settings, href: "/cliente/admin/config" },
 ];
 
-const ClientLayout = ({ children, role = "client" }: ClientLayoutProps) => {
+const ClientLayout = forwardRef<HTMLDivElement, ClientLayoutProps>(function ClientLayout({ children, role = "client" }, ref) {
   const navigate = useNavigate();
   const location = useLocation();
   const { signOut, profile } = useAuth();
@@ -50,7 +50,7 @@ const ClientLayout = ({ children, role = "client" }: ClientLayoutProps) => {
   const initials = (profile?.full_name || "U").charAt(0).toUpperCase();
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div ref={ref} className="min-h-screen bg-background flex">
       {/* Sidebar */}
       <aside
         className={cn(
@@ -139,6 +139,6 @@ const ClientLayout = ({ children, role = "client" }: ClientLayoutProps) => {
       {role === "client" && <FloatingActionButton />}
     </div>
   );
-};
+});
 
 export default ClientLayout;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 
 interface CountUpProps {
   end: number;
@@ -14,7 +14,7 @@ interface CountUpProps {
  * Animated count-up that triggers when the element enters the viewport.
  * Uses requestAnimationFrame with ease-out cubic for a premium feel.
  */
-export function CountUp({
+export const CountUp = forwardRef<HTMLSpanElement, CountUpProps>(function CountUp({
   end,
   duration = 1800,
   prefix = "",
@@ -22,10 +22,12 @@ export function CountUp({
   decimals = 0,
   separator = ".",
   className,
-}: CountUpProps) {
+}, forwardedRef) {
   const [value, setValue] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
   const triggered = useRef(false);
+
+  useImperativeHandle(forwardedRef, () => ref.current as HTMLSpanElement);
 
   useEffect(() => {
     const el = ref.current;
@@ -65,4 +67,4 @@ export function CountUp({
       {suffix}
     </span>
   );
-}
+});
