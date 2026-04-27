@@ -22,8 +22,13 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
   }
 
   if (!user) {
-    const loginPath = location.pathname.startsWith("/restrito")
-      ? "/restrito/login?next=demos"
+    const restrictedNext = location.pathname.startsWith("/cliente/admin/crm")
+      ? "crm"
+      : location.pathname.startsWith("/cliente/admin")
+        ? "admin"
+        : "demos";
+    const loginPath = location.pathname.startsWith("/restrito") || location.pathname.startsWith("/cliente/admin")
+      ? `/restrito/login?next=${restrictedNext}`
       : "/cliente/login";
     return <Navigate to={loginPath} replace />;
   }
