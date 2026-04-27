@@ -1,9 +1,8 @@
-import { forwardRef } from "react";
 import logoMelazzo from "@/assets/logo-melazzo-mark.webp";
 
-export const ShowroomFooter = forwardRef<HTMLElement>(function ShowroomFooter(_, ref) {
+export function ShowroomFooter() {
   return (
-    <footer ref={ref} className="bg-navy text-linen/80 px-6 py-10 border-t border-gold/20">
+    <footer className="bg-navy text-linen/80 px-6 py-10 border-t border-gold/20">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-3">
           <img src={logoMelazzo} alt="Melazzo" className="h-8 w-8 rounded ring-1 ring-gold/30" />
@@ -21,4 +20,4 @@ export const ShowroomFooter = forwardRef<HTMLElement>(function ShowroomFooter(_,
       </div>
     </footer>
   );
-});
+}
