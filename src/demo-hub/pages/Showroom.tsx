@@ -10,7 +10,7 @@ import cobrancaImg from "@/assets/cobranca-hero.webp";
 
 const produtos = [
   {
-    to: "/empresarial/panorama",
+    to: "/restrito/demonstracoes/empresarial/panorama",
     available: true,
     icon: Building2,
     name: "Gestão Financeira Empresarial",
@@ -28,7 +28,7 @@ const produtos = [
     badge: "Demo Ativa",
   },
   {
-    to: "/agro/visao-executiva",
+    to: "/restrito/demonstracoes/agro/visao-executiva",
     available: true,
     icon: Tractor,
     name: "Gestão Agro & Pecuária",
@@ -46,7 +46,7 @@ const produtos = [
     badge: "Demo Ativa",
   },
   {
-    to: "/cobranca/visao-geral",
+    to: "/restrito/demonstracoes/cobranca/visao-geral",
     available: true,
     icon: Scale,
     name: "Gestão de Inadimplência",

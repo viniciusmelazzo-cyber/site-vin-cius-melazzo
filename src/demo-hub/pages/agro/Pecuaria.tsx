@@ -33,7 +33,7 @@ export default function Pecuaria() {
           description={`Rebanho ativo de ${pecuaria.rebanhoTotal.toLocaleString("pt-BR")} cabeças · Lotação ${pecuaria.lotacaoMedia} UA/ha · GMD ${pecuaria.gmd} kg/dia`}
         />
         <Link
-          to="/agro/central-financeira"
+          to="/restrito/demonstracoes/agro/central-financeira"
           className="text-xs font-semibold text-gold-dark hover:text-gold flex items-center gap-1.5 px-3 py-1.5 border border-gold/30 rounded hover:bg-gold/5 transition-colors shrink-0"
         >
           <Wallet className="h-3.5 w-3.5" /> Central Financeira PJ <ArrowRight className="h-3 w-3" />
@@ -154,7 +154,7 @@ export default function Pecuaria() {
         icon={<Activity className="h-4 w-4" />}
         actions={
           <Link
-            to="/agro/simulador-engorda"
+            to="/restrito/demonstracoes/agro/simulador-engorda"
             className="text-xs font-semibold text-gold-dark hover:text-gold flex items-center gap-1.5 px-3 py-1.5 border border-gold/30 rounded hover:bg-gold/5 transition-colors"
           >
             <Calculator className="h-3 w-3" /> Simulador de Engorda <ArrowRight className="h-3 w-3" />

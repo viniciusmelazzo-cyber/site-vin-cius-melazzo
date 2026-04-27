@@ -23,7 +23,7 @@ interface NavSection {
   children?: SubItem[]; prefix?: string;
 }
 
-const BASE = "/empresarial";
+const BASE = "/restrito/demonstracoes/empresarial";
 
 const navStructure: NavSection[] = [
   { title: "Panorama Geral", icon: LayoutDashboard, url: `${BASE}/panorama` },

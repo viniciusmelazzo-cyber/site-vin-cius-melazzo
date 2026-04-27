@@ -11,7 +11,7 @@ export function BackToShowroom({ className, variant = "default" }: BackToShowroo
   if (variant === "subtle") {
     return (
       <Link
-        to="/"
+        to="/restrito/demonstracoes"
         className={cn(
           "inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-navy transition-colors group",
           className
@@ -25,7 +25,7 @@ export function BackToShowroom({ className, variant = "default" }: BackToShowroo
 
   return (
     <Link
-      to="/"
+      to="/restrito/demonstracoes"
       className={cn(
         "inline-flex items-center gap-2 px-3 py-1.5 rounded border border-border bg-card hover:border-gold/50 hover:text-navy transition-all text-xs font-medium text-muted-foreground group",
         className

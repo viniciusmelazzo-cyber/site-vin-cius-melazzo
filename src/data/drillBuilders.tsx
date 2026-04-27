@@ -101,7 +101,7 @@ export const empresarialDrills = {
       ],
       rows: [...faturamento12m].reverse(),
       exportFilename: "faturamento-12m",
-      fullPageHref: "/empresarial/faturamento",
+      fullPageHref: "/restrito/demonstracoes/empresarial/faturamento",
     };
   },
 
@@ -136,7 +136,7 @@ export const empresarialDrills = {
       { label: "Lucro Líquido", valor: dre.lucroLiquido, pct: pct((dre.lucroLiquido / dre.receitaBruta) * 100) },
     ],
     exportFilename: "dre-mes",
-    fullPageHref: "/empresarial/custos",
+    fullPageHref: "/restrito/demonstracoes/empresarial/custos",
   }),
 
   fluxoCaixa: (): DrillPayload => ({
@@ -158,7 +158,7 @@ export const empresarialDrills = {
     ],
     rows: fluxo6m,
     exportFilename: "fluxo-caixa-6m",
-    fullPageHref: "/empresarial/fluxo-caixa",
+    fullPageHref: "/restrito/demonstracoes/empresarial/fluxo-caixa",
   }),
 
   endividamento: (): DrillPayload => {
@@ -186,7 +186,7 @@ export const empresarialDrills = {
       ],
       rows: dividas,
       exportFilename: "endividamento",
-      fullPageHref: "/empresarial/endividamento",
+      fullPageHref: "/restrito/demonstracoes/empresarial/endividamento",
     };
   },
 
@@ -217,7 +217,7 @@ export const empresarialDrills = {
       ],
       rows: estoqueVeiculos,
       exportFilename: "estoque-veiculos",
-      fullPageHref: "/empresarial/estoque",
+      fullPageHref: "/restrito/demonstracoes/empresarial/estoque",
     };
   },
 
@@ -240,7 +240,7 @@ export const empresarialDrills = {
     ],
     rows: pipelineFases.map((p) => ({ ...p, ticket: fmt(p.valor / p.qtde) })),
     exportFilename: "pipeline",
-    fullPageHref: "/empresarial/pipeline",
+    fullPageHref: "/restrito/demonstracoes/empresarial/pipeline",
   }),
 
   scoreSaude: (): DrillPayload => ({
@@ -283,7 +283,7 @@ export const empresarialDrills = {
       </div>
     ),
     exportFilename: "score-saude",
-    fullPageHref: "/empresarial/score",
+    fullPageHref: "/restrito/demonstracoes/empresarial/score",
   }),
 
   patrimonioAtivos: (): DrillPayload => {
@@ -306,7 +306,7 @@ export const empresarialDrills = {
       ],
       rows: patrimonio.ativos.map((a) => ({ ...a, share: pct((a.valor / total) * 100) })),
       exportFilename: "patrimonio-ativos",
-      fullPageHref: "/empresarial/patrimonio",
+      fullPageHref: "/restrito/demonstracoes/empresarial/patrimonio",
     };
   },
 
@@ -331,7 +331,7 @@ export const empresarialDrills = {
       ],
       rows: custosFixos,
       exportFilename: "custos-fixos",
-      fullPageHref: "/empresarial/custos",
+      fullPageHref: "/restrito/demonstracoes/empresarial/custos",
     };
   },
 
@@ -355,7 +355,7 @@ export const empresarialDrills = {
       ],
       rows: proximosVencimentos,
       exportFilename: "vencimentos-30d",
-      fullPageHref: "/empresarial/calendario",
+      fullPageHref: "/restrito/demonstracoes/empresarial/calendario",
     };
   },
 
@@ -413,7 +413,7 @@ export const empresarialDrills = {
       rows,
       emptyMessage: "Insight de tendência — sem registros tabulares.",
       exportFilename: `insight-${i + 1}`,
-      fullPageHref: "/empresarial/inteligencia",
+      fullPageHref: "/restrito/demonstracoes/empresarial/inteligencia",
     };
   },
 };
@@ -443,7 +443,7 @@ export const agroDrills = {
     ],
     rows: capacidadePagamento.projecaoSafras,
     exportFilename: "receita-safras",
-    fullPageHref: "/agro/capacidade-pagamento",
+    fullPageHref: "/restrito/demonstracoes/agro/capacidade-pagamento",
   }),
 
   ebitda: (): DrillPayload => ({
@@ -465,7 +465,7 @@ export const agroDrills = {
     ],
     rows: capacidadePagamento.projecaoSafras,
     exportFilename: "ebitda-safras",
-    fullPageHref: "/agro/capacidade-pagamento",
+    fullPageHref: "/restrito/demonstracoes/agro/capacidade-pagamento",
   }),
 
   dividaTotal: (): DrillPayload => {
@@ -492,7 +492,7 @@ export const agroDrills = {
       ],
       rows: dividasAgro,
       exportFilename: "endividamento-agro",
-      fullPageHref: "/agro/endividamento",
+      fullPageHref: "/restrito/demonstracoes/agro/endividamento",
     };
   },
 
@@ -515,7 +515,7 @@ export const agroDrills = {
     ],
     rows: custeioSafra.custos,
     exportFilename: "custeio-soja",
-    fullPageHref: "/agro/custeio-safra",
+    fullPageHref: "/restrito/demonstracoes/agro/custeio-safra",
   }),
 
   lastroPatrimonialDrill: (): DrillPayload => ({
@@ -564,7 +564,7 @@ export const agroDrills = {
       </div>
     ),
     exportFilename: "lastro-patrimonial",
-    fullPageHref: "/agro/lastro-patrimonial",
+    fullPageHref: "/restrito/demonstracoes/agro/lastro-patrimonial",
   }),
 
   rebanho: (): DrillPayload => ({
@@ -587,7 +587,7 @@ export const agroDrills = {
     ],
     rows: pecuaria.categorias,
     exportFilename: "rebanho",
-    fullPageHref: "/agro/pecuaria",
+    fullPageHref: "/restrito/demonstracoes/agro/pecuaria",
   }),
 
   cotacoesDrill: (): DrillPayload => ({
@@ -616,7 +616,7 @@ export const agroDrills = {
       dolar: cotacoes.dolar.historico[i]?.valor,
     })),
     exportFilename: "cotacoes",
-    fullPageHref: "/agro/mercado-cotacoes",
+    fullPageHref: "/restrito/demonstracoes/agro/mercado-cotacoes",
   }),
 
   riscoCreditoDrill: (): DrillPayload => ({
@@ -638,7 +638,7 @@ export const agroDrills = {
     ],
     rows: riscoCredito.alertas,
     exportFilename: "risco-alertas",
-    fullPageHref: "/agro/risco-credito",
+    fullPageHref: "/restrito/demonstracoes/agro/risco-credito",
   }),
 
   fluxoProjetadoDrill: (): DrillPayload => ({
@@ -664,7 +664,7 @@ export const agroDrills = {
     ],
     rows: fluxoProjetado,
     exportFilename: "fluxo-projetado",
-    fullPageHref: "/agro/fluxo-projetado",
+    fullPageHref: "/restrito/demonstracoes/agro/fluxo-projetado",
   }),
 
   insightEvidenciaAgro: (i: number): DrillPayload => {
@@ -716,7 +716,7 @@ export const agroDrills = {
       rows,
       emptyMessage: "Insight de tendência — base agregada, sem listagem analítica.",
       exportFilename: `insight-agro-${i + 1}`,
-      fullPageHref: "/agro/risco-credito",
+      fullPageHref: "/restrito/demonstracoes/agro/risco-credito",
     };
   },
 };
@@ -746,7 +746,7 @@ export const cobrancaDrills = {
       ],
       rows: carteiraPorProduto,
       exportFilename: "carteira-produto",
-      fullPageHref: "/cobranca/carteira-aging",
+      fullPageHref: "/restrito/demonstracoes/cobranca/carteira-aging",
     };
   },
 
@@ -776,7 +776,7 @@ export const cobrancaDrills = {
       ],
       rows: topDevedores,
       exportFilename: "top-devedores",
-      fullPageHref: "/cobranca/top-devedores",
+      fullPageHref: "/restrito/demonstracoes/cobranca/top-devedores",
     };
   },
 
@@ -799,7 +799,7 @@ export const cobrancaDrills = {
     ],
     rows: acordosFirmados,
     exportFilename: "recuperacao-mensal",
-    fullPageHref: "/cobranca/acordos",
+    fullPageHref: "/restrito/demonstracoes/cobranca/acordos",
   }),
 
   pdd: (): DrillPayload => {
@@ -826,7 +826,7 @@ export const cobrancaDrills = {
         taxa: a.valor > 0 ? `${((a.pdd / a.valor) * 100).toFixed(1)}%` : "—",
       })),
       exportFilename: "pdd-aging",
-      fullPageHref: "/cobranca/carteira-aging",
+      fullPageHref: "/restrito/demonstracoes/cobranca/carteira-aging",
     };
   },
 
@@ -866,7 +866,7 @@ export const cobrancaDrills = {
       rows,
       emptyMessage: "Sem contratos nesta faixa entre os top devedores. Veja a página completa.",
       exportFilename: `aging-${faixa.faixa.replace(/\s+/g, "-")}`,
-      fullPageHref: "/cobranca/carteira-aging",
+      fullPageHref: "/restrito/demonstracoes/cobranca/carteira-aging",
     };
   },
 
@@ -892,7 +892,7 @@ export const cobrancaDrills = {
       rows,
       emptyMessage: "Sem destaques deste produto na amostra.",
       exportFilename: `carteira-${produto.produto.replace(/\s+/g, "-")}`,
-      fullPageHref: "/cobranca/carteira-aging",
+      fullPageHref: "/restrito/demonstracoes/cobranca/carteira-aging",
     };
   },
 
@@ -922,7 +922,7 @@ export const cobrancaDrills = {
       ],
       rows: equipe,
       exportFilename: "equipe-performance",
-      fullPageHref: "/cobranca/performance",
+      fullPageHref: "/restrito/demonstracoes/cobranca/performance",
     };
   },
 
@@ -945,7 +945,7 @@ export const cobrancaDrills = {
     ],
     rows: reguaCobranca,
     exportFilename: "regua-cobranca",
-    fullPageHref: "/cobranca/regua-cobranca",
+    fullPageHref: "/restrito/demonstracoes/cobranca/regua-cobranca",
   }),
 
   juridicoDrill: (): DrillPayload => ({
@@ -966,7 +966,7 @@ export const cobrancaDrills = {
     ],
     rows: juridico.porFase,
     exportFilename: "juridico-fases",
-    fullPageHref: "/cobranca/juridico",
+    fullPageHref: "/restrito/demonstracoes/cobranca/juridico",
   }),
 
   insightEvidenciaCob: (i: number): DrillPayload => {
@@ -1007,7 +1007,7 @@ export const cobrancaDrills = {
       rows,
       emptyMessage: "Insight agregado — sem listagem analítica direta.",
       exportFilename: `insight-cob-${i + 1}`,
-      fullPageHref: "/cobranca/top-devedores",
+      fullPageHref: "/restrito/demonstracoes/cobranca/top-devedores",
     };
   },
 };
